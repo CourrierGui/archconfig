@@ -120,7 +120,6 @@ sudo make install && make clean
 *st:*
 ```
 cd ~/softwares/suckless/st
-git clone https://github.com/LukeSmithxyz/st
 sudo pacman -S make pkg-config gcc
 ```
 
