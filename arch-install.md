@@ -105,7 +105,12 @@ Add symlink for each directory:
 sudo pacman -S xorg-server xorg-init
 ```
 
-#### intel graphics driver
+#### Setup
+```
+sudo pacman -S xf86-video-intel fakeroot
+```
+
+#### Intel graphics driver
 
 #### Suckless
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
@@ -121,12 +126,14 @@ sudo make install && make clean
 
 Install libxft-bgra from aur (emoji):
 ```
-git clone https://aur.archlinux.org/libxft-bgra.git
-gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id
+git clone https://aur.archlinux.org/libxft-bgra.git ~/softwares/aur/libxft-bgra
 sudo pacman -S patch man
 makepkg -si
 sudo make install && make clean
 ```
+
+If `makepkg` fails due to do a missing PGP key:
+`gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id`
 
 Transparency: `sudo pacman -S xcompmgr`
 
@@ -147,11 +154,6 @@ sudo make install && make clean
 ```
 cd ~/softwares/suckless/dwmblocks
 sudo make install && make clean
-```
-
-#### setup
-```
-sudo pacman -S xf86-video-intel fakeroot
 ```
 
 ```
