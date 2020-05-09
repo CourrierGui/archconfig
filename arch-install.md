@@ -38,13 +38,13 @@ pacstrap /mnt base linux linux-firmware
 
 ### Configuraton
 
-**fstab:** `genfstab -U /mnt >> /mnt/etc/fstab`
+fstab: `genfstab -U /mnt >> /mnt/etc/fstab`
 
-**Become root:** `arch-root /mnt`
+Become root: `arch-root /mnt`
 
-**Install necessary packages before reboot:** `pacman -S vim networkmanager dhcpcd git sudo`
+Install necessary packages before reboot: `pacman -S vim networkmanager dhcpcd git sudo`
 
-**Basic setup:**
+Basic setup:
 
 ```
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime #set timezone
@@ -67,8 +67,10 @@ timedatectl set-ntp true
 ```
 
 ### adduser
+```
 useradd -m guillaume
 passwd guillaume
+```
 
 ### sudo
 If vi is not installed: `ln -s /usr/bin/vi /usr/bin/vim`
@@ -79,28 +81,30 @@ visudo
 Add the following line at the end: `guillaume ALL=(ALL) ALL`
 
 ### Xorg
-sudo pacman -S xorg-server
+```
+sudo pacman -S xorg-server xorg-init
+```
 
 #### intel graphics driver
 
 #### Suckless
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
-**dwm:**
+*dwm:*
 ```
 cd ~/softwares/suckless/dwm
 sudo pacman -S libxinerama which ttf-joypixels dmenu gcc
 sudo make install && make clean
 ```
 
-**st:**
+*st:*
 ```
 cd ~/softwares/suckless/st
 git clone https://github.com/LukeSmithxyz/st
 sudo pacman -S make pkg-config gcc
 ```
 
-*libxft-bgra from aur:*
+Install libxft-bgra from aur (emoji):
 ```
 gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id
 sudo pacman -S patch man
@@ -108,16 +112,16 @@ makepkg -si
 make && sudo make install && make clean
 ```
 
-*transparency:* `sudo pacman -S xcompmgr`
+Transparency: `sudo pacman -S xcompmgr`
 
-**surf:**
+*surf:*
 ```
 cd ~/softwares/suckless/surf
 sudo pacman -S webkit2gtk
 sudo make install && make clean
 ```
 
-**dwmblocks:**
+*dwmblocks:*
 ```
 cd ~/softwares/suckless/dwmblocks
 sudo make install && make clean
@@ -128,38 +132,55 @@ sudo make install && make clean
 sudo pacman -S xf86-video-intel fakeroot
 ```
 
+```
 create /etc/X11/Xwrapper.conf
 allower_users=anybody
 needs_root=yes
+```
 
 ## shared partition
 
 ## sound
+```
 sudo pacman -S alsamixer
+```
+
 select correct sound card
 
 ## neovim
+```
 sudo pacman -S neovim ctags
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
+```
 
 ## touch pad
+```
 sudo pacman -S xf86-input-libinput
+```
 
 ## wallpaper
+```
 sudo pacman -S python-pywall imagemagick
+```
 
 ## keepass
+```
 sudo pacman -S keepassxc
+```
 
 ## ssh
+```
 sudo pacman -S openssh
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 eval `ssh-agent -s`
 ssh-add ~/.ssh/id_rsa
+```
 
 ## zsh
 
 ## more packages
+```
 sudo pacman -S firefox htop tree cmake
+```
