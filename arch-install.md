@@ -128,10 +128,16 @@ Install libxft-bgra from aur (emoji):
 gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id
 sudo pacman -S patch man
 makepkg -si
-make && sudo make install && make clean
+sudo make install && make clean
 ```
 
 Transparency: `sudo pacman -S xcompmgr`
+
+Finally:
+```
+cd ~/softwares/st
+sudo make install && make clean
+```
 
 *surf:*
 ```
