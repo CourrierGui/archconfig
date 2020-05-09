@@ -121,6 +121,7 @@ sudo make install && make clean
 
 Install libxft-bgra from aur (emoji):
 ```
+git clone https://aur.archlinux.org/libxft-bgra.git
 gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id
 sudo pacman -S patch man
 makepkg -si
