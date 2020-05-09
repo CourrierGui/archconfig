@@ -80,6 +80,26 @@ visudo
 ```
 Add the following line at the end: `guillaume ALL=(ALL) ALL`
 
+## Shared partition for Documents, Pictures, ...
+
+Get the UUID of the partition: `sudo blkid`
+
+Add to `/etc/fstab`: 
+
+```
+UUID=uuid /media/guillaume/uuid ext4 defaults 0 2
+```
+
+Create the directories:
+```
+sudo mkdir -p /media/guillaume/uuid/{Documents,Pictures,Music,dev,softwares}
+sudo chown -R guillaume /media/guillaume/uuid
+sudo chgrp -R guillaume /media/guillaume/uuid
+```
+
+Add symlink for each directory:
+`ln -sf /media/guillaume/uuid/Documents /home/guillaume`
+
 ### Xorg
 ```
 sudo pacman -S xorg-server xorg-init
@@ -137,8 +157,6 @@ create /etc/X11/Xwrapper.conf
 allower_users=anybody
 needs_root=yes
 ```
-
-## shared partition
 
 ## sound
 ```
