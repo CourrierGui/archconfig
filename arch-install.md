@@ -113,15 +113,11 @@ sudo pacman -S xorg-server xorg-init
 *dwm:*
 ```
 cd ~/softwares/suckless/dwm
-sudo pacman -S libxinerama which ttf-joypixels dmenu gcc
+sudo pacman -S libxinerama which ttf-joypixels dmenu gcc make pkg-config
 sudo make install && make clean
 ```
 
 *st:*
-```
-cd ~/softwares/suckless/st
-sudo pacman -S make pkg-config gcc
-```
 
 Install libxft-bgra from aur (emoji):
 ```
