@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export PATH=$PATH:~/.local/bin:~/.local/bin/statusbar
+
+xcompmgr &
+remaps &
+wal -R &
+xwallpaper --zoom ~/.config/wall.png &
