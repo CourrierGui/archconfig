@@ -20,7 +20,7 @@ dhcpcd *interface*
 timedatectl set-ntp true
 ```
 
-## Partitions
+### Partitions
 
 ```
 fdisk /dev/sdx
@@ -28,15 +28,15 @@ mkfs.ext4 /dev/sdx1
 mount /dev/sdx1 /mnt
 ```
 
-## Selecting the mirrors
+### Selecting the mirrors
 
-## Install linux
+### Install linux
 
 ```
 pacstrap /mnt base linux linux-firmware
 ```
 
-## Configuraton
+### Configuraton
 
 **fstab:** `genfstab -U /mnt >> /mnt/etc/fstab`
 
@@ -58,7 +58,7 @@ umount -R /mnt
 reboot
 ```
 
-## Wifi
+### Wifi
 
 ```
 systemctl enable NetworkManager.service
@@ -66,40 +66,41 @@ nmcli device wifi connect "ssid" password "passwd"
 timedatectl set-ntp true
 ```
 
-## adduser
+### adduser
 useradd -m guillaume
 passwd guillaume
-groupadd sudo
-usermod -a -G sudo guillaume
 
-# sudo
-ln -s /usr/bin/vi /usr/bin/vim
+### sudo
+If vi is not installed: `ln -s /usr/bin/vi /usr/bin/vim`
+
+```
 visudo
-add guillaume ALL=(ALL) ALL
+```
+Add the following line at the end: `guillaume ALL=(ALL) ALL`
 
-## Xorg
+### Xorg
 sudo pacman -S xorg-server
 
-### intel graphics driver
+#### intel graphics driver
 
-### Suckless
+#### Suckless
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
-#### dwm
+**dwm:**
 ```
 cd ~/softwares/suckless/dwm
 sudo pacman -S libxinerama which ttf-joypixels dmenu gcc
 sudo make install && make clean
 ```
 
-#### st
+**st:**
 ```
 cd ~/softwares/suckless/st
 git clone https://github.com/LukeSmithxyz/st
 sudo pacman -S make pkg-config gcc
 ```
 
-**libxft-bgra from aur:**
+*libxft-bgra from aur:*
 ```
 gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id
 sudo pacman -S patch man
@@ -107,38 +108,35 @@ makepkg -si
 make && sudo make install && make clean
 ```
 
-**transparency:** `sudo pacman -S xcompmgr`
+*transparency:* `sudo pacman -S xcompmgr`
 
-#### surf
+**surf:**
 ```
 cd ~/softwares/suckless/surf
 sudo pacman -S webkit2gtk
 sudo make install && make clean
 ```
 
-#### dwmblocks
+**dwmblocks:**
 ```
 cd ~/softwares/suckless/dwmblocks
 sudo make install && make clean
 ```
 
-
-### setup
+#### setup
 ```
 sudo pacman -S xf86-video-intel fakeroot
 ```
-.xinitrc
-.local/bin/startdw
 
 create /etc/X11/Xwrapper.conf
 allower_users=anybody
 needs_root=yes
 
-### sound
+## shared partition
+
+## sound
 sudo pacman -S alsamixer
 select correct sound card
-
-## shared partition
 
 ## neovim
 sudo pacman -S neovim ctags
@@ -163,5 +161,5 @@ ssh-add ~/.ssh/id_rsa
 
 ## zsh
 
-## more
+## more packages
 sudo pacman -S firefox htop tree cmake
