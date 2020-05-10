@@ -188,7 +188,7 @@ and change the line *volume = merge* under **PCM** to *volume = ignore*.
 Using `alsamixer` set the PCM volume to a correct level.
 
 
-## neovim
+## Neovim
 ```
 sudo pacman -S neovim ctags node npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -197,17 +197,17 @@ nvim --headless +PlugInstall +qa
 nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python +qa
 ```
 
-## touch pad
+## Touchpad
 ```
 sudo pacman -S xf86-input-libinput
 ```
 
-## wallpaper
+## Wallpaper
 ```
 sudo pacman -S python-pywall imagemagick
 ```
 
-## keepass
+## Keepass
 ```
 sudo pacman -S keepassxc
 ```
