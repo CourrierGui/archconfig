@@ -92,7 +92,7 @@ UUID=uuid /media/guillaume/uuid ext4 defaults 0 2
 
 Create the directories:
 ```
-sudo mkdir -p /media/guillaume/uuid/{Documents,Pictures,Music,dev,softwares}
+sudo mkdir -p /media/guillaume/uuid/{Documents,Pictures,Videos,Music,dev,softwares}
 sudo chown -R guillaume /media/guillaume/uuid
 sudo chgrp -R guillaume /media/guillaume/uuid
 ```
@@ -190,11 +190,11 @@ Using `alsamixer` set the PCM volume to a correct level.
 
 ## neovim
 ```
-sudo pacman -S neovim ctags node npm clang
+sudo pacman -S neovim ctags node npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
-nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python
+nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python +qa
 ```
 
 ## touch pad
@@ -219,6 +219,10 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 eval `ssh-agent -s`
 ssh-add ~/.ssh/id_rsa
 ```
+
+## LaTeX
+
+`sudo pacman -S texlive-most`
 
 ## zsh
 
