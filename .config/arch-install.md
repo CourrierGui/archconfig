@@ -223,7 +223,7 @@ git clone https://aur.archlinux.org/fingerprint-gui.git
 cd fingerprint-gui && makepkg -si
 ```
 
-Can't build fingerprint-gui due to `libfprint` and the fingerprint doesn't seems to be recognized...
+Can't build fingerprint-gui due to `libfprint` and the fingerprints don't seem to be recognized...
 
 ## Wallpaper
 ```
@@ -276,6 +276,12 @@ cd ~/.oh-my-zsh/themes/
 wget https://raw.githubusercontent.com/eendroroy/nothing/master/nothing.zsh
 mv nothing.zsh nothing.zsh-theme
 ```
+
+## Lock screen
+
+`sudo pacman -S slock`
+
+## Clear password from RAM
 
 ## more packages
 ```
