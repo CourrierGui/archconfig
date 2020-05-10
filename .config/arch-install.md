@@ -194,7 +194,7 @@ sudo pacman -S neovim ctags node npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
-nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python +qa
+nvim --headless -c "CocInstall coc-julia coc-vimtex coc-clangd coc-python" +qa
 ```
 
 ## Touchpad
@@ -210,6 +210,20 @@ Section "InputClass"
     Option "Tapping" "on"
 EndSection
 ```
+
+## Fingerprint reader
+
+```
+sudo pacman -S fprintd imagemagick
+```
+
+From AUR:
+```
+git clone https://aur.archlinux.org/fingerprint-gui.git
+cd fingerprint-gui && makepkg -si
+```
+
+Can't build fingerprint-gui due to `libfprint` and the fingerprint doesn't seems to be recognized...
 
 ## Wallpaper
 ```
@@ -265,5 +279,5 @@ mv nothing.zsh nothing.zsh-theme
 
 ## more packages
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget
+sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils
 ```
