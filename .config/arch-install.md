@@ -199,7 +199,16 @@ nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python +qa
 
 ## Touchpad
 ```
-sudo pacman -S xf86-input-libinput
+sudo pacman -S xf86-input-libinput xorg-xinput
+```
+
+Add this to `/etc/X11/xorg.conf.d/30-touchpad.conf`
+```
+Section "InputClass"
+    Identifier "touchpad catchall"
+    Driver "libinput"
+    Option "Tapping" "on"
+EndSection
 ```
 
 ## Wallpaper
