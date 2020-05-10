@@ -84,7 +84,7 @@ Add the following line at the end: `guillaume ALL=(ALL) ALL`
 
 Get the UUID of the partition: `sudo blkid`
 
-Add to `/etc/fstab`: 
+Add to `/etc/fstab`:
 
 ```
 UUID=uuid /media/guillaume/uuid ext4 defaults 0 2
@@ -99,6 +99,17 @@ sudo chgrp -R guillaume /media/guillaume/uuid
 
 Add symlink for each directory:
 `ln -sf /media/guillaume/uuid/Documents /home/guillaume`
+
+## Swap partition
+
+Get the UUID of the partition: `sudo blkid`
+
+Add to `/etc/fstab`:
+
+```
+UUID=uuid swap swap defaults 0 0
+```
+and reboot.
 
 ### Xorg
 ```
@@ -162,7 +173,7 @@ allower_users=anybody
 needs_root=yes
 ```
 
-## sound
+## Sound
 ```
 sudo pacman -S alsamixer
 ```
@@ -170,6 +181,11 @@ sudo pacman -S alsamixer
 Select the correct sound card: `cat /proc/asound/cards`
 
 `sudo echo "defaults.pcm.card 0\ndefaults.ctl.card 0" > /etc/asound.conf`
+
+Edit `/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common`
+and change the line *volume = merge* under **PCM** to *volume = ignore*.
+
+Using `alsamixer` set the PCM volume to a correct level.
 
 
 ## neovim
