@@ -167,14 +167,18 @@ needs_root=yes
 sudo pacman -S alsamixer
 ```
 
-select correct sound card
+Select the correct sound card: `cat /proc/asound/cards`
+
+`sudo echo "defaults.pcm.card 0\ndefaults.ctl.card 0" > /etc/asound.conf`
+
 
 ## neovim
 ```
-sudo pacman -S neovim ctags
+sudo pacman -S neovim ctags node npm clang
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
+nvim --headless +CocInstall coc-julia coc-vimtex coc-clangd coc-python
 ```
 
 ## touch pad
@@ -204,5 +208,5 @@ ssh-add ~/.ssh/id_rsa
 
 ## more packages
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr
+sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz
 ```
