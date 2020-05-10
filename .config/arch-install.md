@@ -231,7 +231,30 @@ sudo pacman -S zsh
 chsh -s /usr/bin/zsh
 ```
 
+Typewritten theme:
+```
+git clone https://github.com/reobin/typewritten.git $ZSH_CUSTOM/themes/typewritten
+ln -s "$ZSH_CUSTOM/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
+```
+
+Oxide theme:
+```
+wget https://raw.githubusercontent.com/dikiaap/dotfiles/master/.oh-my-zsh/themes/oxide.zsh-theme
+```
+
+Zeta theme:
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
+```
+
+nothing theme:
+```
+cd ~/.oh-my-zsh/themes/
+wget https://raw.githubusercontent.com/eendroroy/nothing/master/nothing.zsh
+mv nothing.zsh nothing.zsh-theme
+```
+
 ## more packages
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc
+sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget
 ```
