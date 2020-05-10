@@ -226,6 +226,11 @@ ssh-add ~/.ssh/id_rsa
 
 ## zsh
 
+```
+sudo pacman -S zsh
+chsh -s /usr/bin/zsh
+```
+
 ## more packages
 ```
 sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc
