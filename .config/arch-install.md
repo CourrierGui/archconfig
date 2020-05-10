@@ -228,5 +228,5 @@ ssh-add ~/.ssh/id_rsa
 
 ## more packages
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz
+sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc
 ```
