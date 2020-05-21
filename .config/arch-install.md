@@ -281,9 +281,15 @@ mv nothing.zsh nothing.zsh-theme
 
 `sudo pacman -S slock`
 
+## Drawing
+
+`sudo pacman -S xf86-input-wacom krita`
+
 ## Clear password from RAM
 
 ## more packages
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils
+sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom
 ```
+
+base-devel ?
