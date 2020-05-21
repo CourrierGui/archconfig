@@ -156,7 +156,7 @@ set spelllang=en,fr
 
 " vim-airline
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+	let g:airline_symbols = {}
 endif
 
 let g:airline_powerline_fonts=1
@@ -167,14 +167,14 @@ let g:airline_theme='base16'
 " Coc
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+			\ pumvisible() ? "\<C-n>" :
+			\ <SID>check_back_space() ? "\<Tab>" :
+			\ coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <leader>gd <Plug>(coc-definition)
@@ -190,46 +190,61 @@ colorscheme dracula
 
 " Vimscript file settings {{{
 augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
+	autocmd!
+	autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
 augroup END
 " }}}
 
 " XML file settings {{{
 augroup filetype_html
-  autocmd!
-  autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
+	autocmd!
+	autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
 augroup END
 " }}}
 
 " Python file settings {{{
 augroup filetype_python
-  autocmd!
-  autocmd bufnewfile,bufread python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 autoindent fileformat=unix foldlevel=1
-  autocmd filetype python nnoremap <leader>r :CocCommand python.execInTerminal<CR>
+	autocmd!
+	autocmd bufnewfile,bufread python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 autoindent fileformat=unix foldlevel=1
+	autocmd filetype python nnoremap <leader>r :CocCommand python.execInTerminal<CR>
 augroup end
 " }}}
 
 " Julia file settings {{{
 augroup filetype_python
-  autocmd!
-  autocmd BufNewFile,BufRead,BufNewFile *.jl :setlocal filetype=julia
+	autocmd!
+	autocmd BufNewFile,BufRead,BufNewFile *.jl :setlocal filetype=julia
 augroup end
+" }}}
+
+" Markdown file settings {{{
+augroup filetype_md
+	autocmd!
+	autocmd FileType markdown noremap <leader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+	autocmd FileType markdown noremap <leader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+augroup END
 " }}}
 
 " Functions {{{
 
 function! SwitchHeader(cmd)
-  let filename = expand("%:t:r")
-  if expand("%:e") == "hpp"
-    let filename = filename . ".cpp"
-    echom filename
-    execute(a:cmd . " " . filename)
-  elseif expand("%:e") == "cpp"
-    let filename = filename . ".hpp"
-    echom filename
-    execute(a:cmd . " " . filename)
-  endif
+	let filename = expand("%:t:r")
+	if expand("%:e") == "hpp"
+		let filename = filename . ".cpp"
+		echom filename
+		execute(a:cmd . " " . filename)
+	elseif expand("%:e") == "cpp"
+		let filename = filename . ".hpp"
+		echom filename
+		execute(a:cmd . " " . filename)
+	endif
+endfunction
+
+function! WC()
+	let filename = expand("%")
+	let cmd = "detex " . filename . " | wc -w | tr -d [:space:]"
+	let result = system(cmd)
+	echo result . " words"
 endfunction
 
 " }}}
