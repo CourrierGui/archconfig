@@ -11,7 +11,7 @@ bindkey -v
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
 # ZSH_THEME="random"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="typewritten"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -78,6 +78,7 @@ ZSH_THEME_RANDOM_CANDIDATES=(
 plugins=(
   git
   vi-mode
+	history-substring-search
 )
 
 source $ZSH/oh-my-zsh.sh
