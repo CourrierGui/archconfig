@@ -113,7 +113,7 @@ and reboot.
 
 ### Xorg
 ```
-sudo pacman -S xorg-server xorg-init
+sudo pacman -S xorg-server xorg-init xorg-xev
 ```
 
 #### Setup
@@ -285,11 +285,66 @@ mv nothing.zsh nothing.zsh-theme
 
 `sudo pacman -S xf86-input-wacom krita`
 
+## Dash
+
+Find files which could brake:
+```
+sudo pacman -S dash checkbashisms
+find /usr/bin/ -type f -perm -o=r -print0 | xargs -0 gawk '/^#!.*( |[/])sh/{printf "%s\0", FILENAME} {nextfile}' | xargs -0 checkbashisms
+```
+
+Pacman hook:
+```
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = bash
+
+[Action]
+Description = Re-pointing /bin/sh symlink to dash...
+When = PostTransaction
+Exec = /usr/bin/ln -sfT dash /usr/bin/sh
+Depends = dash
+```
+
+```
+sudo ln -sfT /bin/sh /bin/dash
+```
 ## Clear password from RAM
 
-## more packages
+## Steam
+
+Uncomment:
 ```
-sudo pacman -S firefox htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom
+/etc/pacman.conf
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+Update system: `sudo pacman -Syu`
+
+Install steam: `sudo pacman -S steam`
+
+## Brave
+
+```
+cd ~/softwares/aur
+git clone https://aur.archlinux.org/brave-bin.git
+cd brave-bin
+makepkg -si
+```
+
+## Zathura
+
+```
+sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
+```
+
+## More packages
+
+```
+sudo pacman -S htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gotop
 ```
 
 base-devel ?

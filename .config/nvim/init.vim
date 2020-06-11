@@ -29,6 +29,7 @@ call plug#end()
 let mapleader = ","
 " let mapleader="\<Space>"
 let localmapleader = "\\"
+nnoremap <leader>, ,
 
 " Copy and pasting
 vnoremap <C-y> "*y :let @+=@*<CR>
@@ -121,6 +122,10 @@ tnoremap <esc> <c-\><c-n>
 
 " Options {{{
 
+" search for local config files at startup
+set exrc
+set secure
+
 set number
 set relativenumber
 set ttimeoutlen=10
@@ -145,7 +150,8 @@ set cino=j1,(0,ws,Ws " Better C++ indentation of lambda function
 
 " Display trailing whitespace and tabs
 set list
-set listchars=tab:»·,trail:·
+set listchars=tab:\ \ ,trail:·
+" set listchars=tab:»·,trail:·
 
 " french and english spelling
 set spelllang=en,fr
@@ -192,6 +198,7 @@ colorscheme dracula
 augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
+	autocmd BufLeave ~/.config/nvim/init.vim :source $MYVIMRC
 augroup END
 " }}}
 
@@ -220,8 +227,8 @@ augroup end
 " Markdown file settings {{{
 augroup filetype_md
 	autocmd!
-	autocmd FileType markdown noremap <leader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
-	autocmd FileType markdown noremap <leader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+	autocmd FileType markdown nnoremap <leader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+	autocmd FileType markdown nnoremap <leader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
 augroup END
 " }}}
 
