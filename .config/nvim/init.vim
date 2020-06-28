@@ -20,6 +20,9 @@ Plug 'tpope/vim-repeat'
 
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
+Plug 'plasticboy/vim-markdown'
+
+Plug 'CourrierGui/vim-potion'
 
 call plug#end()
 
@@ -31,12 +34,15 @@ let mapleader = ","
 let localmapleader = "\\"
 nnoremap <leader>, ,
 
-" Copy and pasting
+" Copy and pasting with system clipboard
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
+" Remove trailing whitespaces
+nnoremap <leader>ws :%s/\s\+$//<cr>:noh<cr>
+
 " Easier move between methods
-nnoremap <leader>m ]m
+" nnoremap <leader>m ]m
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -60,15 +66,25 @@ nnoremap K 5k
 noremap <leader>j J
 noremap <leader>k K
 
-nnoremap <leader>sc :lclose<CR>
-nnoremap <leader>sn :lnext<CR>
-nnoremap <leader>sp :lprevious<CR>
+" nnoremap <leader>sc :lclose<CR>
+" nnoremap <leader>sn :lnext<CR>
+" nnoremap <leader>sp :lprevious<CR>
 
 nnoremap <leader><space> :noh<cr>
+noremap <enter> o<esc>
 nnoremap <leader>x xp
-nnoremap <enter> o<esc>
-noremap <leader>- dd2kp
-noremap <leader>_ ddp
+
+" Swap upper/lower case with <c-u>
+nnoremap <c-u> g~iw
+vnoremap <c-u> ~
+inoremap <c-u> <esc>mzg~iwe`za
+
+" Add ; to the end of the line in insert mode and puts the cursor back at the same place
+" Usefull for C/C++ programing
+inoremap <c-e> <esc>mzA;<esc>`za
+
+" noremap <leader>- dd1kP
+" noremap <leader>_ ddp
 
 " buffer navigations
 nnoremap <leader>bn :bn<CR>
@@ -86,7 +102,9 @@ nnoremap <Right> :vertical resize +2<CR>
 
 " Enable folding with the spacebar
 nnoremap <space> za
+" Smallest fold level
 nnoremap <leader>rf :set foldlevel=1<CR>
+" Unfold
 nnoremap <leader>uf :set foldlevel=2<CR>
 
 " TagBar
@@ -115,8 +133,12 @@ nnoremap <A-s>n :wa<Bar>mksession ~/.config/nvim/sessions/
 nnoremap <A-s>s :wa<Bar>exe "mksession! " . v:this_session<CR>
 nnoremap <A-s>o :so ~/.config/nvim/sessions/
 
-" terminal mappings
+" Terminal Mappings
 tnoremap <esc> <c-\><c-n>
+
+" Operator-Pending Mappings
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
 
 " }}}
 
@@ -160,15 +182,20 @@ set spelllang=en,fr
 
 " Plugin options {{{
 
+" vim-markdown
+" set default markdown fold level
+let g:vim_markdown_folding_level = 3
+
 " vim-airline
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
+let g:airline_symbols.space = "\ua0"
 
 let g:airline_powerline_fonts=1
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
-let g:airline_theme='base16'
+let g:airline_theme='bubblegum'
 
 " Coc
 " use <tab> for trigger completion and navigate to the next complete item
@@ -227,8 +254,9 @@ augroup end
 " Markdown file settings {{{
 augroup filetype_md
 	autocmd!
-	autocmd FileType markdown nnoremap <leader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
-	autocmd FileType markdown nnoremap <leader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+	autocmd FileType markdown setlocal nocindent
+	autocmd FileType markdown nnoremap <buffer> <localleader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
 augroup END
 " }}}
 
@@ -238,11 +266,9 @@ function! SwitchHeader(cmd)
 	let filename = expand("%:t:r")
 	if expand("%:e") == "hpp"
 		let filename = filename . ".cpp"
-		echom filename
 		execute(a:cmd . " " . filename)
 	elseif expand("%:e") == "cpp"
 		let filename = filename . ".hpp"
-		echom filename
 		execute(a:cmd . " " . filename)
 	endif
 endfunction
