@@ -111,25 +111,25 @@ UUID=uuid swap swap defaults 0 0
 ```
 and reboot.
 
-### Xorg
+## Xorg
 ```
 sudo pacman -S xorg-server xorg-init xorg-xev
 ```
 
-#### Setup
+### Setup
 ```
 sudo pacman -S xf86-video-intel fakeroot
 ```
 
-#### Intel graphics driver
+### Intel graphics driver
 
-#### Suckless
+### Suckless
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
 *dwm:*
 ```
 cd ~/softwares/suckless/dwm
-sudo pacman -S libxinerama which ttf-joypixels dmenu gcc make pkg-config
+sudo pacman -S libxinerama which ttf-joypixels dmenu gcc make pkg-config libxcb
 sudo make install && make clean
 ```
 
@@ -341,10 +341,61 @@ makepkg -si
 sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ```
 
+## LF
+
+```
+git clone https://aur.archlinux.org/lf.git
+makepkg -si
+```
+
+## Newsboat
+
+```
+sudo pacman -S newsboat
+```
+
+## MPV
+
+```
+sudo pacman -S mpv youtube-dl
+```
+
+## Notifications
+
+```
+sudo pacman -S notify-send dunst
+mkdir ~/.config/dunst
+cp /usr/share/dunst/dunstrc .config/dunst
+```
+
+## Android development
+
+### Android SDK
+
+```
+cd softwares/aur/android
+git clone https://aur.archlinux.org/android-sdk.git
+git clone https://aur.archlinux.org/android-sdk-build-tools.git
+git clone https://aur.archlinux.org/android-sdk-platform-tools.git
+git clone https://aur.archlinux.org/android-platform.git
+cd android-sdk && makepkg -si
+cd ../android-sdk-build-tools && makepkg -si
+cd ../android-sdk-sdk-platform-tools && makepkg -si
+cd ../android-platform && makepkg -si
+```
+
+### Tools
+
+```
+sudo pacman -S emulator gradle
+```
+
+
+
 ## More packages
 
 ```
-sudo pacman -S htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gotop
+sudo pacman -S htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch
 ```
 
 base-devel ?
