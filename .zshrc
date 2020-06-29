@@ -120,7 +120,6 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias note='nvim ~/Documents/notes'
-alias todo='nvim ~/Documents/notes/todo.md'
 
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
