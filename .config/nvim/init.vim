@@ -38,6 +38,9 @@ nnoremap <leader>, ,
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
+" Format paragraphs
+nnoremap <leader>fp gwap
+
 " Remove trailing whitespaces
 nnoremap <leader>ws :%s/\s\+$//<cr>:noh<cr>
 
@@ -255,7 +258,7 @@ augroup end
 augroup filetype_md
 	autocmd!
 	autocmd FileType markdown setlocal nocindent
-	autocmd FileType markdown nnoremap <buffer> <localleader>l :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
 augroup END
 " }}}
