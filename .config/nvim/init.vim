@@ -188,6 +188,8 @@ set spelllang=en,fr
 " vim-markdown
 " set default markdown fold level
 let g:vim_markdown_folding_level = 3
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_math = 1
 
 " vim-airline
 if !exists('g:airline_symbols')

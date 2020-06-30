@@ -30,6 +30,16 @@ mount /dev/sdx1 /mnt
 
 ### Selecting the mirrors
 
+[Mirror list](archlinux.org/mirrors/status/)
+
+```
+sudo pacman -S reflector
+sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
+sudo reflector --latest 50 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+Pacman hook:
+
 ### Install linux
 
 ```
