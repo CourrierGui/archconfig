@@ -29,8 +29,8 @@ call plug#end()
 " }}}
 
 " Mappings {{{
+
 let mapleader = ","
-" let mapleader="\<Space>"
 let localmapleader = "\\"
 nnoremap <leader>, ,
 
@@ -39,10 +39,10 @@ vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
 " Format paragraphs
-nnoremap <leader>fp gwap
+nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
-nnoremap <leader>ws :%s/\s\+$//<cr>:noh<cr>
+nnoremap <leader>ws :%s/\v\s+$//<cr>:noh<cr>
 
 " Easier move between methods
 " nnoremap <leader>m ]m
@@ -69,6 +69,12 @@ nnoremap K 5k
 noremap <leader>j J
 noremap <leader>k K
 
+" Jump to char under cursor
+nnoremap <silent> <leader>f :execute "normal! f" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
+nnoremap <silent> <leader>F :execute "normal! F" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
+nnoremap <silent> <leader>t :execute "normal! t" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
+nnoremap <silent> <leader>T :execute "normal! T" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
+
 " nnoremap <leader>sc :lclose<CR>
 " nnoremap <leader>sn :lnext<CR>
 " nnoremap <leader>sp :lprevious<CR>
@@ -77,10 +83,10 @@ nnoremap <leader><space> :noh<cr>
 noremap <enter> o<esc>
 nnoremap <leader>x xp
 
-" Swap upper/lower case with <c-u>
-nnoremap <c-u> g~iw
-vnoremap <c-u> ~
-inoremap <c-u> <esc>mzg~iwe`za
+" Swap upper/lower case
+nnoremap <leader>u g~iw
+vnoremap <leader>u ~
+inoremap <leader>u <esc>mzg~iwe`za
 
 " Add ; to the end of the line in insert mode and puts the cursor back at the same place
 " Usefull for C/C++ programing
@@ -94,8 +100,8 @@ nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bN :bp<CR>
 
 " tag navigations
-nnoremap <leader>tn :tn<CR>
-nnoremap <leader>tN :tp<CR>
+" nnoremap <leader>tn :tn<CR>
+" nnoremap <leader>tN :tp<CR>
 
 " make arrow keys usefull
 nnoremap <Up> :resize +2<CR>
@@ -106,9 +112,9 @@ nnoremap <Right> :vertical resize +2<CR>
 " Enable folding with the spacebar
 nnoremap <space> za
 " Smallest fold level
-nnoremap <leader>rf :set foldlevel=1<CR>
+" nnoremap <leader>fr :set foldlevel=1<CR>
 " Unfold
-nnoremap <leader>uf :set foldlevel=2<CR>
+" nnoremap <leader>fu :set foldlevel=2<CR>
 
 " TagBar
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
@@ -125,9 +131,9 @@ nnoremap <leader>le :Lexplore<bar>vertical resize 30<CR>
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
 
-nnoremap <leader>a :call SwitchHeader("find")<CR>
-nnoremap <leader>va :call SwitchHeader("vert sf")<CR>
-nnoremap <leader>ta :call SwitchHeader("tab sf")<CR>
+nnoremap <leader>aa :call SwitchHeader("find")<CR>
+nnoremap <leader>av :call SwitchHeader("vert sf")<CR>
+nnoremap <leader>at :call SwitchHeader("tab sf")<CR>
 
 " Vim sessions
 " prepare command to create a new session
@@ -244,8 +250,8 @@ augroup END
 " Python file settings {{{
 augroup filetype_python
 	autocmd!
-	autocmd bufnewfile,bufread python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 autoindent fileformat=unix foldlevel=1
-	autocmd filetype python nnoremap <leader>r :CocCommand python.execInTerminal<CR>
+	autocmd BufnewFile,BufRead python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 autoindent fileformat=unix foldlevel=1
+	autocmd Filetype python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
 augroup end
 " }}}
 
@@ -260,8 +266,8 @@ augroup end
 augroup filetype_md
 	autocmd!
 	autocmd FileType markdown setlocal nocindent
-	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 augroup END
 " }}}
 
