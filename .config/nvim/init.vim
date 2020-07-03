@@ -75,6 +75,10 @@ nnoremap <silent> <leader>F :execute "normal! F" . nr2char(strgetchar(getline('.
 nnoremap <silent> <leader>t :execute "normal! t" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
 nnoremap <silent> <leader>T :execute "normal! T" . nr2char(strgetchar(getline('.')[col('.')-1:], 0))<cr>
 
+" Code indentation
+vnoremap < <gv
+vnoremap > >gv
+
 " nnoremap <leader>sc :lclose<CR>
 " nnoremap <leader>sn :lnext<CR>
 " nnoremap <leader>sp :lprevious<CR>
