@@ -110,6 +110,12 @@ sudo chgrp -R guillaume /media/guillaume/uuid
 Add symlink for each directory:
 `ln -sf /media/guillaume/uuid/Documents /home/guillaume`
 
+## Locate
+
+```
+sudo pacman -S locate
+```
+
 ## Swap partition
 
 Get the UUID of the partition: `sudo blkid`
@@ -378,6 +384,13 @@ mkdir ~/.config/dunst
 cp /usr/share/dunst/dunstrc .config/dunst
 ```
 
+## Pandoc
+
+```
+sudo pacman -S pandoc pandoc-citeproc pandoc-crossref
+pip install pandoc-eqnos --user
+```
+
 ## Android development
 
 ### Android SDK
@@ -400,12 +413,16 @@ cd ../android-platform && makepkg -si
 sudo pacman -S emulator gradle
 ```
 
-
-
 ## More packages
 
 ```
-sudo pacman -S htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz pandoc wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch
 ```
 
 base-devel ?
+
+# Install script
+
+**List installed packages:** `pacman -Qqe`
+**Install packages:**
+`sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`

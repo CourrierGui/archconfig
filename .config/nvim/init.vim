@@ -20,9 +20,9 @@ Plug 'tpope/vim-repeat'
 
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
-Plug 'plasticboy/vim-markdown'
 
 Plug 'CourrierGui/vim-potion'
+Plug '~/dev/projects/vim-markdown'
 
 call plug#end()
 
@@ -43,6 +43,11 @@ nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
 nnoremap <leader>ws :%s/\v\s+$//<cr>:noh<cr>
+
+nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+nnoremap <leader>so $VIMRUNTIME/syntax/hitest.vim
 
 " Easier move between methods
 " nnoremap <leader>m ]m
