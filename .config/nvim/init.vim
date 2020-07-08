@@ -47,7 +47,7 @@ nnoremap <leader>ws :%s/\v\s+$//<cr>:noh<cr>
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-nnoremap <leader>so $VIMRUNTIME/syntax/hitest.vim
+nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 
 " Easier move between methods
 " nnoremap <leader>m ]m
