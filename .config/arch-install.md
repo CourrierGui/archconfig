@@ -207,11 +207,11 @@ Using `alsamixer` set the PCM volume to a correct level.
 ## Neovim
 ```
 sudo pacman -S neovim ctags node npm clang xclip
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
-nvim --headless -c "CocInstall coc-julia coc-vimtex coc-clangd coc-python" +qa
 ```
+
+Coc extensions should be installed when neovim starts
 
 ## Touchpad
 ```
@@ -424,5 +424,4 @@ base-devel ?
 # Install script
 
 **List installed packages:** `pacman -Qqe`
-**Install packages:**
-`sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`
+**Install packages:** `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`

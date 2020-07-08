@@ -22,7 +22,7 @@ Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 
 Plug 'CourrierGui/vim-potion'
-Plug '~/dev/projects/vim-markdown'
+Plug 'CourrierGui/vim-markdown'
 
 call plug#end()
 
@@ -231,6 +231,7 @@ inoremap <silent><expr> <Tab>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <leader>gd <Plug>(coc-definition)
+let g:coc_global_extensions=["coc-julia", "coc-vimtex", "coc-clangd", "coc-python"]
 
 " vimtex
 let g:vimtex_compiler_progname = 'nvr'
