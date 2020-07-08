@@ -121,3 +121,4 @@ alias egrep='egrep --color=auto'
 
 alias note='nvim ~/Documents/notes'
 alias todo='nvim ~/Documents/notes/todo.md'
+source /opt/ros/melodic/setup.zsh
