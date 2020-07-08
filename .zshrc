@@ -120,7 +120,6 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias note='nvim ~/Documents/notes'
-source /opt/ros/melodic/setup.zsh
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
 neofetch

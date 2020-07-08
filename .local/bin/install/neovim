@@ -1,0 +1,9 @@
+#/bin/sh
+
+# Install Neovim and dependencies
+sudo pacman -S neovim xclip ctags node npm clang
+
+# Install vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+# Install the plugins
+nvim --headless +PlugInstall +qa
