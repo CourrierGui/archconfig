@@ -268,6 +268,7 @@ ssh-add ~/.ssh/id_rsa
 ```
 sudo pacman -S zsh
 chsh -s /usr/bin/zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
 Typewritten theme:

@@ -123,4 +123,4 @@ alias note='nvim ~/Documents/notes'
 source /opt/ros/melodic/setup.zsh
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
-screenfetch
+neofetch

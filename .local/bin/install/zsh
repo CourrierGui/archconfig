@@ -1,0 +1,27 @@
+#/bin/zsh
+
+zsh_custom=$1 # $ZSH_CUSTOM
+
+###############
+# Install zsh #
+###############
+
+# Install zsh
+sudo pacman -S zsh
+# Make zsh default shell interpretor
+chsh -s /usr/bin/zsh
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+############################
+# Install oh-my-zsh themes #
+############################
+
+# Typewritten
+git clone https://github.com/reobin/typewritten.git "$zsh_custom/themes/typewritten"
+ln -sf "$zsh_custom/themes/typewritten/typewritten.zsh-theme" "$zsh_custom/themes/typewritten.zsh-theme"
+
+wget -O ~/.oh-my-zsh/themes/oxide.zsh-theme https://raw.githubusercontent.com/dikiaap/dotfiles/master/.oh-my-zsh/themes/oxide.zsh-theme # Oxide
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)" # Zeta
+wget -O ~/.oh-my-zsh/themes/nothing.zsh-theme https://raw.githubusercontent.com/eendroroy/nothing/master/nothing.zsh # nothing
+
