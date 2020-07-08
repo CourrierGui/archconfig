@@ -3,7 +3,7 @@
 # Prints the current volume or 🔇 if muted. Uses PulseAudio by default,
 # uncomment the ALSA lines if you remove PulseAudio.
 
-case $BLOCK_BUTTON in
+case $BUTTON in
 	# 1) setsid "$TERMINAL" -e alsamixer & ;;
 	# 2) amixer sset Master toggle ;;
 	# 4) amixer sset Master 5%+ >/dev/null 2>/dev/null ;;
@@ -35,4 +35,4 @@ else
 	icon="🔉"
 fi
 
-printf "%s %s%%\\n" "$icon" "$vol"
+printf "\x02[%s %s%%]" "$icon" "$vol"
