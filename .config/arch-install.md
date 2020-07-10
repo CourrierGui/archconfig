@@ -197,12 +197,24 @@ sudo pacman -S alsamixer pamixer
 
 Select the correct sound card: `cat /proc/asound/cards`
 
-`sudo echo "defaults.pcm.card 0\ndefaults.ctl.card 0" > /etc/asound.conf`
 
-Edit `/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common`
-and change the line *volume = merge* under **PCM** to *volume = ignore*.
+For Asus Zenbook: edit `/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common` and add this:
 
-Using `alsamixer` set the PCM volume to a correct level.
+```
+[Element Master]
+switch = mute
+volume = ignore
+
+[Element PCM]
+switch = mute
+volume = merge
+override-map.1 = all
+override-map.2 = all-left,all-right
+
+[Element LFE]
+switch = mute
+volume = ignore
+```
 
 ### Microphone
 
