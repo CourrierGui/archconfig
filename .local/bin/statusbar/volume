@@ -35,4 +35,4 @@ else
 	icon="🔉"
 fi
 
-printf "\x02[%s %s%%]" "$icon" "$vol"
+printf "\x02%s %s%%" "$icon" "$vol"

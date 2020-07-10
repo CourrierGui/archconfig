@@ -22,6 +22,6 @@ do
 	# If it is discharging and 25% or less, we will add a ❗ as a warning.
 	[ "$capacity" -le 25 ] && [ "$status" = "🔋" ] && warn="❗" # && notify-send "Low Battery" "Plug your cable you son of a bitch!" -u critical
 
-	printf "\x04[%s%s%s%%]" "$status" "$warn" "$capacity"
+	printf "\x04%s%s%s%%" "$status" "$warn" "$capacity"
 	unset warn
 done
