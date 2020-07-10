@@ -190,8 +190,9 @@ needs_root=yes
 ```
 
 ## Sound
+
 ```
-sudo pacman -S alsamixer
+sudo pacman -S alsamixer pamixer
 ```
 
 Select the correct sound card: `cat /proc/asound/cards`
@@ -203,6 +204,26 @@ and change the line *volume = merge* under **PCM** to *volume = ignore*.
 
 Using `alsamixer` set the PCM volume to a correct level.
 
+### Microphone
+
+```
+arecord -l
+```
+
+In `/etc/pulse/default.pa`
+
+```
+load-module module-alsa-source device=hw:0,0
+# the line above should be somewhere before the line below
+.ifexists module-udev-detect.so
+```
+
+Then: `pulseaudio -k ; pulseaudio -D`
+
+```
+arecord -f dat -r 60000 -D hw:0,0 -d 5 test.wav
+grep "default-sample-rate" /etc/pulse/daemon.conf
+```
 
 ## Neovim
 ```
