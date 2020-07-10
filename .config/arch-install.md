@@ -414,6 +414,34 @@ cd ../android-platform && makepkg -si
 sudo pacman -S emulator gradle
 ```
 
+## Mount USB devices
+
+```
+sudo pacman -S udisks2
+udisksctl (un)mount -b /dev/sd...
+```
+
+## Printer
+
+```
+sudo pacman -S cups cups-pdf avahi nss-mdns python-dbus python-gobject
+
+systemctl enable org.cups.cupsd.service
+systemctl start org.cups.cupsd.service ?
+systemctl enable avahi-daemon.service ?
+systemctl start avahi-daemon.service ?
+```
+
+Add: `mdns_minimal [NOTFOUND=return]` to `/etc/nsswitch.conf` at line `hosts:` before `resolve`
+A reboot may be necessary.
+
+```
+lpinfo -m
+sudo lpadmin -p QueueName -E -v <result from lpinfo> -m <result from lpinfo>
+lpr # print
+lpq # see print queue
+```
+
 ## More packages
 
 ```
