@@ -22,7 +22,8 @@ Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 
 Plug 'CourrierGui/vim-potion'
-Plug 'CourrierGui/vim-markdown'
+Plug '~/dev/projects/vim-markdown'
+" Plug 'CourrierGui/vim-markdown'
 
 call plug#end()
 
@@ -279,6 +280,13 @@ augroup filetype_md
 	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
 	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 augroup END
+" }}}
+
+" Suckless auto build {{{
+augroup suckless
+	autocmd!
+	" autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
+	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
 " }}}
 
 " Functions {{{
