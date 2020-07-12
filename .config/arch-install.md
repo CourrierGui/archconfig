@@ -151,11 +151,10 @@ sudo make install && make clean
 
 *st:*
 
-Install libxft-bgra from aur (emoji):
+Install libxft-bgra from aur (emoji): `yay -S libxft-bgra`
+
 ```
-git clone https://aur.archlinux.org/libxft-bgra.git ~/softwares/aur/libxft-bgra
 sudo pacman -S patch man
-makepkg -si
 sudo make install && make clean
 ```
 
@@ -237,7 +236,16 @@ arecord -f dat -r 60000 -D hw:0,0 -d 5 test.wav
 grep "default-sample-rate" /etc/pulse/daemon.conf
 ```
 
+## Yay
+
+```
+git clone https://aur.archlinux.org/yay.git ~/softwares/aur/yay
+cd ~/softwares/aur/yay
+makepkg -si
+```
+
 ## Neovim
+
 ```
 sudo pacman -S neovim ctags node npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -247,6 +255,7 @@ nvim --headless +PlugInstall +qa
 Coc extensions should be installed when neovim starts
 
 ## Touchpad
+
 ```
 sudo pacman -S xf86-input-libinput xorg-xinput
 ```
@@ -264,12 +273,7 @@ EndSection
 
 ```
 sudo pacman -S fprintd imagemagick
-```
-
-From AUR:
-```
-git clone https://aur.archlinux.org/fingerprint-gui.git
-cd fingerprint-gui && makepkg -si
+yay -S fingerprint-gui
 ```
 
 Can't build fingerprint-gui due to `libfprint` and the fingerprints don't seem to be recognized...
@@ -379,10 +383,7 @@ Install steam: `sudo pacman -S steam`
 ## Brave
 
 ```
-cd ~/softwares/aur
-git clone https://aur.archlinux.org/brave-bin.git
-cd brave-bin
-makepkg -si
+yay -S brave-bin
 ```
 
 ## Zathura
@@ -394,8 +395,7 @@ sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ## LF
 
 ```
-git clone https://aur.archlinux.org/lf.git
-makepkg -si
+yay -S lf
 ```
 
 ## Newsboat
@@ -430,15 +430,7 @@ pip install pandoc-eqnos --user
 ### Android SDK
 
 ```
-cd softwares/aur/android
-git clone https://aur.archlinux.org/android-sdk.git
-git clone https://aur.archlinux.org/android-sdk-build-tools.git
-git clone https://aur.archlinux.org/android-sdk-platform-tools.git
-git clone https://aur.archlinux.org/android-platform.git
-cd android-sdk && makepkg -si
-cd ../android-sdk-build-tools && makepkg -si
-cd ../android-sdk-sdk-platform-tools && makepkg -si
-cd ../android-platform && makepkg -si
+yay -S android-sdk android-sdk-build-tools android-sdk-platform-tools android-platform
 ```
 
 ### Tools
@@ -478,7 +470,13 @@ lpq # see print queue
 ## More packages
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch powerline-fonts
+```
+
+### AUR
+
+```
+yay -S pfetch
 ```
 
 base-devel ?
