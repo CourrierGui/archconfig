@@ -21,6 +21,7 @@ ZSH_THEME_RANDOM_CANDIDATES=(
   "robbyrussell" "avit"
   "sorin" "ys" "typewritten"
   "oxide" "zeta" "nothing"
+	"agnoster"
 )
 
 # Uncomment the following line to use case-sensitive completion.
@@ -122,4 +123,4 @@ alias egrep='egrep --color=auto'
 alias note='nvim ~/Documents/notes'
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
-neofetch
+pfetch

@@ -23,7 +23,6 @@ Plug 'lervag/vimtex'
 
 Plug 'CourrierGui/vim-potion'
 Plug '~/dev/projects/vim-markdown'
-" Plug 'CourrierGui/vim-markdown'
 
 call plug#end()
 
