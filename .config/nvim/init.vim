@@ -165,7 +165,7 @@ onoremap il( :<c-u>normal! F)vi(<cr>
 
 " Command mappings
 " start of line
-cnoremap <c-i>		<Home>
+cnoremap <c-z>		<Home>
 " back one character
 cnoremap <c-h>		<Left>
 " delete character under cursor
@@ -179,9 +179,9 @@ cnoremap <c-j>		<Down>
 " recall previous (older) command-line
 cnoremap <c-k>		<Up>
 " back one word
-cnoremap <c-b>	<S-Left>
+cnoremap <c-b>	  <S-Left>
 " forward one word
-cnoremap <c-w>	<S-Right>
+cnoremap <c-w>	  <S-Right>
 
 " }}}
 
