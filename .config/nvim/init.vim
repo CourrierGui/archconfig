@@ -49,8 +49,13 @@ nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") 
 			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 
+" Open file containing tag in new split
+" set previewheight=100
+" nnoremap <c-]> :execute "vertical ptag " . expand("<cword>")<cr>
+
 " Easier move between methods
 " nnoremap <leader>m ]m
+
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -157,6 +162,26 @@ tnoremap <esc> <c-\><c-n>
 " Operator-Pending Mappings
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
+
+" Command mappings
+" start of line
+cnoremap <c-i>		<Home>
+" back one character
+cnoremap <c-h>		<Left>
+" delete character under cursor
+cnoremap <c-x>		<Del>
+" end of line
+cnoremap <c-a>		<End>
+" forward one character
+cnoremap <c-l>		<Right>
+" recall newer command-line
+cnoremap <c-j>		<Down>
+" recall previous (older) command-line
+cnoremap <c-k>		<Up>
+" back one word
+cnoremap <c-b>	<S-Left>
+" forward one word
+cnoremap <c-w>	<S-Right>
 
 " }}}
 
