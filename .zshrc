@@ -123,4 +123,13 @@ alias egrep='egrep --color=auto'
 alias note='nvim ~/Documents/notes'
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
+# Git
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gd='git diff'
+alias gl='git log'
+alias gpl='git pull'
+alias gps='git push'
+
 pfetch
