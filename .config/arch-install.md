@@ -470,13 +470,13 @@ lpq # see print queue
 ## More packages
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch powerline-fonts scrot sxiv
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch powerline-fonts scrot sxiv tmux
 ```
 
 ### AUR
 
 ```
-yay -S pfetch
+yay -S pfetch task-spooler
 ```
 
 base-devel ?

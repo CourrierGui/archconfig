@@ -1,0 +1,11 @@
+color background          white   default
+color listnormal          white   default dim
+color listfocus           yellow  default bold standout
+color listnormal_unread   magenta default bold
+color listfocus_unread    yellow  default bold standout
+color info                yellow  default bold
+color article             white   default
+
+browser urlportal
+
+auto-reload yes
