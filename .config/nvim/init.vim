@@ -56,6 +56,8 @@ nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 " Easier move between methods
 " nnoremap <leader>m ]m
 
+" List buffers and prepare to enter new one
+nnoremap gb :ls<cr>:b<space>
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -144,10 +146,6 @@ nnoremap <leader>le :Lexplore<bar>vertical resize 30<CR>
 " move block of code
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
-
-nnoremap <leader>aa :call SwitchHeader("find")<CR>
-nnoremap <leader>av :call SwitchHeader("vert sf")<CR>
-nnoremap <leader>at :call SwitchHeader("tab sf")<CR>
 
 " Vim sessions
 " prepare command to create a new session
@@ -255,8 +253,12 @@ inoremap <silent><expr> <Tab>
 			\ coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-nnoremap <leader>gd <Plug>(coc-definition)
 let g:coc_global_extensions=["coc-julia", "coc-vimtex", "coc-clangd", "coc-python"]
+
+" Switch between header and source file
+nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+" Go to definition under cursor
+nmap <silent> <leader>gd <Plug>(coc-definition)
 
 " vimtex
 let g:vimtex_compiler_progname = 'nvr'
