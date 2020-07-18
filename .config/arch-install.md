@@ -153,11 +153,10 @@ sudo make install && make clean
 
 *st:*
 
-Install libxft-bgra from aur (emoji):
+Install libxft-bgra from aur (emoji): `yay -S libxft-bgra`
+
 ```
-git clone https://aur.archlinux.org/libxft-bgra.git ~/softwares/aur/libxft-bgra
 sudo pacman -S patch man
-makepkg -si
 sudo make install && make clean
 ```
 
@@ -175,7 +174,7 @@ sudo make install && make clean
 *surf:*
 ```
 cd ~/softwares/suckless/surf
-sudo pacman -S webkit2gtk
+sudo pacman -S webkit2gtk gcr
 sudo make install && make clean
 ```
 
@@ -192,21 +191,63 @@ needs_root=yes
 ```
 
 ## Sound
+
 ```
-sudo pacman -S alsamixer
+sudo pacman -S alsamixer pamixer
 ```
 
 Select the correct sound card: `cat /proc/asound/cards`
 
-`sudo echo "defaults.pcm.card 0\ndefaults.ctl.card 0" > /etc/asound.conf`
 
-Edit `/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common`
-and change the line *volume = merge* under **PCM** to *volume = ignore*.
+For Asus Zenbook: edit `/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common` and add this:
 
-Using `alsamixer` set the PCM volume to a correct level.
+```
+[Element Master]
+switch = mute
+volume = ignore
 
+[Element PCM]
+switch = mute
+volume = merge
+override-map.1 = all
+override-map.2 = all-left,all-right
+
+[Element LFE]
+switch = mute
+volume = ignore
+```
+
+### Microphone
+
+```
+arecord -l
+```
+
+In `/etc/pulse/default.pa`
+
+```
+load-module module-alsa-source device=hw:0,0
+# the line above should be somewhere before the line below
+.ifexists module-udev-detect.so
+```
+
+Then: `pulseaudio -k ; pulseaudio -D`
+
+```
+arecord -f dat -r 60000 -D hw:0,0 -d 5 test.wav
+grep "default-sample-rate" /etc/pulse/daemon.conf
+```
+
+## Yay
+
+```
+git clone https://aur.archlinux.org/yay.git ~/softwares/aur/yay
+cd ~/softwares/aur/yay
+makepkg -si
+```
 
 ## Neovim
+
 ```
 sudo pacman -S neovim ctags node npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -216,6 +257,7 @@ nvim --headless +PlugInstall +qa
 Coc extensions should be installed when neovim starts
 
 ## Touchpad
+
 ```
 sudo pacman -S xf86-input-libinput xorg-xinput
 ```
@@ -233,12 +275,7 @@ EndSection
 
 ```
 sudo pacman -S fprintd imagemagick
-```
-
-From AUR:
-```
-git clone https://aur.archlinux.org/fingerprint-gui.git
-cd fingerprint-gui && makepkg -si
+yay -S fingerprint-gui
 ```
 
 Can't build fingerprint-gui due to `libfprint` and the fingerprints don't seem to be recognized...
@@ -348,10 +385,7 @@ Install steam: `sudo pacman -S steam`
 ## Brave
 
 ```
-cd ~/softwares/aur
-git clone https://aur.archlinux.org/brave-bin.git
-cd brave-bin
-makepkg -si
+yay -S brave-bin
 ```
 
 ## Zathura
@@ -363,8 +397,7 @@ sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ## LF
 
 ```
-git clone https://aur.archlinux.org/lf.git
-makepkg -si
+yay -S lf
 ```
 
 ## Newsboat
@@ -399,15 +432,7 @@ pip install pandoc-eqnos --user
 ### Android SDK
 
 ```
-cd softwares/aur/android
-git clone https://aur.archlinux.org/android-sdk.git
-git clone https://aur.archlinux.org/android-sdk-build-tools.git
-git clone https://aur.archlinux.org/android-sdk-platform-tools.git
-git clone https://aur.archlinux.org/android-platform.git
-cd android-sdk && makepkg -si
-cd ../android-sdk-build-tools && makepkg -si
-cd ../android-sdk-sdk-platform-tools && makepkg -si
-cd ../android-platform && makepkg -si
+yay -S android-sdk android-sdk-build-tools android-sdk-platform-tools android-platform
 ```
 
 ### Tools
@@ -416,10 +441,44 @@ cd ../android-platform && makepkg -si
 sudo pacman -S emulator gradle
 ```
 
+## Mount USB devices
+
+```
+sudo pacman -S udisks2
+udisksctl (un)mount -b /dev/sd...
+```
+
+## Printer
+
+```
+sudo pacman -S cups cups-pdf avahi nss-mdns python-dbus python-gobject
+
+systemctl enable org.cups.cupsd.service
+systemctl start org.cups.cupsd.service ?
+systemctl enable avahi-daemon.service ?
+systemctl start avahi-daemon.service ?
+```
+
+Add: `mdns_minimal [NOTFOUND=return]` to `/etc/nsswitch.conf` at line `hosts:` before `resolve`
+A reboot may be necessary.
+
+```
+lpinfo -m
+sudo lpadmin -p QueueName -E -v <result from lpinfo> -m <result from lpinfo>
+lpr # print
+lpq # see print queue
+```
+
 ## More packages
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch powerline-fonts scrot sxiv tmux gnuplot
+```
+
+### AUR
+
+```
+yay -S pfetch task-spooler
 ```
 
 base-devel ?

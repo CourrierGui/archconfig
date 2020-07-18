@@ -22,7 +22,7 @@ Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 
 Plug 'CourrierGui/vim-potion'
-Plug 'CourrierGui/vim-markdown'
+Plug '~/dev/projects/vim-markdown'
 
 call plug#end()
 
@@ -49,8 +49,15 @@ nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") 
 			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 
+" Open file containing tag in new split
+" set previewheight=100
+" nnoremap <c-]> :execute "vertical ptag " . expand("<cword>")<cr>
+
 " Easier move between methods
 " nnoremap <leader>m ]m
+
+" List buffers and prepare to enter new one
+nnoremap gb :ls<cr>:b<space>
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -140,10 +147,6 @@ nnoremap <leader>le :Lexplore<bar>vertical resize 30<CR>
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
 
-nnoremap <leader>aa :call SwitchHeader("find")<CR>
-nnoremap <leader>av :call SwitchHeader("vert sf")<CR>
-nnoremap <leader>at :call SwitchHeader("tab sf")<CR>
-
 " Vim sessions
 " prepare command to create a new session
 nnoremap <A-s>n :wa<Bar>mksession ~/.config/nvim/sessions/
@@ -157,6 +160,26 @@ tnoremap <esc> <c-\><c-n>
 " Operator-Pending Mappings
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
+
+" Command mappings
+" start of line
+cnoremap <c-z>		<Home>
+" back one character
+cnoremap <c-h>		<Left>
+" delete character under cursor
+cnoremap <c-x>		<Del>
+" end of line
+cnoremap <c-a>		<End>
+" forward one character
+cnoremap <c-l>		<Right>
+" recall newer command-line
+cnoremap <c-j>		<Down>
+" recall previous (older) command-line
+cnoremap <c-k>		<Up>
+" back one word
+cnoremap <c-b>	  <S-Left>
+" forward one word
+cnoremap <c-w>	  <S-Right>
 
 " }}}
 
@@ -230,8 +253,12 @@ inoremap <silent><expr> <Tab>
 			\ coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-nnoremap <leader>gd <Plug>(coc-definition)
 let g:coc_global_extensions=["coc-julia", "coc-vimtex", "coc-clangd", "coc-python"]
+
+" Switch between header and source file
+nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+" Go to definition under cursor
+nmap <silent> <leader>gd <Plug>(coc-definition)
 
 " vimtex
 let g:vimtex_compiler_progname = 'nvr'
@@ -279,6 +306,13 @@ augroup filetype_md
 	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
 	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 augroup END
+" }}}
+
+" Suckless auto build {{{
+augroup suckless
+	autocmd!
+	" autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
+	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
 " }}}
 
 " Functions {{{

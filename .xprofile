@@ -1,11 +1,10 @@
 #!/bin/sh
 
 export PATH=$PATH:~/.local/bin:~/.local/bin/statusbar
-export BROWSER=brave
 
 dwmblock &
 dunst &
 xcompmgr &
 remaps &
-wal -R &
+# wal -R &
 xwallpaper --zoom ~/.config/wall.png &

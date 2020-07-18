@@ -21,6 +21,7 @@ ZSH_THEME_RANDOM_CANDIDATES=(
   "robbyrussell" "avit"
   "sorin" "ys" "typewritten"
   "oxide" "zeta" "nothing"
+	"agnoster"
 )
 
 # Uncomment the following line to use case-sensitive completion.
@@ -120,7 +121,15 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias note='nvim ~/Documents/notes'
-source /opt/ros/melodic/setup.zsh
 alias potion='/home/guillaume/softwares/other/potion/bin/potion'
 
-neofetch
+# Git
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gd='git diff'
+alias gl='git log'
+alias gpl='git pull'
+alias gps='git push'
+
+pfetch
