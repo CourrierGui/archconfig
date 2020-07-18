@@ -141,6 +141,10 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ### Intel graphics driver
 
+```
+nvidia-390xx  nvidia-390xx-utils
+```
+
 ### Suckless
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
