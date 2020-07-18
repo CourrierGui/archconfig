@@ -2,7 +2,9 @@
 
 ## Create bootable USB
 
-`sudo dd bs=4M if=path_to_arch_iso of=/dev/sdx status=progress oflag=sync`
+Check signature: `pacman-key -v archlinux-version-x86_64.iso.sig`
+
+Install arch on USB: `sudo dd bs=4M if=path_to_arch_iso of=/dev/sdx status=progress oflag=sync`
 
 ## USB Boot
 
