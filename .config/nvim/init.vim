@@ -95,7 +95,7 @@ vnoremap > >gv
 " nnoremap <leader>sn :lnext<CR>
 " nnoremap <leader>sp :lprevious<CR>
 
-nnoremap <leader><space> :noh<cr>
+nnoremap <silent> <leader><space> :noh<cr>
 noremap <enter> o<esc>
 nnoremap <leader>x xp
 
@@ -112,18 +112,18 @@ inoremap <c-e> <esc>mzA;<esc>`za
 " noremap <leader>_ ddp
 
 " buffer navigations
-nnoremap <leader>bn :bn<CR>
-nnoremap <leader>bN :bp<CR>
+nnoremap <silent> <leader>bn :bn<CR>
+nnoremap <silent> <leader>bN :bp<CR>
 
 " tag navigations
 " nnoremap <leader>tn :tn<CR>
 " nnoremap <leader>tN :tp<CR>
 
 " make arrow keys usefull
-nnoremap <Up> :resize +2<CR>
-nnoremap <Down> :resize -2<CR>
-nnoremap <Left> :vertical resize -2<CR>
-nnoremap <Right> :vertical resize +2<CR>
+nnoremap <silent> <Up> :resize +2<CR>
+nnoremap <silent> <Down> :resize -2<CR>
+nnoremap <silent> <Left> :vertical resize -2<CR>
+nnoremap <silent> <Right> :vertical resize +2<CR>
 
 " Enable folding with the spacebar
 nnoremap <space> za
@@ -140,8 +140,8 @@ nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " netrw
-nnoremap <leader>ee :Explore<CR>
-nnoremap <leader>le :Lexplore<bar>vertical resize 30<CR>
+nnoremap <silent> <leader>ee :Explore<CR>
+nnoremap <silent> <leader>le :Lexplore<bar>vertical resize 30<CR>
 
 " move block of code
 vnoremap J :m '>+1<cr>gv=gv
@@ -287,8 +287,8 @@ augroup END
 " Python file settings {{{
 augroup filetype_python
 	autocmd!
-	autocmd BufnewFile,BufRead python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 autoindent fileformat=unix foldlevel=1
-	autocmd Filetype python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
+	autocmd BufNewFile,BufRead python setlocal tabstop=4 softtabstop=4 textwidth=120 autoindent fileformat=unix foldlevel=1
+	autocmd FileType python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
 augroup end
 " }}}
 
