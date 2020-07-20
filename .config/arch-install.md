@@ -16,18 +16,58 @@ ip link
 ip link set *interface* up
 ```
 
+WPA Supplicant:
+In `/etc/wpa_supplicant/wpa_supplicant.conf`
+
 ```
-iw dev *interface* connect "ssid"
-dhcpcd *interface*
-timedatectl set-ntp true
+ctrl_interface=/run/wpa_supplicant
+update_config=1
+```
+
+```
+wpa_supplicant -B -i wlan0 -D wext -c /etc/wpa_supplicant/example.conf
+wpa_cli
+```
+
+```
+scan
+scan_results
+add_network 0
+set_network 0 ssid "SSID"
+set_network 0 psk "password"
+enable_network 0
+save_config
+quit
 ```
 
 ### Partitions
 
 ```
-fdisk /dev/sdx
-mkfs.ext4 /dev/sdx1
-mount /dev/sdx1 /mnt
+fdisk /dev/sda
+```
+
+```
+mkfs.vfat /dev/sda1 # /boot
+mkfs.ext4 /dev/sda2 # /
+mkswap /dev/sda3    # swap
+swapon /dev/sda3
+```
+
+### Encrypted home partition
+
+```
+cryptsetup luksFormat /dev/sda4
+cryptsetup open /dev/sda4 home-guillaume
+```
+
+### Mounting
+
+```
+mount /dev/sda2 /mnt                                # /
+mkdir /mnt/boot
+mkdir -p /home/guillaume
+mount /dev/sda1 /mnt/boot                           # mount /boot
+mount /dev/mapper/home-guillaume /mnt/home/guillame # mount /home/guillaume
 ```
 
 ### Selecting the mirrors
@@ -35,17 +75,16 @@ mount /dev/sdx1 /mnt
 [Mirror list](archlinux.org/mirrors/status/)
 
 ```
-sudo pacman -S reflector
-sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
-sudo reflector --latest 50 --sort rate --save /etc/pacman.d/mirrorlist
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
+reflector --latest 50 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
 Pacman hook:
 
-### Install linux
+### Install linux and basic packages
 
 ```
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr
 ```
 
 ### Configuraton
@@ -53,8 +92,6 @@ pacstrap /mnt base linux linux-firmware
 fstab: `genfstab -U /mnt >> /mnt/etc/fstab`
 
 Become root: `arch-root /mnt`
-
-Install necessary packages before reboot: `pacman -S vim networkmanager dhcpcd git sudo`
 
 Basic setup:
 
@@ -65,8 +102,27 @@ echo "locale-gen" >> /etc/locale.gen
 echo "KEYMAP=fr-latin1" >> /etc/vconsole.conf
 echo "hostname" >> /etc/hostname
 passwd
+useradd -m guillaume
+passwd guillaume
+chown guillaume /mnt/home/guillaume
+chgrp guillaume /mnt/home/guillaume
+mkinitcpio -P
+```
+
+Encrypted `/home/guillaume` see [this](https://wiki.archlinux.org/index.php/Dm-crypt/Mounting_at_login) wiki page.
+
+Grub:
+```
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Exit and reboot:
+
+```
 exit
 umount -R /mnt
+cryptsetup close home-guillaume
 reboot
 ```
 
@@ -78,18 +134,14 @@ nmcli device wifi connect "ssid" password "passwd"
 timedatectl set-ntp true
 ```
 
-### adduser
-```
-useradd -m guillaume
-passwd guillaume
-```
-
 ### sudo
-If vi is not installed: `ln -s /usr/bin/vi /usr/bin/vim`
+
+If vi is not installed: `ln -s /usr/bin/vi /usr/bin/nvim`
 
 ```
 visudo
 ```
+
 Add the following line at the end: `guillaume ALL=(ALL) ALL`
 
 ## Shared partition for Documents, Pictures, ...
@@ -130,11 +182,13 @@ UUID=uuid swap swap defaults 0 0
 and reboot.
 
 ## Xorg
+
 ```
 sudo pacman -S xorg-server xorg-init xorg-xev
 ```
 
 ### Setup
+
 ```
 sudo pacman -S xf86-video-intel fakeroot
 ```
@@ -146,6 +200,7 @@ nvidia-390xx  nvidia-390xx-utils
 ```
 
 ### Suckless
+
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
 *dwm:*
@@ -258,7 +313,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 nvim --headless +PlugInstall +qa
 ```
 
-Coc extensions should be installed when neovim starts
+Coc extensions will be installed when neovim starts
 
 ## Touchpad
 
@@ -285,16 +340,19 @@ yay -S fingerprint-gui
 Can't build fingerprint-gui due to `libfprint` and the fingerprints don't seem to be recognized...
 
 ## Wallpaper
+
 ```
 sudo pacman -S python-pywall imagemagick
 ```
 
 ## Keepass
+
 ```
 sudo pacman -S keepassxc
 ```
 
 ## ssh
+
 ```
 sudo pacman -S openssh
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
@@ -375,9 +433,8 @@ sudo ln -sfT /bin/sh /bin/dash
 
 ## Steam
 
-Uncomment:
+Uncomment in `/etc/pacman.conf`:
 ```
-/etc/pacman.conf
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
@@ -386,35 +443,13 @@ Update system: `sudo pacman -Syu`
 
 Install steam: `sudo pacman -S steam`
 
-## Brave
-
-```
-yay -S brave-bin
-```
-
 ## Zathura
 
 ```
 sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ```
 
-## LF
 
-```
-yay -S lf
-```
-
-## Newsboat
-
-```
-sudo pacman -S newsboat
-```
-
-## MPV
-
-```
-sudo pacman -S mpv youtube-dl
-```
 
 ## Notifications
 
@@ -475,17 +510,23 @@ lpq # see print queue
 
 ## More packages
 
+### Standard repos
+
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop screenfetch powerline-fonts scrot sxiv tmux gnuplot
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat
 ```
 
 ### AUR
 
 ```
-yay -S pfetch task-spooler
+yay -S pfetch task-spooler lf brave-bin
 ```
 
-base-devel ?
+### Pip
+
+```
+pip install numpy matplotlib
+```
 
 # Install script
 
