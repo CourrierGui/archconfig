@@ -15,25 +15,56 @@ $lf -remote "send $id set previewer ${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope"
 
 # cmds/functions
 cmd open ${{
-    case $(file --mime-type $f -b) in
-	image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura $fx >/dev/null 2>&1 ;;
-        text/*) $EDITOR $fx;;
-	image/x-xcf|image/svg+xml) setsid -f gimp $f >/dev/null 2>&1 ;;
-	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
-	audio/*) mpv --audio-display=no $f ;;
-	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
-    esac
+  case $(file --mime-type $f -b) in
+		image/*) sxiv $fx ;;
+		# image/vnd.djvu|application/pdf|application/octet-stream) zathura $fx ;;
+		image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura $fx >/dev/null 2>&1 ;;
+  	text/*) $EDITOR $fx;;
+		image/x-xcf|image/svg+xml) setsid -f gimp $f >/dev/null 2>&1 ;;
+		image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
+		audio/*) mpv --audio-display=no $f ;;
+		video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+		application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+    *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+  esac
 }}
 
-cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd mkdir %{{
+	printf "Directory name: "
+	read ans
+	mkdir -p "$(echo $ans | tr ' ' '\ ')"
+}}
 
-cmd delete ${{
+cmd mkfile ${{
+	printf "File name: "
+	read ans
+	$EDITOR "$(echo $ans | tr ' ' '\ ')"
+}}
+
+cmd chmod %{{
+	printf "Mod bits: "
+	read ans
+
+	for file in "$fx"
+	do
+		chmod $ans $file
+	done
+}}
+
+cmd touch %{{
+	printf "File name: "
+	read ans
+	touch $ans
+}}
+
+cmd setwallpaper ${{
+	cp "$f" ~/.config/wall.png && xwallpaper --zoom "$f"
+}}
+
+cmd delete %{{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
+	printf "delete %s ? [y/N]" "$fx"
 	read ans
 	[ $ans = "y" ] && rm -rf $fx
 }}
