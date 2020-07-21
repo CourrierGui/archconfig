@@ -96,7 +96,7 @@ vnoremap > >gv
 " nnoremap <leader>sp :lprevious<CR>
 
 nnoremap <silent> <leader><space> :noh<cr>
-noremap <enter> o<esc>
+nnoremap <a-cr> o<esc>
 nnoremap <leader>x xp
 
 " Swap upper/lower case
@@ -136,8 +136,8 @@ nnoremap <space> za
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
 "Editing and sourcing ~/.vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
 
 " netrw
 nnoremap <silent> <leader>ee :Explore<CR>
@@ -193,6 +193,9 @@ set number
 set relativenumber
 set ttimeoutlen=10
 set splitbelow splitright
+
+" See substitution as you type them
+set inccommand=split
 
 " Tab to spaces
 set tabstop=2
@@ -313,6 +316,13 @@ augroup suckless
 	autocmd!
 	" autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
 	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
+" }}}
+
+" More autocmd {{{
+augroup more
+	autocmd InsertEnter * :setlocal nohlsearch
+	autocmd InsertLeave * :setlocal hlsearch
+augroup END
 " }}}
 
 " Functions {{{
