@@ -91,10 +91,6 @@ nnoremap <silent> <leader>T :execute "normal! T" . nr2char(strgetchar(getline('.
 vnoremap < <gv
 vnoremap > >gv
 
-" nnoremap <leader>sc :lclose<CR>
-" nnoremap <leader>sn :lnext<CR>
-" nnoremap <leader>sp :lprevious<CR>
-
 nnoremap <silent> <leader><space> :noh<cr>
 nnoremap <a-cr> o<esc>
 nnoremap <leader>x xp
@@ -108,16 +104,9 @@ inoremap <leader>u <esc>mzg~iwe`za
 " Usefull for C/C++ programing
 inoremap <c-e> <esc>mzA;<esc>`za
 
-" noremap <leader>- dd1kP
-" noremap <leader>_ ddp
-
 " buffer navigations
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bN :bp<CR>
-
-" tag navigations
-" nnoremap <leader>tn :tn<CR>
-" nnoremap <leader>tN :tp<CR>
 
 " make arrow keys usefull
 nnoremap <silent> <Up> :resize +2<CR>
@@ -127,13 +116,6 @@ nnoremap <silent> <Right> :vertical resize +2<CR>
 
 " Enable folding with the spacebar
 nnoremap <space> za
-" Smallest fold level
-" nnoremap <leader>fr :set foldlevel=1<CR>
-" Unfold
-" nnoremap <leader>fu :set foldlevel=2<CR>
-
-" TagBar
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
 "Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
@@ -144,8 +126,8 @@ nnoremap <silent> <leader>ee :Explore<CR>
 nnoremap <silent> <leader>le :Lexplore<bar>vertical resize 30<CR>
 
 " move block of code
-vnoremap J :m '>+1<cr>gv=gv
-vnoremap K :m '<-2<cr>gv=gv
+vnoremap J :move '>+1<cr>gv=gv
+vnoremap K :move '<-2<cr>gv=gv
 
 " Vim sessions
 " prepare command to create a new session
@@ -200,7 +182,6 @@ set inccommand=split
 " Tab to spaces
 set tabstop=2
 set shiftwidth=2
-" set expandtab
 
 " File fuzzy finding
 set path+=**
@@ -212,7 +193,8 @@ set showmatch
 " Better indentation
 set smartindent
 set cindent
-set cino=j1,(0,ws,Ws " Better C++ indentation of lambda function
+" Better C++ indentation of lambda function
+set cino=j1,(0,ws,Ws
 
 " Display trailing whitespace and tabs
 set list
