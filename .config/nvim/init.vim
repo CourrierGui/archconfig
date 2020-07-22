@@ -107,6 +107,7 @@ inoremap <c-e> <esc>mzA;<esc>`za
 " buffer navigations
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bN :bp<CR>
+nnoremap <silent> <leader>bs :b #<CR>
 
 " make arrow keys usefull
 nnoremap <silent> <Up> :resize +2<CR>
