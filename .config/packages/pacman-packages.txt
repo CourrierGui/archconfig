@@ -8,7 +8,6 @@ ctags
 cups
 cups-pdf
 dmenu
-doas
 doxygen
 dunst
 gcc
