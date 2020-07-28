@@ -1,0 +1,5 @@
+pfetch
+task-spooler
+lf
+brave-bin
+libxft-bgra
