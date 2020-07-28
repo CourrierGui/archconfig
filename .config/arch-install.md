@@ -130,8 +130,14 @@ reboot
 
 ```
 systemctl enable NetworkManager.service
-nmcli device wifi connect "ssid" password "passwd"
+nmcli device wifi connect "ssid" -a
 timedatectl set-ntp true
+```
+
+### doas
+
+```
+echo "permit guillaume as root" >> /etc/doas.conf
 ```
 
 ### sudo
@@ -216,7 +222,6 @@ Install libxft-bgra from aur (emoji): `yay -S libxft-bgra`
 
 ```
 sudo pacman -S patch man
-sudo make install && make clean
 ```
 
 If `makepkg` fails due to do a missing PGP key:
