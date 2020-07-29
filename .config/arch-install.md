@@ -87,6 +87,10 @@ Pacman hook:
 pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr
 ```
 
+```
+doas pacman -S git fakeroot reflector
+```
+
 ### Configuraton
 
 fstab: `genfstab -U /mnt >> /mnt/etc/fstab`
@@ -137,7 +141,8 @@ timedatectl set-ntp true
 ### doas
 
 ```
-echo "permit guillaume as root" >> /etc/doas.conf
+su root
+echo "permit persist guillaume as root" >> /etc/doas.conf
 ```
 
 ### sudo
@@ -190,7 +195,7 @@ and reboot.
 ## Xorg
 
 ```
-sudo pacman -S xorg-server xorg-init xorg-xev
+sudo pacman -S xorg-server xorg-xinit xorg-xev
 ```
 
 ### Setup
@@ -203,6 +208,7 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ```
 nvidia-390xx  nvidia-390xx-utils
+nvidia-xconfig
 ```
 
 ### Suckless
@@ -249,15 +255,15 @@ sudo make install && make clean
 ```
 
 ```
-create /etc/X11/Xwrapper.conf
-allower_users=anybody
-needs_root=yes
+create /etc/X11/Xwrapper.config
+allowed_users=anybody
+needs_root_rights=yes
 ```
 
 ## Sound
 
 ```
-sudo pacman -S alsamixer pamixer
+sudo pacman -S pulseaudio-alsa pamixer
 ```
 
 Select the correct sound card: `cat /proc/asound/cards`
@@ -313,7 +319,7 @@ makepkg -si
 ## Neovim
 
 ```
-sudo pacman -S neovim ctags node npm clang xclip
+sudo pacman -S neovim ctags nodejs npm clang xclip
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim --headless +PlugInstall +qa
 ```
@@ -410,7 +416,7 @@ mv nothing.zsh nothing.zsh-theme
 
 ## Dash
 
-Find files which could brake:
+Find files which could break:
 ```
 sudo pacman -S dash checkbashisms
 find /usr/bin/ -type f -perm -o=r -print0 | xargs -0 gawk '/^#!.*( |[/])sh/{printf "%s\0", FILENAME} {nextfile}' | xargs -0 checkbashisms
@@ -453,8 +459,6 @@ Install steam: `sudo pacman -S steam`
 ```
 sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ```
-
-
 
 ## Notifications
 
@@ -537,3 +541,5 @@ pip install numpy matplotlib
 
 **List installed packages:** `pacman -Qqe`
 **Install packages:** `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`
+
+Default wallpaper
