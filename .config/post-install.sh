@@ -1,11 +1,12 @@
-pacman_packages="/tmp/pacman"
-aur_packages="/tmp/aur"
-pip_packages="/tmp/pip"
+pacman_packages="/tmp/pacman.txt"
+aur_packages="/tmp/aur.txt"
+pip_packages="/tmp/pip.txt"
 user="guillaume"
 
-installpkg() { pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;}
-yayinstall() { yay -S --noconfirm "$1" >/dev/null 2>&1 ;}
-error() { clear; printf "ERROR: %s\\n" "$1"; exit;}
+installpkg() { doas pacman --noconfirm --needed -S "$1" >/dev/null 2>&1; }
+yayinstall() { yay -S --noconfirm "$1" >/dev/null 2>&1; }
+pipinstall() { yes | pip install $pkg >/dev/null 2>&1; }
+error() { printf "ERROR: %s\\n" "$1"; exit; }
 
 start() {
 	dialog --colors --title "Archlinux installation" \
@@ -14,9 +15,9 @@ start() {
 }
 
 download_package_lists() {
-	curl -o /tmp/pacman.txt "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pacman-packages.txt"
-	curl -o /tmp/aur.txt "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/aur-packages.txt"
-	curl -o /tmp/pip.txt "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pip-packages.txt"
+	curl -o $pacman_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pacman-packages.txt"
+	curl -o $aur_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/aur-packages.txt"
+	curl -o $pip_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pip-packages.txt"
 }
 
 setup_network () {
@@ -37,23 +38,26 @@ install_yay() {
 }
 
 install_config() {
-	alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 	echo ".cfg" >> .gitignore
 	git clone --bare https://github.com/CourrierGui/archconfig $HOME/.cfg
-	config checkout
-	config config --local status.showUntrackedFiles no
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
 }
 
 install_pacman() {
 	echo "Installing pacman packages..."
-	doas pacman -S --needed - < "$1"
+	while read pkg; do
+		echo $pkg
+		installpkg $pkg
+	done < "$1"
 	echo "Done."
 }
 
 install_aur() {
 	echo "Installing AUR packages..."
 	while read pkg; do
-		yay -S --noconfirm "$pkg" >/dev/null 2>&1
+		echo $pkg
+		yayinstall "$pkg"
 	done < "$1"
 	echo "Done."
 }
@@ -61,7 +65,8 @@ install_aur() {
 install_pip() {
 	echo "Installing pip packages..."
 	while read pkg; do
-		yes | pip install $pkg >/dev/null 2>&1
+		echo $pkg
+		pipinstall $pkg
 	done < "$1"
 	echo "Done."
 }
@@ -69,11 +74,11 @@ install_pip() {
 install_suckless() {
 	echo "Installing Suckless softwares..."
 	git clone https://github.com/CourrierGui/suckless ~/softwares/suckless
-	cd ~/softwares/suckless/dwm-6.2; doas make install && make clean
-	cd ../st; doas make install && make clean
-	cd ../dwmblocks; doas make install && make clean
-	cd ../surf; doas make install && make clean
-	doas printf "allower_users=anybody\\nneeds_root=yes" > /etc/X11/Xwrapper.conf
+	cd ~/softwares/suckless/dwm-6.2; make && doas make install && make clean
+	cd ../st; doas make install make && && make clean
+	cd ../dwmblocks; make && doas make install && make clean
+	cd ../surf; make && doas make install && make clean
+	doas printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf
 	echo "Done."
 }
 
@@ -86,7 +91,7 @@ neovim_config() {
 
 zsh_config() {
 	echo "Configuring zsh..."
-	chsh -s /usr/bin/zsh
+	doas chsh -s /usr/bin/zsh
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	git clone https://github.com/reobin/typewritten.git $ZSH_CUSTOM/themes/typewritten
 	ln -s "$ZSH_CUSTOM/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
@@ -97,29 +102,33 @@ zsh_config() {
 }
 
 touchpad() {
-	printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf
+	doas printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf
+}
+
+setup_mirrors() {
+	echo "Updating mirrorlist..."
+	doas cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
+	doas reflector --latest 100 --sort rate --save /etc/pacman.d/mirrorlist && rm /etc/pacman.d/mirrorlist-backup
+	echo "Done."
 }
 
 # start || error "Installation interrupted"
 # setup_network || error "Installation interrupted"
 
-echo "Installaion started!"
-echo "Updating mirrorlist..."
-doas cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
-doas reflector --latest 100 --sort rate --save /etc/pacman.d/mirrorlist && rm /etc/pacman.d/mirrorlist-backup
-echo "Done."
+echo "Installation started!"
 
-download_package_lists
-install_yay || error "Installation interrupted"
-install_config
-install_pacman $pacman_packages || error "Installation interrupted"
-install_aur $aur_packages || error "Installation interrupted"
-install_pip $pip_packages || error "Installation interrupted"
+setup_mirrors || error "Error while setting up mirrors."
 
-install_suckless
-neovim_config
-zsh_config
-touchpad
+download_package_lists || error "Error while downloading packge lists."
+install_yay || error "Error while installing yay."
+install_config || error "Error while installing config files."
+install_pacman $pacman_packages || error "Error while installing packages via pacman."
+install_aur $aur_packages || error "Error while installing AUR packages."
+install_pip $pip_packages || error "Error while installing packages via pip."
 
-clear
+install_suckless || error "Error while compiling/installing suckless utilities."
+neovim_config || error "Error while configuring Neovim."
+zsh_config || error "Error while configuring ZSH."
+touchpad || error "Error while configuring touchpad."
+
 echo "Installation finished!"
