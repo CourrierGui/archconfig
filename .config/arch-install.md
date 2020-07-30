@@ -38,6 +38,7 @@ set_network 0 psk "password"
 enable_network 0
 save_config
 quit
+dhcpcd wlan0
 ```
 
 ### Partitions
@@ -58,6 +59,7 @@ swapon /dev/sda3
 ```
 cryptsetup luksFormat /dev/sda4
 cryptsetup open /dev/sda4 home-guillaume
+mkfs.ext4 /dev/mapper/home-guillaume
 ```
 
 ### Mounting
@@ -65,7 +67,7 @@ cryptsetup open /dev/sda4 home-guillaume
 ```
 mount /dev/sda2 /mnt                                # /
 mkdir /mnt/boot
-mkdir -p /home/guillaume
+mkdir -p /mnt/home/guillaume
 mount /dev/sda1 /mnt/boot                           # mount /boot
 mount /dev/mapper/home-guillaume /mnt/home/guillame # mount /home/guillaume
 ```
@@ -84,32 +86,33 @@ Pacman hook:
 ### Install linux and basic packages
 
 ```
-pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr
-```
-
-```
-doas pacman -S git fakeroot reflector
+pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr sudo opendoas go git fakeroot reflector
 ```
 
 ### Configuraton
 
 fstab: `genfstab -U /mnt >> /mnt/etc/fstab`
 
-Become root: `arch-root /mnt`
+Become root: `arch-chroot /mnt`
 
 Basic setup:
 
 ```
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime #set timezone
 hwclock --systohc
-echo "locale-gen" >> /etc/locale.gen
+```
+
+Uncomment `fr_FR.UTF-8 UTF-8` in `/etc/locale.gen` then run `locale-gen`.
+
+```
 echo "KEYMAP=fr-latin1" >> /etc/vconsole.conf
+echo "LANG=fr_FR.UTF-8" >> /etc/locale.conf
 echo "hostname" >> /etc/hostname
 passwd
 useradd -m guillaume
 passwd guillaume
-chown guillaume /mnt/home/guillaume
-chgrp guillaume /mnt/home/guillaume
+chown guillaume /home/guillaume
+chgrp guillaume /home/guillaume
 mkinitcpio -P
 ```
 
