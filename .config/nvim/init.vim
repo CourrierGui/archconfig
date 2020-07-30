@@ -66,6 +66,12 @@ nnoremap 0 g0
 nnoremap ^ g^
 nnoremap $ g$
 
+" Place cursor at the middle of the screen after search
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+
 " Execute current line with your shell interpreter and paste result in buffer
 nnoremap Q !!$SHELL<CR>
 
@@ -163,6 +169,9 @@ cnoremap <c-k>		<Up>
 cnoremap <c-b>	  <S-Left>
 " forward one word
 cnoremap <c-w>	  <S-Right>
+
+" Root permission inside of vim
+cmap w!! w !sudo tee >/dev/null %
 
 " }}}
 
