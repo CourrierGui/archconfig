@@ -17,6 +17,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
+Plug 'lambdalisue/suda.vim'
 
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
@@ -170,8 +171,8 @@ cnoremap <c-b>	  <S-Left>
 " forward one word
 cnoremap <c-w>	  <S-Right>
 
-" Root permission inside of vim
-cmap w!! w !sudo tee >/dev/null %
+" Root permission inside of neovim, why Neovim ? :-(
+command! W :w suda://%
 
 " }}}
 
@@ -311,7 +312,8 @@ augroup suckless
 " }}}
 
 " More autocmd {{{
-augroup more
+augroup more_autocmd
+	autocmd!
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
 augroup END
