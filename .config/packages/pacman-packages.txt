@@ -9,7 +9,6 @@ cups-pdf
 dmenu
 doxygen
 dunst
-gcc
 gnuplot
 graphviz
 gtop
@@ -19,14 +18,13 @@ keepassxc
 krita
 libxcb
 libxinerama
-make
 man
 mpv
 mupdf
 neovim
 newsboat
 nodejs
-notify-send
+libnotify
 npm
 nss-mdns
 openssh

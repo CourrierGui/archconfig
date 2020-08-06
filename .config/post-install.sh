@@ -14,6 +14,12 @@ start() {
 		--yesno "You have to be root to continue.\nDo you want to proceed to the installation ?" 0 0
 }
 
+update() {
+	echo "System update..."
+	doas pacman -Syyu >/dev/null 2>&1 || error "Error while updating system."
+	echo "Done."
+}
+
 download_package_lists() {
 	curl -o $pacman_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pacman-packages.txt"
 	curl -o $aur_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/aur-packages.txt"
@@ -40,7 +46,7 @@ install_yay() {
 install_config() {
 	echo ".cfg" >> .gitignore
 	git clone --bare https://github.com/CourrierGui/archconfig $HOME/.cfg
-	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout -f
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
 }
 
@@ -75,7 +81,7 @@ install_suckless() {
 	echo "Installing Suckless softwares..."
 	git clone https://github.com/CourrierGui/suckless ~/softwares/suckless
 	cd ~/softwares/suckless/dwm-6.2; make && doas make install && make clean
-	cd ../st; doas make install make && && make clean
+	cd ../st; make && doas make install && make clean
 	cd ../dwmblocks; make && doas make install && make clean
 	cd ../surf; make && doas make install && make clean
 	doas printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf
@@ -122,7 +128,7 @@ echo "Installation started!"
 
 setup_mirrors || error "Error while setting up mirrors."
 
-download_package_lists || error "Error while downloading packge lists."
+download_package_lists || error "Error while downloading package lists."
 install_yay || error "Error while installing yay."
 install_config || error "Error while installing config files."
 install_pacman $pacman_packages || error "Error while installing packages via pacman."

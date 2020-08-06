@@ -86,7 +86,7 @@ Pacman hook:
 ### Install linux and basic packages
 
 ```
-pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr sudo opendoas go git fakeroot reflector
+pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr sudo opendoas go git fakeroot reflector binutils make gcc
 ```
 
 ### Configuraton
@@ -466,7 +466,7 @@ sudo pacman -S zathura zathura-pdf-mupdf zathura-djvu
 ## Notifications
 
 ```
-sudo pacman -S notify-send dunst
+sudo pacman -S libnotify dunst
 mkdir ~/.config/dunst
 cp /usr/share/dunst/dunstrc .config/dunst
 ```
@@ -543,6 +543,26 @@ pip install numpy matplotlib
 # Install script
 
 **List installed packages:** `pacman -Qqe`
+
 **Install packages:** `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`
 
-Default wallpaper
+```
+su root
+echo "permit persist guillaume as root" >> /etc/doas.conf
+echo "guillaume ALL=(ALL) ALL" >> /etc/sudoers
+exit
+```
+
+```
+doas systemctl enable NetworkManager.service
+doas systemctl start NetworkManager.service
+nmcli device wifi connect "ssid" -a
+timedatectl set-ntp true
+```
+
+```
+mkdir -p ~/.config
+curl -o ~/.config/post-install.sh https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/post-install.sh
+chmod u+x ~/.config/post-install.sh
+./~/.config/post-install.sh
+```
