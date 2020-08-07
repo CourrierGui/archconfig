@@ -108,7 +108,7 @@ zsh_config() {
 }
 
 final_touch() {
-	doas printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf
+	doas sh -c 'printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf'
 	mkdir -p .config/dwm
 	mkdir -p .config/nvim/sessions
 	touch .config/dwm/log.txt

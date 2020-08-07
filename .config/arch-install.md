@@ -564,5 +564,5 @@ timedatectl set-ntp true
 mkdir -p ~/.config
 curl -o ~/.config/post-install.sh https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/post-install.sh
 chmod u+x ~/.config/post-install.sh
-./~/.config/post-install.sh
+./.config/post-install.sh
 ```
