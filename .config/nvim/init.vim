@@ -43,7 +43,7 @@ noremap <leader>p "+P`[v`]=
 nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
-nnoremap <leader>ws :%s/\v\s+$//<cr>:noh<cr>
+nnoremap <silent> <leader>ws mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
