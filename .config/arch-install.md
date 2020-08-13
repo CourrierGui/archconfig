@@ -207,12 +207,16 @@ sudo pacman -S xorg-server xorg-xinit xorg-xev
 sudo pacman -S xf86-video-intel fakeroot
 ```
 
-### Intel graphics driver
+### NVIDIA graphics driver
 
 ```
 nvidia-390xx  nvidia-390xx-utils
 nvidia-xconfig
 ```
+
+Add `BusID "PCI:1:0:0"` in the `Device` block in `/etc/X11/xorg.conf`.
+
+
 
 ### Suckless
 
