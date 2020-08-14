@@ -1,6 +1,8 @@
+adobe-source-code-pro-fonts
 autoconf
 automake
 avahi
+boost
 clang
 cmake
 ctags
@@ -16,6 +18,7 @@ htop
 imagemagick
 keepassxc
 krita
+libnotify
 libxcb
 libxinerama
 man
@@ -24,7 +27,6 @@ mupdf
 neovim
 newsboat
 nodejs
-libnotify
 npm
 nss-mdns
 openssh
@@ -52,6 +54,7 @@ thunderbird-i18n-fr
 tmux
 tree
 ttf-joypixels
+ttf-linux-libertine
 udisks2
 usbutils
 valgrind
