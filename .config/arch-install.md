@@ -210,7 +210,8 @@ sudo pacman -S xf86-video-intel fakeroot
 ### NVIDIA graphics driver
 
 ```
-nvidia-390xx  nvidia-390xx-utils
+yay -Snvidia-390xx-drm  nvidia-390xx-utils
+doas pacman -S xf86-video-intel mesa
 nvidia-xconfig
 ```
 
@@ -529,7 +530,7 @@ lpq # see print queue
 ### Standard repos
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
 ```
 
 ### AUR
