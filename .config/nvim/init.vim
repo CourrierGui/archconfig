@@ -316,10 +316,15 @@ augroup more_autocmd
 	autocmd!
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
+	autocmd BufNewFile,BufRead * nnoremap <silent> <localleader>c :silent make unsilent echo "Done."<CR>
 augroup END
 " }}}
 
 " Functions {{{
+
+function! EchoDone(job_id, data, event)
+	echo "Job done!"
+endfunction
 
 function! SwitchHeader(cmd)
 	let filename = expand("%:t:r")
