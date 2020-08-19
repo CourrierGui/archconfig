@@ -99,8 +99,8 @@ zsh_config() {
 	echo "Configuring zsh..."
 	doas chsh -s /usr/bin/zsh
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/reobin/typewritten.git $ZSH_CUSTOM/themes/typewritten
-	ln -s "$ZSH_CUSTOM/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
+	git clone https://github.com/reobin/typewritten.git "$HOME/.oh-my-zsh/custom/themes/typewritten"
+	ln -sf "$HOME/.oh-my-zsh/custom/themes/typewritten/typewritten.zsh-theme" "$HOME/.oh-my-zsh/themes/typewritten.zsh-theme"
 	wget https://raw.githubusercontent.com/dikiaap/dotfiles/master/.oh-my-zsh/themes/oxide.zsh-theme
 	bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
 	wget -O ~/.oh-my-zsh/themes/nothing.zsh-theme https://raw.githubusercontent.com/eendroroy/nothing/master/nothing.zsh
@@ -108,7 +108,7 @@ zsh_config() {
 }
 
 final_touch() {
-	doas printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf
+	doas sh -c 'printf "Section \"InputClass\"\\n\tIdentifier \"touchpad catchall\"\\n\tDriver \"libinput\"\\n\tOption \"Tapping\" \"on\"\\nEndSection" > /etc/X11/xorg.conf.d/30-touchpad.conf'
 	mkdir -p .config/dwm
 	mkdir -p .config/nvim/sessions
 	touch .config/dwm/log.txt
@@ -138,6 +138,6 @@ install_pip $pip_packages || error "Error while installing packages via pip."
 install_suckless || error "Error while compiling/installing suckless utilities."
 neovim_config || error "Error while configuring Neovim."
 zsh_config || error "Error while configuring ZSH."
-touchpad || error "Error while configuring touchpad."
+final_touch || error "Error while finalizing installation."
 
 echo "Installation finished!"
