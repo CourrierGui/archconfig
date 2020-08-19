@@ -65,6 +65,7 @@ xcompmgr
 xf86-input-libinput
 xf86-input-wacom
 xorg-server
+xorg-xbacklight
 xorg-xev
 xorg-xinit
 xorg-xinput
@@ -73,4 +74,5 @@ youtube-dl
 zathura
 zathura-djvu
 zathura-pdf-mupdf
+unzip
 zsh
