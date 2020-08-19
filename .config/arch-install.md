@@ -547,6 +547,17 @@ yay -S pfetch task-spooler lf brave-bin
 pip install numpy matplotlib
 ```
 
+### C++ libraries
+
+**pacman:** boost glfw-x11 glm freetype2 assimp
+**AUR:** libcurlpp
+
+### ROS
+
+```
+yay -S ros-melodic-ros-base ros-melodic-pcl-ros ros-melodic-pcl-conversions ros-melodic-pcl-msgs
+```
+
 # Install script
 
 **List installed packages:** `pacman -Qqe`
