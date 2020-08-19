@@ -3,6 +3,7 @@ export EDITOR="nvim"
 export TERMINAL="st"
 export BROWSER="brave"
 export READER="zathura"
+# export QT_SCALE_FACTOR=1.0
 
 # This is the list for lf icons:
 export LF_ICONS="di=📁:\
