@@ -207,12 +207,19 @@ sudo pacman -S xorg-server xorg-xinit xorg-xev
 sudo pacman -S xf86-video-intel fakeroot
 ```
 
-### Intel graphics driver
+### NVIDIA graphics driver
 
 ```
-nvidia-390xx  nvidia-390xx-utils
+yay -Snvidia-390xx-drm  nvidia-390xx-utils
+doas pacman -S mesa xf86-video-intel
 nvidia-xconfig
 ```
+
+Get the display size with `xrandr` add `DisplaySize 280 160` to `/etc/X11/xorg.conf` in the `Monitor` section and comment every other fields exept `Identifier`.
+
+Add `BusID "PCI:1:0:0"` in the `Device` block in `/etc/X11/xorg.conf`.
+
+
 
 ### Suckless
 
@@ -525,7 +532,7 @@ lpq # see print queue
 ### Standard repos
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
 ```
 
 ### AUR
@@ -538,6 +545,17 @@ yay -S pfetch task-spooler lf brave-bin
 
 ```
 pip install numpy matplotlib
+```
+
+### C++ libraries
+
+**pacman:** boost glfw-x11 glm freetype2 assimp
+**AUR:** libcurlpp
+
+### ROS
+
+```
+yay -S ros-melodic-ros-base ros-melodic-pcl-ros ros-melodic-pcl-conversions ros-melodic-pcl-msgs
 ```
 
 # Install script
@@ -564,5 +582,5 @@ timedatectl set-ntp true
 mkdir -p ~/.config
 curl -o ~/.config/post-install.sh https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/post-install.sh
 chmod u+x ~/.config/post-install.sh
-./~/.config/post-install.sh
+./.config/post-install.sh
 ```

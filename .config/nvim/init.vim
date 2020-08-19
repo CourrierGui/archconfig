@@ -43,7 +43,7 @@ noremap <leader>p "+P`[v`]=
 nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
-nnoremap <leader>ws :%s/\v\s+$//<cr>:noh<cr>
+nnoremap <silent> <leader>ws mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -317,10 +317,15 @@ augroup more_autocmd
 	autocmd!
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
+	autocmd BufNewFile,BufRead * nnoremap <silent> <localleader>c :silent make unsilent echo "Done."<CR>
 augroup END
 " }}}
 
 " Functions {{{
+
+function! EchoDone(job_id, data, event)
+	echo "Job done!"
+endfunction
 
 function! SwitchHeader(cmd)
 	let filename = expand("%:t:r")

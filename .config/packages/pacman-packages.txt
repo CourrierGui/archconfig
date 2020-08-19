@@ -1,6 +1,8 @@
+adobe-source-code-pro-fonts
 autoconf
 automake
 avahi
+boost
 clang
 cmake
 ctags
@@ -16,6 +18,7 @@ htop
 imagemagick
 keepassxc
 krita
+libnotify
 libxcb
 libxinerama
 man
@@ -24,7 +27,6 @@ mupdf
 neovim
 newsboat
 nodejs
-libnotify
 npm
 nss-mdns
 openssh
@@ -52,6 +54,7 @@ thunderbird-i18n-fr
 tmux
 tree
 ttf-joypixels
+ttf-linux-libertine
 udisks2
 usbutils
 valgrind
@@ -62,6 +65,7 @@ xcompmgr
 xf86-input-libinput
 xf86-input-wacom
 xorg-server
+xorg-xbacklight
 xorg-xev
 xorg-xinit
 xorg-xinput
@@ -70,4 +74,5 @@ youtube-dl
 zathura
 zathura-djvu
 zathura-pdf-mupdf
+unzip
 zsh
