@@ -2,7 +2,6 @@
 
 csum=$(sha1sum $(which dwm))
 
-dwmblocks&
 dwm 2>> ~/.config/dwm/log.txt
 new_csum="$(sha1sum $(which dwm))"
 
