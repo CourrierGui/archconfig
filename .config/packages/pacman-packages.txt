@@ -41,6 +41,7 @@ pulseaudio-alsa
 python-dbus
 python-gobject
 python-matplotlib
+python-neovim
 python-pip
 python-pywal
 recordmydesktop
