@@ -125,7 +125,11 @@ nnoremap <silent> <Right> :vertical resize +2<CR>
 " Enable folding with the spacebar
 nnoremap <space> za
 
-"Editing and sourcing ~/.vimrc
+" Move to file directory
+nnoremap <silent> <leader>cd :cd %:p:h<cr>
+nnoremap <silent> <leader>.. :cd ..<cr>
+
+" Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
 
@@ -249,7 +253,31 @@ inoremap <silent><expr> <Tab>
 			\ coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-let g:coc_global_extensions=["coc-julia", "coc-vimtex", "coc-clangd", "coc-python"]
+" inoremap <silent><expr> <TAB>
+" 			\ pumvisible() ? coc#_select_confirm() :
+" 			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+" 			\ <SID>check_back_space() ? "\<TAB>" :
+" 			\ coc#refresh()
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-l> <Plug>(coc-snippets-select)
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+let g:coc_global_extensions=[
+	\ "coc-julia",
+	\ "coc-vimtex",
+	\ "coc-clangd",
+	\ "coc-python",
+	\ "coc-snippets"
+	\ ]
 
 " Switch between header and source file
 nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
