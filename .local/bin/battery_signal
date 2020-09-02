@@ -1,0 +1,39 @@
+#!/bin/sh
+
+dir="/sys/class/power_supply/BAT0"
+capacity=$(cat "$dir"/capacity)
+status=$(cat "$dir"/status)
+threshold=25
+
+charging=false
+can_send=true
+sent=false
+
+if [ $status = "Charging" ]
+then
+	charging=true
+fi
+
+while :
+do
+	if [ $capacity -le $threshold -a $charging = false -a $can_send = true ]
+	then
+		notify-send -u critical -t 4000 "Low Battery!"
+		can_send=false
+		sent=true
+	fi
+
+	if [ $capacity -le $(($threshold-10)) -a $charging = false -a $sent = true ]
+	then
+		notify-send -u critical -t 4000 "Low Battery!!!"
+		sent=false
+	fi
+
+	if [ $(cat "$dir"/status) = "Charging" -a $charging = false ]
+	then
+		charging=true
+	fi
+
+	capacity=$(cat "$dir"/capacity)
+	sleep 5
+done

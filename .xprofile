@@ -6,5 +6,6 @@ dwmblocks &
 dunst &
 xcompmgr &
 remaps &
+battery_signal &
 # wal -R &
 xwallpaper --zoom ~/.config/wall.png &
