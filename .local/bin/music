@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ls /home/guillaume/Music | dmenu -l 10 | sed -e 's/ /\\ /g' | xargs printf '/home/guillaume/Music/%s' | sed -e 's/ /\\ /g' | xargs setsid -f mpv
