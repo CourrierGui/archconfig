@@ -1,0 +1,50 @@
+#!/bin/sh
+
+pause() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		echo '{ "command": ["cycle", "pause"] }' | socat - "$i" >/dev/null
+	done
+}
+
+next() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		echo '{ "command": ["playlist-next", "force"] }' | socat - "$i" >/dev/null
+	done
+}
+
+prev() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		echo '{ "command": ["playlist-prev", "force"] }' | socat - "$i" >/dev/null
+	done
+}
+
+stop() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		echo '{ "command": ["quit"] }' | socat - "$i" >/dev/null
+	done
+}
+
+list() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		list=$(echo '{ "command": ["get_property", "playlist"] }'\
+			| socat - "$i"\
+			| jq '.data[] | .filename | .'\
+			| xargs printf "%s\n"\
+			| awk '{ print NR,$0 }')
+
+		file=$(echo "$list" | dmenu -l 10 | awk '{ print $1 }')
+
+		printf '{ "command": ["set_property", "playlist-pos-1", %d] }\n' "$file"\
+			| socat - "$i" >/dev/null
+	done
+}
+
+case "$1" in
+	pause) pause ;;
+	next) next ;;
+	prev) prev ;;
+	start) music ;;
+	stop) stop ;;
+	list) list ;;
+	*) echo "Unknown command" && notify-send -u normal "Unknown command for mpvdo!";;
+esac

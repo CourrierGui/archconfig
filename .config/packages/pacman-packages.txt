@@ -16,6 +16,7 @@ graphviz
 gtop
 htop
 imagemagick
+jq
 keepassxc
 krita
 libnotify
@@ -57,6 +58,7 @@ tree
 ttf-joypixels
 ttf-linux-libertine
 udisks2
+unzip
 usbutils
 valgrind
 wget
@@ -75,5 +77,4 @@ youtube-dl
 zathura
 zathura-djvu
 zathura-pdf-mupdf
-unzip
 zsh
