@@ -1,3 +1,43 @@
 #!/bin/sh
 
-ls /home/guillaume/Music | dmenu -l 10 | sed -e 's/ /\\ /g' | xargs printf '/home/guillaume/Music/%s' | sed -e 's/ /\\ /g' | xargs setsid -f mpv
+escape() {
+	echo "$1" | sed -e 's/ /\\ /g'
+}
+
+start_mpv() {
+	setsid -f mpv --shuffle "$1"
+}
+
+list_files() {
+	echo "All Tracks\n$(ls "$1")"
+}
+
+dir=$(list_files /home/guillaume/Music | dmenu -l 10)
+
+if [ "$dir" = "All Tracks" ]
+then
+	start_mpv /home/guillaume/Music
+	exit
+fi
+
+dir="/home/guillaume/Music/$dir"
+file="$dir"
+
+if [ -d "$dir" ]
+then
+	album=$(list_files "$dir" | dmenu -l 10)
+	if [ "$album" = "All Tracks" ]
+	then
+		start_mpv "$dir"
+		exit
+	fi
+
+	if [ -d "$album" ]
+	then
+		echo "This is an album"
+	else
+		start_mpv "$dir/$album"
+	fi
+else
+	start_mpv "$dir"
+fi
