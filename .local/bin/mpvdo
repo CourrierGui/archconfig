@@ -1,7 +1,19 @@
 #!/bin/sh
 
 start_mpv() {
-	setsid -f mpv --shuffle "$1"
+	if [ -f "$1" ]
+	then
+		file="$1"
+		ext="${file##*.}"
+		if [ "$ext" = "txt" ]
+		then
+			setsid -f mpv --shuffle --playlist="$1"
+		else
+			setsid -f mpv --shuffle "$1"
+		fi
+	else
+		setsid -f mpv --shuffle "$1"
+	fi
 	exit
 }
 
