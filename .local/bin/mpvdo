@@ -1,20 +1,55 @@
 #!/bin/sh
 
+start_mpv() {
+	setsid -f mpv --shuffle "$1"
+	exit
+}
+
+read_input() {
+	dir=$(echo "All Tracks\n$(ls "$1")" | dmenu -l 10)
+	[ "$dir" = "All Tracks" ] && echo "$1" && return 0
+	[ "$dir" = "" ] && exit
+
+	dir="$1/$dir"
+
+	if [ -d "$dir" ]
+	then
+		read_input "$dir"
+	else
+		echo "$dir"
+	fi
+}
+
+start() {
+	start_mpv "$(read_input "$1")"
+}
+
+add() {
+	for i in $(ls /tmp/mpvSockets/*); do
+		file=$(read_input "$1")
+		printf '{ "command": ["loadfile", "%s", "append"] }\n' "$file"\
+			| socat - "$i" >/dev/null
+	done
+}
+
 pause() {
 	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["cycle", "pause"] }' | socat - "$i" >/dev/null
+		echo '{ "command": ["cycle", "pause"] }'\
+			| socat - "$i" >/dev/null
 	done
 }
 
 next() {
 	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["playlist-next", "force"] }' | socat - "$i" >/dev/null
+		echo '{ "command": ["playlist-next", "force"] }'\
+			| socat - "$i" >/dev/null
 	done
 }
 
 prev() {
 	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["playlist-prev", "force"] }' | socat - "$i" >/dev/null
+		echo '{ "command": ["playlist-prev", "force"] }'\
+			| socat - "$i" >/dev/null
 	done
 }
 
@@ -43,8 +78,9 @@ case "$1" in
 	pause) pause ;;
 	next) next ;;
 	prev) prev ;;
-	start) music ;;
+	start) start "/home/guillaume/Music" ;;
 	stop) stop ;;
 	list) list ;;
+	add) add "/home/guillaume/Music" ;;
 	*) echo "Unknown command" && notify-send -u normal "Unknown command for mpvdo!";;
 esac
