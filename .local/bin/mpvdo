@@ -3,6 +3,8 @@
 # TODO specific socket for music
 # TODO either remove "All Tracks" for playlists or enable the possibilty of playing all playlists
 # TODO add current music to a playlist
+# TODO --save-position-on-quit or config file
+# TODO see mpv config file
 
 start_mpv() {
 	if [ -f "$1" ]
@@ -115,15 +117,44 @@ playlist() {
 	done
 }
 
+show() {
+	# TODO do this automaticaly when the file changes ?
+	for i in $(ls /tmp/mpvSockets/*); do
+		current_music=$(echo '{ "command": ["get_property", "filename"] }'\
+			| socat - "$i"\
+			| jq .data\
+			| sed 's/^"//;s/"$//')
+
+		notify-send -u low "${current_music%.*}"
+	done
+}
+
+help() {
+	echo "Usage:"
+	echo "  -h|help    show this help"
+	echo "  start      start an instance of mpv with the selected files"
+	echo "  add        add files to the current playlist"
+	echo "  playlist   add the current track to the choosen playlist"
+	echo "  pause      pause all instances of mpv"
+	echo "  play       start all instances of mpv"
+	echo "  prev       play the previous file in the playlist"
+	echo "  next       play the next file in the playlist"
+	echo "  stop       stop all instances of mpv"
+	echo "  list       display the list of files in the playlist to choose from"
+	echo "  show       display the name of the current file played"
+}
+
 case "$1" in
-	pause) pause ;;
-	play) play ;;
-	next) next ;;
-	prev) prev ;;
-	start) start "/home/guillaume/Music" ;;
-	stop) stop ;;
-	list) list ;;
-	add) add "/home/guillaume/Music" ;;
+	start)    start "/home/guillaume/Music" ;;
+	add)      add "/home/guillaume/Music" ;;
 	playlist) playlist "/home/guillaume/Music/playlist";;
+	pause)    pause ;;
+	play)     play ;;
+	prev)     prev ;;
+	next)     next ;;
+	stop)     stop ;;
+	list)     list ;;
+	show)     show ;;
+	-h|help)  help ;;
 	*) echo "Unknown command" && notify-send -u normal "Unknown command for mpvdo!";;
 esac
