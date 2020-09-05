@@ -289,7 +289,7 @@ let g:vimtex_compiler_progname = 'nvr'
 let g:tex_flavor = 'latex'
 
 " colorscheme zenburn
-colorscheme dracula
+" colorscheme dracula
 " colorscheme gotham
 
 " }}}
