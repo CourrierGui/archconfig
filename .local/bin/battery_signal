@@ -32,6 +32,8 @@ do
 	if [ $(cat "$dir"/status) = "Charging" ]
 	then
 		charging=true
+		can_send=true
+		sent=false
 	else
 		charging=false
 	fi
