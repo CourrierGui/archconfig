@@ -11,6 +11,7 @@ cups-pdf
 dmenu
 doxygen
 dunst
+fuse2
 gnuplot
 graphviz
 gtop

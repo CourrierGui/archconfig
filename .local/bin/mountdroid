@@ -1,0 +1,28 @@
+#!/bin/sh
+dir=$HOME/Documents/cell
+
+# Make the cell directory if it doesn't exist
+if [ ! -d "$dir" ]; then
+	mkdir -p "$dir"
+fi
+
+# Select device
+devices=$(simple-mtpfs -l)
+
+if [ ! -n "$devices" ]; then
+	notify-send "No devices found"
+	exit
+else
+	device=$(echo "$devices" | dmenu -p "Select device:" || notify-send "No device selected")
+	id=${device%%:*}
+	phone=${device##*: }
+	if [ ! -d "$dir/$phone" ]; then
+		mkdir "$dir/$phone"
+	fi
+fi
+
+if [ ! -n "$(find "$dir/$phone" -maxdepth 0 -empty)" ]; then
+	fusermount -u "$dir/$phone" && notify-send "Android Mount" "device Unmounted"
+else
+	simple-mtpfs --device "$id" "$dir/$phone" && notify-send "Android Mount" "device Mounted in $dir/$phone"
+fi
