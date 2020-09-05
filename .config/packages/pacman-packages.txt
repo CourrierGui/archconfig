@@ -55,6 +55,7 @@ texlive-most
 thunderbird
 thunderbird-i18n-fr
 tmux
+tmuxp
 tree
 ttf-joypixels
 ttf-linux-libertine
