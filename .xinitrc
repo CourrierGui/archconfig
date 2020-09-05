@@ -2,6 +2,6 @@
 
 xrandr --auto
 
-[ -f "/home/guillaume/.xprofile" ] && . "/home/guillaume/.xprofile"
+[ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
 
 exec ~/.local/bin/startdwm

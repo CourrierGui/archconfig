@@ -22,3 +22,7 @@
 * `set`:
 	* ` -g`: global, every session, window and pane;
 	* ` -w`: window specific;
+
+# Qt display issues
+
+`export QT_SCALE_FACTOR=1.0`
