@@ -130,8 +130,8 @@ show() {
 }
 
 help() {
-	echo "Usage:"
-	echo "  -h|help    show this help"
+	echo "mpvdo: [-h|help]"
+	echo ""
 	echo "  start      start an instance of mpv with the selected files"
 	echo "  add        add files to the current playlist"
 	echo "  playlist   add the current track to the choosen playlist"
