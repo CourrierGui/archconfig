@@ -1,7 +1,8 @@
 # Aliases
 alias config='/usr/bin/git --git-dir=/home/guillaume/.cfg/ --work-tree=/home/guillaume'
 
-alias ll='ls -alF --color=auto'
+alias ls='ls --color=auto'
+alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias cp='cp -iv'
