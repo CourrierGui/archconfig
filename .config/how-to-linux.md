@@ -26,3 +26,7 @@
 # Qt display issues
 
 `export QT_SCALE_FACTOR=1.0`
+
+# diff
+
+`diff -r A B`: list the files which are only in A or B ainsi que les fichiers qui sont différents;
