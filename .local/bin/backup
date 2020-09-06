@@ -1,0 +1,73 @@
+#!/bin/sh
+# system backup
+
+# Backup destination
+
+help_message="Usage: [-h|--help]
+
+  -r|--root         root of the file tree to backup
+  -d|destination    directory where the backup will be saved
+  -p|--prefix       prefix put in the name of the final backup
+	-e|--exclude      file containing files to ignore (optional)
+"
+
+# --slice 620M --first-slice 600M
+
+# compress "$root_dir" "$destination/$prefix-$date" "$exclude"
+compress() {
+	dar --execute "par2 c -r5 \"%p/%b.%n.par2\" \"%p/%b.%n.%e\"" \
+		--alter=atime --empty-dir --fs-root "$1" --noconf          \
+		--create "$2/backup" -z6 -an -Z "*.ogg" -Z "*.avi"         \
+		-Z "*.mp?" -Z "*.pk3" -Z "*.flac" -Z "*.zip" -Z "*.tgz"    \
+		-Z "*.gz" -Z "*.gzip" -Z "*.bz2" -Z "*.bzip2" -Z "*.mov"   \
+		-Z "*.r" --exclude-from-file "$3" -v --prune "$2"
+}
+
+while [ $# -gt 0 ]
+do
+	arg="$1"
+	case $arg in
+		-r|--root)
+			shift
+			root_dir="$1"
+			shift ;;
+		-d|--destination)
+			shift
+			destination="$1"
+			shift ;;
+		-p|--prefix)
+			shift
+			prefix="$1"
+			shift ;;
+		-e|--exclude-file)
+			shift
+			exclude="$1"
+			shift ;;
+		-h|--help)
+			echo "$help_message"
+			shift
+			exit ;;
+	esac
+done
+
+date=$(date "+%F")
+echo "
+System backup:
+
+File tree: $root_dir
+Destination: $destination/backups/$prefix-$date
+Exclude file: $exclude
+"
+
+
+read -p "Do you want to continue ? [y/N]" continue
+
+if [ $continue = y ]
+then
+	[ -d "$destination/backups/$prefix-$date" ]\
+		|| mkdir -p "$destination/backups/$prefix-$date"
+	compress "$root_dir" "$destination/backups/$prefix-$date" "$exclude"
+else
+	echo "Aborted by user"
+	exit
+fi
