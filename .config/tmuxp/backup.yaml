@@ -1,0 +1,15 @@
+session_name: backup
+start_directory: /home/guillaume
+windows:
+  - window_name: backup
+    focus: True
+    layout: main-vertical
+    options:
+      main-pane-width: 100
+    panes:
+      - shell_command:
+        - clear
+        - backup -h
+        focus: true
+      - watch -d -c -n 0.5 lsblk -f
+      - watch -d -c -n 0.5 ls -sh /home/guillaume

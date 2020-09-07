@@ -1,4 +1,5 @@
 export PATH=$PATH:~/.local/bin:~/.local/bin/statusbar
+export DISABLE_AUTO_TITLE='true'
 
 # XDG config
 export XDG_CONFIG_HOME="$HOME/.config"
