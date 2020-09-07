@@ -8,7 +8,7 @@ help_message="Usage: [-h|--help]
   -r|--root         root of the file tree to backup
   -d|destination    directory where the backup will be saved
   -p|--prefix       prefix put in the name of the final backup
-	-e|--exclude      file containing files to ignore (optional)
+  -e|--exclude      file containing files to ignore (optional)
 "
 
 # --slice 620M --first-slice 600M
@@ -20,7 +20,7 @@ compress() {
 		--create "$2/backup" -z6 -an -Z "*.ogg" -Z "*.avi"         \
 		-Z "*.mp?" -Z "*.pk3" -Z "*.flac" -Z "*.zip" -Z "*.tgz"    \
 		-Z "*.gz" -Z "*.gzip" -Z "*.bz2" -Z "*.bzip2" -Z "*.mov"   \
-		-Z "*.r" --exclude-from-file "$3" -v --prune "$2"
+		-Z "*.r" --exclude-from-file "$3" -v -X "backup.*.dar"
 }
 
 while [ $# -gt 0 ]
