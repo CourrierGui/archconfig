@@ -6,7 +6,7 @@
 help_message="Usage: [-h|--help]
 
   -r|--root         root of the file tree to backup
-  -d|destination    directory where the backup will be saved
+  -d|--destination  directory where the backup will be saved
   -p|--prefix       prefix put in the name of the final backup
   -e|--exclude      file containing files to ignore (optional)
 "
