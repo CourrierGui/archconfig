@@ -5,6 +5,7 @@ call plug#begin()
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'Yggdroot/indentLine'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -30,7 +31,6 @@ call plug#end()
 " }}}
 
 " Mappings {{{
-
 let mapleader = ","
 let localmapleader = "\\"
 nnoremap <leader>, ,
@@ -213,8 +213,9 @@ set cino=j1,(0,ws,Ws
 
 " Display trailing whitespace and tabs
 set list
-set listchars=tab:\ \ ,trail:·
-" set listchars=tab:»·,trail:·
+" set listchars=tab:\|\ ,trail:·
+set listchars=eol:↓,tab:┊\ \ ,trail:·,extends:…,precedes:…
+
 
 " french and english spelling
 set spelllang=en,fr
@@ -222,6 +223,11 @@ set spelllang=en,fr
 " }}}
 
 " Plugin options {{{
+
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+" let g:indentLine_concealcursor = 'inc'
+" let g:indentLine_conceallevel = 1
+" let g:indentLine_enabled = 1
 
 " vim-markdown
 " set default markdown fold level
@@ -291,6 +297,34 @@ let g:tex_flavor = 'latex'
 " colorscheme zenburn
 " colorscheme dracula
 " colorscheme gotham
+
+" set t_Co=256
+" syntax on
+" colorscheme minimalist
+
+" set background=dark
+" colorscheme PaperColor"
+
+" let g:PaperColor_Theme_Options = {
+" 			\   'theme': {
+" 			\     'default': {
+" 			\       'transparent_background': 1
+" 			\     }
+" 			\   }
+" 			\ }
+
+" if (has("autocmd") && !has("gui_running"))
+" 	augroup colorset
+" 		autocmd!
+" 		let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+" 		autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+" 	augroup END
+" endif
+
+" syntax on
+" colorscheme onedark
+
+colorscheme nord
 
 " }}}
 
