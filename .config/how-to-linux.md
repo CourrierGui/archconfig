@@ -1,7 +1,7 @@
 # Age of the installation
 
-* `l -actl /root`: display the change time of the files in the `/root` directory
-* `tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition, display the date of creation of the partition (only works for `ext2` or `ext4`)
+* `# ls -actl /root`: display the change time of the files in the `/root` directory
+* `# tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition, display the date of creation of the partition (only works for `ext2` or `ext4`)
 
 # Git
 
@@ -20,13 +20,21 @@
 * quit pane: `exit` or `<prefix><c-d>`
 * command prompt: `<prefix>:`
 * `set`:
-	* ` -g`: global, every session, window and pane;
-	* ` -w`: window specific;
+	* `-g`: global, every session, window and pane;
+	* `-w`: window specific;
 
 # Qt display issues
 
 `export QT_SCALE_FACTOR=1.0`
 
-# diff
+# diff/comm
 
-`diff -r A B`: list the files which are only in A or B ainsi que les fichiers qui sont différents;
+* `diff -r A B`: list the files which are only in A or B ainsi que les fichiers qui sont différents;
+* `comm -23 file1 file2`: find lines only in file1;
+* `comm -13 file1 file2`: find lines only in file2;
+* `comm -12 file1 file2`: find lines common to both files.
+
+# pacman
+
+* `pacman -Qqe`: list installed packages;
+* `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`: install packages.

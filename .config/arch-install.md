@@ -558,11 +558,12 @@ pip install numpy matplotlib
 yay -S ros-melodic-ros-base ros-melodic-pcl-ros ros-melodic-pcl-conversions ros-melodic-pcl-msgs
 ```
 
+### Fonts
+
+**pacman:** ttf-ubuntu-font-family ttf-proggy-font
+**AUR:** gohu-ttf ttf-gaegu nerd-fonts-droid-sans-mono
+
 # Install script
-
-**List installed packages:** `pacman -Qqe`
-
-**Install packages:** `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`
 
 ```
 su root
