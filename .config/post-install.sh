@@ -21,9 +21,9 @@ update() {
 }
 
 download_package_lists() {
-	curl -o $pacman_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pacman-packages.txt"
-	curl -o $aur_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/aur-packages.txt"
-	curl -o $pip_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pip-packages.txt"
+	curl -o $pacman_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pacman.txt"
+	curl -o $aur_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/aur.txt"
+	curl -o $pip_packages "https://raw.githubusercontent.com/CourrierGui/archconfig/master/.config/packages/pip.txt"
 }
 
 setup_network () {
