@@ -1,0 +1,12 @@
+session_name: stage
+start_directory: /home/guillaume/Documents/3A_supelec/stage/code
+windows:
+  - window_name: code
+    focus: True
+    panes:
+      - shell_command:
+        - nvim .
+  - window_name: build
+    panes:
+      - shell_command:
+        - clear
