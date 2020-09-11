@@ -25,5 +25,7 @@ alias gl='git log'
 alias gpl='git pull'
 alias gps='git push'
 
+alias tree='tree -C'
+
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
