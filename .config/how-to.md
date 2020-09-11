@@ -38,3 +38,7 @@
 
 * `pacman -Qqe`: list installed packages;
 * `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`: install packages.
+
+# C++
+
+If a very weird error occurs, check for uninitialized members.
