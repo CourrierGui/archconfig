@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Display the number of tasks
-
-nb_task=$(task count)
-printf "📝 %s" "$nb_task"

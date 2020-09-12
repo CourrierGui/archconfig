@@ -5,6 +5,7 @@
 # TODO add current music to a playlist
 # TODO --save-position-on-quit or config file
 # TODO see mpv config file
+# TODO bug with dmenu if no file or directory is selected
 
 start_mpv() {
 	if [ -f "$1" ]
