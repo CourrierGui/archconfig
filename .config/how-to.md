@@ -5,7 +5,12 @@
 
 # Git
 
-* `git ls-files <directory/filename>`: display the files tracked by git in `directory`
+* `git ls-files <directory/filename>`: display the files tracked by git in `directory`;
+* `git reset HEAD~`: undo last unpushed commit without removeing the last changes;
+* merge:
+	* `git checkout <receiving-branch>`
+	* `git pull`
+	* `git merge`
 
 # tmux
 
