@@ -4,4 +4,4 @@ xrandr --auto
 
 [ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
 
-exec ~/.local/bin/startdwm
+exec dbus-launch ~/.local/bin/startdwm
