@@ -47,3 +47,23 @@
 # C++
 
 If a very weird error occurs, check for uninitialized members.
+
+* cppcheck: `cppcheck src --output-file=check.txt --inconclusive --enable=warning --includes-file=include...`
+* valgrind: `valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --verbose --log-file=valgrind.out.log <path_to_binary>`
+* clang-tidy: `clang-tidy src/graph.cpp -- -Iinclude `` --std=c++17`
+* pck-config: `pkg-config --cflags Qt5Widgets`
+* get the most recent core dump for the bar executable: `coredumpctl -o bar.coredump dump path/to/bar`
+* get the most recent core dump file: `coredumpctl dump -1 -o bin.coredump`
+* see the kernel core configuration: `# cat /proc/sys/kernel/core_pattern`
+* set ulimited core file: `ulimit -c unlimited`
+
+# gdb
+
+## Core files
+
+* run gdb using core file: `gdb <path_to_executable> <path_to_core_file>`
+* `bt`: display the backtrace before crash
+
+# Users
+
+* `awk -F '{ print $1 }' /etc/passwd`: list all users on the computer
