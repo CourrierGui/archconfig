@@ -19,6 +19,7 @@ dunst
 flameshot
 fontconfig
 fuse2
+gdb
 glfw-x11
 glm
 gnuplot
