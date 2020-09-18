@@ -28,6 +28,7 @@ gtest
 gtop
 htop
 imagemagick
+inkscape
 jq
 keepassxc
 krita
@@ -38,7 +39,6 @@ man
 man-db
 mlocate
 mpv
-mupdf
 nasm
 neovim
 newsboat
