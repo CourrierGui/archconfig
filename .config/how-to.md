@@ -56,6 +56,7 @@ If a very weird error occurs, check for uninitialized members.
 * get the most recent core dump file: `coredumpctl dump -1 -o bin.coredump`
 * see the kernel core configuration: `# cat /proc/sys/kernel/core_pattern`
 * set ulimited core file: `ulimit -c unlimited`
+* get the assembly code: `obdump -d <binary>`
 
 # gdb
 
@@ -67,3 +68,8 @@ If a very weird error occurs, check for uninitialized members.
 # Users
 
 * `awk -F '{ print $1 }' /etc/passwd`: list all users on the computer
+* `useradd -m <name>`: create user `<name>` with home directory
+* `addgroup <name>`: create groupe `<name>`
+* `usermod -a -G <groupe> <user>`: adds `<user>` to `<group>`
+* `(chown -R <name>|chgrp -R :<group>) <directory>`: recursively changes the owner and group of the files and directories inside `<directory>`
+* `setfacl -m g:<group>:rx -R <directory>`: recursively modify the priviledges of `<directory>` (can also be used with `u:<name>:...` for users)
