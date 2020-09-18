@@ -5,10 +5,10 @@
 cmds="\
 🔒lock	slock
 🚪leave dwm	kill -TERM $(pidof -s dwm)
-♻ renew dwm	kill -HUP $(pidof -s dwm)
+♻renew dwm	kill -HUP $(pidof -s dwm)
 🐻hibernate	${hib:-sudo -A systemctl suspend-then-hibernate}
 🔃reboot	${reb:-doas reboot}
-🖥 shudown	${shut:-doas shutdown now}"
+🖥shutdown	${shut:-doas shutdown now}"
 
 choice="$(echo "$cmds" | cut -d'	' -f 1 | dmenu)" || exit 1
 
