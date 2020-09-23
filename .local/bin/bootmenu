@@ -3,13 +3,13 @@
 # A dmenu wrapper script for system functions.
 
 cmds="\
-🔒lock	slock
-🚪leave dwm	kill -TERM $(pidof -s dwm)
-♻renew dwm	kill -HUP $(pidof -s dwm)
-🐻hibernate	${hib:-sudo -A systemctl suspend-then-hibernate}
-🔃reboot	${reb:-doas reboot}
-🖥shutdown	${shut:-doas shutdown now}"
+shutdown 🖥:${shut:-doas shutdown now}
+reboot 🔃:${reb:-doas reboot}
+renew dwm ♻:kill -HUP $(pidof -s dwm)
+leave dwm 🚪:kill -TERM $(pidof -s dwm)
+lock 🔒:slock
+hibernate 🐻:${hib:-sudo -A systemctl suspend-then-hibernate}"
 
-choice="$(echo "$cmds" | cut -d'	' -f 1 | dmenu)" || exit 1
+choice="$(echo "$cmds" | cut -d ':' -f 1 | dmenu)" || exit 1
 
-`echo "$cmds" | grep "^$choice	" | cut -d '	' -f2-`
+`echo "$cmds" | grep "^$choice:" | cut -d ':' -f2-`
