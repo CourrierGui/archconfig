@@ -216,7 +216,6 @@ set list
 " set listchars=tab:\|\ ,trail:·
 set listchars=eol:↓,tab:┊\ \ ,trail:·,extends:…,precedes:…
 
-
 " french and english spelling
 set spelllang=en,fr
 
@@ -379,8 +378,14 @@ augroup more_autocmd
 	autocmd!
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
-	autocmd BufNewFile,BufRead * nnoremap <silent> <localleader>c :silent make unsilent echo "Done."<CR>
+	autocmd BufNewFile,BufRead * nnoremap <silent>
+				\ <localleader>c :silent make unsilent echo "Done."<CR>
+	autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
+				\ containedin=.*Comment,vimCommentTitle
 augroup END
+
+highlight def link MyTodo vimTodo
+
 " }}}
 
 " Functions {{{
