@@ -92,6 +92,7 @@ xclip
 xcompmgr
 xf86-input-libinput
 xf86-input-wacom
+xf86-video-intel
 xorg-server
 xorg-xbacklight
 xorg-xev
