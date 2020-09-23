@@ -1,0 +1,25 @@
+st.alpha: 0.8
+
+dwm.normbgcolor:     #222222
+dwm.normfgcolor:     #444444
+dwm.normbordercolor: #222222
+
+dwm.selbgcolor:     #004466
+dwm.selfgcolor:     #eeeeee
+dwm.selbordercolor: #884466
+
+dwm.dmenusfg: #eeeeee
+dwm.dmenunfg: #888888
+
+dwm.borderpx:    1
+dwm.snap:       32
+dwm.showbar:     1
+dwm.topbar:      1
+dwm.nmaster:     1
+dwm.resizehints: 1
+dwm.mfact:       0.55
+
+dwm.gappih: 10
+dwm.gappiv: 10
+dwm.gappoh: 10
+dwm.gappov: 10
