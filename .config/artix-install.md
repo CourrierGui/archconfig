@@ -20,8 +20,8 @@ networkmanager-runit
 
 ## Install script
 
-* issue with reflector
-* add update before install (alltough it was not necessary)
+* issue with reflector (Artix)
+* add update before install (altough it was not necessary)
 * remove dmenu, task
 * add gcr, webkit2gkt -> surf compilation
 * coc-vimtex install issue
@@ -32,3 +32,21 @@ networkmanager-runit
 * missing key for libxft-bgra
 * ubuntu fonts
 * internet script not working
+
+# Hardware information
+
+* `# hwinfo --framebuffer`
+
+# Grub customization
+
+## Background image
+
+`GRUB_BACKGROUND="/boot/grub/image"`: support png, jpeg and tga
+
+## Screen size
+
+`GRUB_GFXMODE=1920x1080x32,1280x1024x32,auto`
+
+## Theme
+
+`GRUB_THEME="/path/to/theme.txt"`

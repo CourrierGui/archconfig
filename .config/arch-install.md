@@ -110,6 +110,8 @@ echo "LANG=fr_FR.UTF-8" >> /etc/locale.conf
 echo "hostname" >> /etc/hostname
 passwd
 useradd -m guillaume
+groupadd sudo
+usermod -a -G sudo guillaume
 passwd guillaume
 chown guillaume /home/guillaume
 chgrp guillaume /home/guillaume
@@ -153,7 +155,7 @@ echo "permit persist guillaume as root" >> /etc/doas.conf
 If vi is not installed: `ln -s /usr/bin/vi /usr/bin/nvim`
 
 ```
-visudo
+# visudo
 ```
 
 Add the following line at the end: `guillaume ALL=(ALL) ALL`
@@ -585,3 +587,5 @@ curl -o ~/.config/post-install.sh https://raw.githubusercontent.com/CourrierGui/
 chmod u+x ~/.config/post-install.sh
 ./.config/post-install.sh
 ```
+
+Logout to update .zprofile and don't forget to install libxft-bgra
