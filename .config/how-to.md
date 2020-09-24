@@ -73,3 +73,7 @@ If a very weird error occurs, check for uninitialized members.
 * `usermod -a -G <groupe> <user>`: adds `<user>` to `<group>`
 * `(chown -R <name>|chgrp -R :<group>) <directory>`: recursively changes the owner and group of the files and directories inside `<directory>`
 * `setfacl -m g:<group>:rx -R <directory>`: recursively modify the priviledges of `<directory>` (can also be used with `u:<name>:...` for users)
+
+# Temperature
+
+* `sensors`: display temperature information

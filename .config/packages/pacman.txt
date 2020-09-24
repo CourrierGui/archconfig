@@ -1,4 +1,5 @@
 adobe-source-code-pro-fonts
+alsa-utils
 assimp
 autoconf
 automake
@@ -13,12 +14,12 @@ cups
 cups-pdf
 dar
 dash
-dmenu
 doxygen
 dunst
 flameshot
 fontconfig
 fuse2
+gcr
 gdb
 glfw-x11
 glm
@@ -72,7 +73,6 @@ scrot
 slock
 socat
 sxiv
-task
 texlive-most
 thunderbird
 thunderbird-i18n-fr
@@ -81,10 +81,12 @@ tmuxp
 tree
 ttf-joypixels
 ttf-linux-libertine
+ttf-ubuntu-font-family
 udisks2
 unzip
 usbutils
 valgrind
+webkit2gtk
 wetkit2gtk
 wget
 which
