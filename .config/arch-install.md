@@ -211,6 +211,8 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ### NVIDIA graphics driver
 
+For `GeForce GT 620`: install the AUR package: `nvidia-340xx-dkms`.
+
 ```
 yay -Snvidia-390xx-drm  nvidia-390xx-utils
 doas pacman -S mesa xf86-video-intel
@@ -351,6 +353,26 @@ Section "InputClass"
     Driver "libinput"
     Option "Tapping" "on"
 EndSection
+```
+
+## Android tethering
+
+Find the vendor id of the device: `# udevadm info /sys/class/net/<interface>`
+
+Create the `udev` rule in `/etc/udev/rules.d/90-android-tethering.rules`:
+```
+# Execute pairing program when appropriate
+ACTION=="add|remove", SUBSYSTEM=="net", ATTR{<vendor id>}=="18d1" ENV{ID_USB_DRIVER}=="rndis_host", SYMLINK+="android", RUN+="/usr/bin/systemctl restart systemd-networkd.service"
+```
+
+Then create the corresponding `systemd-networkd` file `/etc/systemd/network/50-<interface>.network`:
+
+```
+[Match]
+Name=<interface>
+
+[Network]
+DHCP=ipv4
 ```
 
 ## Fingerprint reader
