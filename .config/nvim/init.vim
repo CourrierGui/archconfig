@@ -39,11 +39,14 @@ nnoremap <leader>, ,
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
+" save some key strokes
+nnoremap <leader>w :write<cr>
+
 " Format paragraphs
 nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
-nnoremap <silent> <leader>ws mz:%s/\v\s+$//<cr>:noh<cr>`z
+nnoremap <silent> <leader>tw mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
