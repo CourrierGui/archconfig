@@ -54,7 +54,7 @@ install_pacman() {
 	echo "Installing pacman packages..."
 	while read pkg; do
 		echo $pkg
-		installpkg $pkg
+		installpkg $pkg || printf "error"
 	done < "$1"
 	echo "Done."
 }
@@ -63,7 +63,7 @@ install_aur() {
 	echo "Installing AUR packages..."
 	while read pkg; do
 		echo $pkg
-		yayinstall "$pkg"
+		yayinstall "$pkg" || printf "error"
 	done < "$1"
 	echo "Done."
 }
@@ -72,7 +72,7 @@ install_pip() {
 	echo "Installing pip packages..."
 	while read pkg; do
 		echo $pkg
-		pipinstall $pkg
+		pipinstall $pkg || printf "error"
 	done < "$1"
 	echo "Done."
 }
@@ -83,8 +83,9 @@ install_suckless() {
 	cd ~/softwares/suckless/dwm-6.2; make && doas make install && make clean
 	cd ../st; make && doas make install && make clean
 	cd ../dwmblocks; make && doas make install && make clean
-	cd ../surf; make && doas make install && make clean
-	doas printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf
+	cd ../dmenu; make && doas make install && make clean
+	# cd ../surf; make && doas make install && make clean
+	doas sh -c 'printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf'
 	echo "Done."
 }
 
@@ -98,12 +99,7 @@ neovim_config() {
 zsh_config() {
 	echo "Configuring zsh..."
 	doas chsh -s /usr/bin/zsh
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/reobin/typewritten.git "$HOME/.oh-my-zsh/custom/themes/typewritten"
-	ln -sf "$HOME/.oh-my-zsh/custom/themes/typewritten/typewritten.zsh-theme" "$HOME/.oh-my-zsh/themes/typewritten.zsh-theme"
-	wget https://raw.githubusercontent.com/dikiaap/dotfiles/master/.oh-my-zsh/themes/oxide.zsh-theme
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
-	wget -O ~/.oh-my-zsh/themes/nothing.zsh-theme https://raw.githubusercontent.com/eendroroy/nothing/master/nothing.zsh
+	chsh -s /usr/bin/zsh
 	echo "Done."
 }
 

@@ -9,6 +9,7 @@ calcurse
 checkbashism
 clang
 cmake
+cppcheck
 ctags
 cups
 cups-pdf

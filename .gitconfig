@@ -1,3 +1,5 @@
 [user]
-	email = courrier.guillaume.123@gmail.com
 	name = Courrier Guillaume
+	email = courrier.guillaume.123@gmail.com
+[core]
+	editor = nvim
