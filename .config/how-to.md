@@ -3,6 +3,10 @@
 * `# ls -actl /root`: display the change time of the files in the `/root` directory
 * `# tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition, display the date of creation of the partition (only works for `ext2` or `ext4`)
 
+# Size of files/directory
+
+`du -sch <dir/file>`
+
 # Git
 
 * `git ls-files <directory/filename>`: display the files tracked by git in `directory`;
@@ -73,7 +77,16 @@ If a very weird error occurs, check for uninitialized members.
 * `usermod -a -G <groupe> <user>`: adds `<user>` to `<group>`
 * `(chown -R <name>|chgrp -R :<group>) <directory>`: recursively changes the owner and group of the files and directories inside `<directory>`
 * `setfacl -m g:<group>:rx -R <directory>`: recursively modify the priviledges of `<directory>` (can also be used with `u:<name>:...` for users)
+* `find . -type d -exec chmod 755 {} \;`: find directories permissions;
+* `find . -type f -exec chmod 644 {} \;`: find directories permissions;
 
 # Temperature
 
 * `sensors`: display temperature information
+
+# Ext4 extern drives
+
+* `# fdisk /dev/sdx1`: make partition table for `sdx` device;
+* `# mkfs.ext4 /dev/sdx1`: use `ext4` format;
+* `# mount /dev/sdx1 /mnt`: mount the drive;
+* `# chown guillaume: /mnt`: give all the files permissions for user `guillaume`.
