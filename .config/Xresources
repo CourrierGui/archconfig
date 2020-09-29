@@ -1,7 +1,7 @@
 st.alpha: 0.8
 
 dwm.normbgcolor:     #222222
-dwm.normfgcolor:     #444444
+dwm.normfgcolor:     #eeeeee
 dwm.normbordercolor: #222222
 
 dwm.selbgcolor:     #004466
