@@ -214,7 +214,7 @@ set cino=j1,(0,ws,Ws
 " Display trailing whitespace and tabs
 set list
 " set listchars=tab:\|\ ,trail:·
-set listchars=eol:↓,tab:┊\ \ ,trail:·,extends:…,precedes:…
+set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
 
 " french and english spelling
 set spelllang=en,fr
