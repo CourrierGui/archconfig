@@ -382,7 +382,9 @@ augroup more_autocmd
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
 	autocmd BufNewFile,BufRead * nnoremap <silent>
-				\ <localleader>c :silent make unsilent echo "Done."<CR>
+				\ <localleader>c :make<CR>
+	" autocmd BufNewFile,BufRead * nnoremap <silent>
+	" 			\ <localleader>c :silent make unsilent echo "Done."<CR>
 	autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
 				\ containedin=.*Comment,vimCommentTitle
 augroup END

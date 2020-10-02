@@ -244,6 +244,10 @@ Install libxft-bgra from aur (emoji): `yay -S libxft-bgra`
 sudo pacman -S patch man
 ```
 
+**Powerline fonts**:
+
+`yay -S powerline-fonts-git`
+
 If `makepkg` fails due to do a missing PGP key:
 `gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id`
 
@@ -556,13 +560,13 @@ lpq # see print queue
 ### Standard repos
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
 ```
 
 ### AUR
 
 ```
-yay -S pfetch task-spooler lf brave-bin
+yay -S pfetch task-spooler lf brave-bin powerline-fonts-git
 ```
 
 ### Pip
