@@ -4,3 +4,4 @@ lf
 brave-bin
 libxft-bgra
 simple-mtpfs
+powerline-fonts-git

@@ -58,7 +58,6 @@ patch
 pfetch
 pkgconf
 pkg-config
-powerline-fonts
 pulseaudio
 pulseaudio-alsa
 python-dbus
