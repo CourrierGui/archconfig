@@ -1,9 +1,9 @@
-#/bin/sh
+#!/bin/sh
 # relaunch DWM if the binary has changed
 
 csum=$(sha1sum $(which dwm))
 
-[ -f ~/.config/dwm/log.txt ] || { mkdir -p ~/.config/dwm && touch ~/.config/dwm/log.txt }
+# [ -f ~/.config/dwm/log.txt ] || { mkdir -p ~/.config/dwm && touch ~/.config/dwm/log.txt }
 
 dwm 2>> ~/.config/dwm/log.txt
 new_csum="$(sha1sum $(which dwm))"
