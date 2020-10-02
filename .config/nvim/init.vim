@@ -7,6 +7,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'Yggdroot/indentLine'
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'pechorin/any-jump.vim'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'pboettch/vim-cmake-syntax'
@@ -18,6 +22,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+
 Plug 'lambdalisue/suda.vim'
 
 Plug 'JuliaEditorSupport/julia-vim'
@@ -134,7 +140,7 @@ nnoremap <silent> <leader>.. :cd ..<cr>
 
 " Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:echo "sourced!"<cr>
 
 " netrw
 nnoremap <silent> <leader>ee :Explore<CR>
@@ -217,7 +223,7 @@ set cino=j1,(0,ws,Ws
 " Display trailing whitespace and tabs
 set list
 " set listchars=tab:\|\ ,trail:·
-set listchars=eol:↓,tab:┊\ \ ,trail:·,extends:…,precedes:…
+set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
 
 " french and english spelling
 set spelllang=en,fr
@@ -225,6 +231,17 @@ set spelllang=en,fr
 " }}}
 
 " Plugin options {{{
+
+" Any Jump
+nnoremap <A-a> :AnyJump<cr>
+
+" Fzf
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+
+nnoremap // :BLines<cr>
+nnoremap ?? :Rg<cr>
+nnoremap cc :Commands<cr>
+command! FileHistory execute ":BCommits"
 
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " let g:indentLine_concealcursor = 'inc'
