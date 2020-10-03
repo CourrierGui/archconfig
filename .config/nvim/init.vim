@@ -233,11 +233,24 @@ set spelllang=en,fr
 " Plugin options {{{
 
 " Any Jump
-nnoremap <A-a> :AnyJump<cr>
+
+let g:any_jump_disable_default_keybindings = 1
+
+" Normal mode: Jump to definition under cursore
+nnoremap <A-a> :AnyJump<CR>
+" Visual mode: jump to selected text in visual mode
+xnoremap <A-v> :AnyJumpVisual<CR>
+" Normal mode: open previous opened file (after jump)
+nnoremap <A-b> :AnyJumpBack<CR>
+" Normal mode: open last closed search window again
+nnoremap <A-l> :AnyJumpLastResults<CR>
 
 " Fzf
 let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
+nnoremap <leader>o :Files<cr>
+nnoremap <leader>tt :Tags<cr>
 nnoremap // :BLines<cr>
 nnoremap ?? :Rg<cr>
 nnoremap cc :Commands<cr>
@@ -306,6 +319,8 @@ let g:coc_global_extensions=[
 
 " Switch between header and source file
 nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+" Display symbol inforamtion
+nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
 " Go to definition under cursor
 nmap <silent> <leader>gd <Plug>(coc-definition)
 

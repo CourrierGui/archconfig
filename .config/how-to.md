@@ -59,7 +59,7 @@ If a very weird error occurs, check for uninitialized members.
 * get the most recent core dump for the bar executable: `coredumpctl -o bar.coredump dump path/to/bar`
 * get the most recent core dump file: `coredumpctl dump -1 -o bin.coredump`
 * see the kernel core configuration: `# cat /proc/sys/kernel/core_pattern`
-* set ulimited core file: `ulimit -c unlimited`
+* set unlimited number of core files: `ulimit -c unlimited`
 * get the assembly code: `obdump -d <binary>`
 
 # gdb
@@ -90,3 +90,41 @@ If a very weird error occurs, check for uninitialized members.
 * `# mkfs.ext4 /dev/sdx1`: use `ext4` format;
 * `# mount /dev/sdx1 /mnt`: mount the drive;
 * `# chown guillaume: /mnt`: give all the files permissions for user `guillaume`.
+
+# Fzf
+
+* `history | fzf`: look for recent commands;
+* `nvim -O **`: choose files using `TAB` and open them in neovim;
+
+## Zsh integration
+
+* `ctrl+t`: run fzf on all the files;
+* `alt+c`: run fzf on all the directories;
+* `ctrl+r`: search in command history;
+* pressing `ctrl-r` again will sort the commands;
+
+# Zsh
+
+## Prompts
+
+* [](https://scriptingosx.com/2019/07/moving-to-zsh-06-customizing-the-zsh-prompt/)
+
+`PROMPT` (equivalent to `PS1`): defines the prompt on the left?
+* `%m`: hostname;
+* `%d` ou `%/`: full path to current directory;
+* `%d`: path to current directory relative to user's home;
+* `%F{blue}text%f`: change the color (possible colors: black, red, green,
+	yellow, blue, magenta, cyan and white)
+* `%F{n}`: choose the `n`-th color from 256-color pallet;
+* `%(?.√.?%?)`: ternary conditional: displays the first part if successful,
+	otherwise the second part;
+* `%?`: display the exit code;
+* `%(!.#.>)`: choose the character on the user privilege;
+
+## Zstyle
+
+This function allows to customize the behavior of Zsh using patterns.
+
+Usage: `zstyle context style value`
+
+* `:completion:func:completer:cmd:arg:tag`: context;
