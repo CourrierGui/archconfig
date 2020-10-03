@@ -4,10 +4,12 @@ assimp
 autoconf
 automake
 avahi
+bat
 boost
 calcurse
 checkbashism
 clang
+clisp
 cmake
 cppcheck
 ctags
@@ -17,9 +19,11 @@ dar
 dash
 doxygen
 dunst
+emacs
 flameshot
 fontconfig
 fuse2
+fzf
 gcr
 gdb
 glfw-x11
@@ -32,6 +36,7 @@ htop
 imagemagick
 inkscape
 jq
+julia
 keepassxc
 krita
 libnotify
@@ -55,6 +60,7 @@ pandoc-citeproc
 pandoc-crossref
 par2cmdline
 patch
+pcmanfm
 pfetch
 pkgconf
 pkg-config
@@ -68,8 +74,10 @@ python-pip
 python-pynvim
 python-pywal
 qcustomplot
+qt5-tools
 recordmydesktop
 ripgrep
+rust
 scrot
 slock
 socat
@@ -97,10 +105,12 @@ xf86-input-libinput
 xf86-input-wacom
 xf86-video-intel
 xorg-server
+xorg-server-xnest
 xorg-xbacklight
 xorg-xev
 xorg-xinit
 xorg-xinput
+xorg-xlsfonts
 xorg-xsetroot
 xwallpaper
 yaml-cpp
