@@ -85,6 +85,7 @@ sxiv
 texlive-most
 thunderbird
 thunderbird-i18n-fr
+tk
 tmux
 tmuxp
 tree
