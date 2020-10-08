@@ -15,6 +15,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'pboettch/vim-cmake-syntax'
 
+Plug 'vimwiki/vimwiki'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ludovicchabant/vim-gutentags'
 
@@ -37,6 +38,7 @@ call plug#end()
 " }}}
 
 " Mappings {{{
+
 let mapleader = ","
 let localmapleader = "\\"
 nnoremap <leader>, ,
@@ -223,7 +225,8 @@ set cino=j1,(0,ws,Ws
 " Display trailing whitespace and tabs
 set list
 " set listchars=tab:\|\ ,trail:·
-set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
+" set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
+set listchars=tab:\ \ ,trail:·
 
 " french and english spelling
 set spelllang=en,fr
@@ -232,8 +235,31 @@ set spelllang=en,fr
 
 " Plugin options {{{
 
-" Any Jump
+" vimwiki
+let g:vimwiki_list = [{'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_map_prefix = '<leader>v'
+let g:vimwiki_key_mappings = {
+			\   'all_maps': 1,
+			\   'global': 0,
+			\   'headers': 1,
+			\   'text_objs': 1,
+			\   'table_format': 1,
+			\   'table_mappings': 1,
+			\   'lists': 1,
+			\   'links': 1,
+			\   'html': 1,
+			\   'mouse': 0,
+			\ }
 
+" Redefine the mappings because they suck...
+nmap <leader>vw  <Plug>VimwikiIndex
+nmap <leader>vdd <Plug>VimwikiDiaryIndex
+nmap <leader>vdu <Plug>VimwikiDiaryGenerateLinks
+nmap <leader>vde <Plug>VimwikiMakeDiaryNote
+nmap <leader>vdp <Plug>VimwikiDiaryPrevDay
+nmap <leader>vdn <Plug>VimwikiDiaryNextDay
+
+" Any Jump
 let g:any_jump_disable_default_keybindings = 1
 
 " Normal mode: Jump to definition under cursore
@@ -317,10 +343,6 @@ let g:coc_global_extensions=[
 	\ "coc-snippets"
 	\ ]
 
-" Switch between header and source file
-nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
-" Display symbol inforamtion
-nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
 " Go to definition under cursor
 nmap <silent> <leader>gd <Plug>(coc-definition)
 
@@ -362,6 +384,16 @@ colorscheme nord
 
 " }}}
 
+" C++ file settings {{{
+augroup filetype_cpp
+	autocmd!
+	" Switch between header and source file
+	autocmd FileType cpp nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+	" Display symbol inforamtion
+	autocmd FileType cpp nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
+augroup END
+" }}}
+
 " Vimscript file settings {{{
 augroup filetype_vim
 	autocmd!
@@ -388,7 +420,7 @@ augroup end
 " Julia file settings {{{
 augroup filetype_python
 	autocmd!
-	autocmd BufNewFile,BufRead,BufNewFile *.jl :setlocal filetype=julia
+	autocmd BufNewFile,BufRead *.jl :setlocal filetype=julia
 augroup end
 " }}}
 
@@ -406,6 +438,15 @@ augroup suckless
 	autocmd!
 	" autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
 	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
+" }}}
+
+" Vimwiki {{{
+" nnoremap <localleader>now :.!date<cr>I**<esc>A**<esc>
+augroup vimwiki_file
+	autocmd!
+	autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>
+	autocmd FileType vimwiki setlocal spell spelllang=en
+augroup END
 " }}}
 
 " More autocmd {{{
