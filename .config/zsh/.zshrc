@@ -1,43 +1,27 @@
-bindkey -v
-export KEYTIMEOUT=1
+bindkey -v           # vi key bindings
+export KEYTIMEOUT=1  # reduce timeout between normal and insert mode
 
-zmodload zsh/complist
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
+fpath=("$ZDOTDIR/themes" "$ZDOTDIR/plugin" $fpath) # add plugins and themes to path
 
-fpath=("$ZDOTDIR/themes" "$ZDOTDIR/plugin" $fpath)
+source "$ZDOTDIR/aliases.zsh"       # list of aliases
+source "$ZDOTDIR/themes/simple.zsh" # minimalistic terminal prompt
+source "$ZDOTDIR/plugin/fzf.zsh"    # fzf completion
+_gen_fzf_default_opts               # color theme for fzf
+autoload -Uz cursor; cursor         # change the cursor based on the vi mode
 
-autoload -Uz compinit; compinit
-
-# partial completion suggestions zstyle ':completion:*' list-suffixes zstyle
-
-_comp_options+=(globdots) # With hidden files
-autoload -Uz completion.zsh; completion.zsh
-
-autoload -Uz purification; purification
-autoload -Uz cursor; cursor
-source "$ZDOTDIR/aliases.zsh"
-
-setopt AUTO_PUSHD        # Push the current directory visited on the stack.
-setopt PUSHD_IGNORE_DUPS # Do not store duplicates in the stack.
-setopt PUSHD_SILENT      # Do not print the directory stack after pushd or popd
+source "$ZDOTDIR/plugin/completion.zsh" # custom completion configuration
+autoload -Uz compinit; compinit         # enable completion
 
 ## History command configuration
-setopt EXTENDED_HISTORY       # record timestamp of command in HISTFILE
-setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
-setopt HIST_IGNORE_SPACE      # ignore commands that start with space
-setopt HIST_VERIFY            # show command with history expansion to user before running it
 
-zle -C hist-complete complete-word _generic
-zstyle ':completion:hist-complete:*' completer _history
+# record timestamp of command in HISTFILE
+setopt EXTENDED_HISTORY
 
-autoload -Uz history-beginning-search-menu
-zle -N history-beginning-search-menu
+# delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt HIST_EXPIRE_DUPS_FIRST
 
-[[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
-[[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
+setopt HIST_IGNORE_DUPS  # ignore duplicated commands history list
+setopt HIST_IGNORE_SPACE # ignore commands that start with space
+setopt HIST_VERIFY       # show command with history expansion to user before running it
 
 pfetch

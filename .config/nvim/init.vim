@@ -7,10 +7,15 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'Yggdroot/indentLine'
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'pechorin/any-jump.vim'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'pboettch/vim-cmake-syntax'
 
+Plug 'vimwiki/vimwiki'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ludovicchabant/vim-gutentags'
 
@@ -18,6 +23,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+
 Plug 'lambdalisue/suda.vim'
 
 Plug 'JuliaEditorSupport/julia-vim'
@@ -31,6 +38,7 @@ call plug#end()
 " }}}
 
 " Mappings {{{
+
 let mapleader = ","
 let localmapleader = "\\"
 nnoremap <leader>, ,
@@ -39,11 +47,14 @@ nnoremap <leader>, ,
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
+" save some key strokes
+nnoremap <leader>w :write<cr>
+
 " Format paragraphs
 nnoremap <leader>gp gwap
 
 " Remove trailing whitespaces
-nnoremap <silent> <leader>ws mz:%s/\v\s+$//<cr>:noh<cr>`z
+nnoremap <silent> <leader>tw mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -131,7 +142,7 @@ nnoremap <silent> <leader>.. :cd ..<cr>
 
 " Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:echo "sourced!"<cr>
 
 " netrw
 nnoremap <silent> <leader>ee :Explore<CR>
@@ -214,8 +225,8 @@ set cino=j1,(0,ws,Ws
 " Display trailing whitespace and tabs
 set list
 " set listchars=tab:\|\ ,trail:·
-set listchars=eol:↓,tab:┊\ \ ,trail:·,extends:…,precedes:…
-
+" set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
+set listchars=tab:\ \ ,trail:·
 
 " french and english spelling
 set spelllang=en,fr
@@ -223,6 +234,53 @@ set spelllang=en,fr
 " }}}
 
 " Plugin options {{{
+
+" vimwiki
+let g:vimwiki_list = [{'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_map_prefix = '<leader>v'
+let g:vimwiki_key_mappings = {
+			\   'all_maps': 1,
+			\   'global': 0,
+			\   'headers': 1,
+			\   'text_objs': 1,
+			\   'table_format': 1,
+			\   'table_mappings': 1,
+			\   'lists': 1,
+			\   'links': 1,
+			\   'html': 1,
+			\   'mouse': 0,
+			\ }
+
+" Redefine the mappings because they suck...
+nmap <leader>vw  <Plug>VimwikiIndex
+nmap <leader>vdd <Plug>VimwikiDiaryIndex
+nmap <leader>vdu <Plug>VimwikiDiaryGenerateLinks
+nmap <leader>vde <Plug>VimwikiMakeDiaryNote
+nmap <leader>vdp <Plug>VimwikiDiaryPrevDay
+nmap <leader>vdn <Plug>VimwikiDiaryNextDay
+
+" Any Jump
+let g:any_jump_disable_default_keybindings = 1
+
+" Normal mode: Jump to definition under cursore
+nnoremap <A-a> :AnyJump<CR>
+" Visual mode: jump to selected text in visual mode
+xnoremap <A-v> :AnyJumpVisual<CR>
+" Normal mode: open previous opened file (after jump)
+nnoremap <A-b> :AnyJumpBack<CR>
+" Normal mode: open last closed search window again
+nnoremap <A-l> :AnyJumpLastResults<CR>
+
+" Fzf
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+nnoremap <leader>o :Files<cr>
+nnoremap <leader>tt :Tags<cr>
+nnoremap // :BLines<cr>
+nnoremap ?? :Rg<cr>
+nnoremap cc :Commands<cr>
+command! FileHistory execute ":BCommits"
 
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " let g:indentLine_concealcursor = 'inc'
@@ -285,8 +343,6 @@ let g:coc_global_extensions=[
 	\ "coc-snippets"
 	\ ]
 
-" Switch between header and source file
-nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
 " Go to definition under cursor
 nmap <silent> <leader>gd <Plug>(coc-definition)
 
@@ -328,6 +384,16 @@ colorscheme nord
 
 " }}}
 
+" C++ file settings {{{
+augroup filetype_cpp
+	autocmd!
+	" Switch between header and source file
+	autocmd FileType cpp nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+	" Display symbol inforamtion
+	autocmd FileType cpp nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
+augroup END
+" }}}
+
 " Vimscript file settings {{{
 augroup filetype_vim
 	autocmd!
@@ -354,7 +420,7 @@ augroup end
 " Julia file settings {{{
 augroup filetype_python
 	autocmd!
-	autocmd BufNewFile,BufRead,BufNewFile *.jl :setlocal filetype=julia
+	autocmd BufNewFile,BufRead *.jl :setlocal filetype=julia
 augroup end
 " }}}
 
@@ -374,13 +440,30 @@ augroup suckless
 	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
 " }}}
 
+" Vimwiki {{{
+" nnoremap <localleader>now :.!date<cr>I**<esc>A**<esc>
+augroup vimwiki_file
+	autocmd!
+	autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>
+	autocmd FileType vimwiki setlocal spell spelllang=en
+augroup END
+" }}}
+
 " More autocmd {{{
 augroup more_autocmd
 	autocmd!
 	autocmd InsertEnter * :setlocal nohlsearch
 	autocmd InsertLeave * :setlocal hlsearch
-	autocmd BufNewFile,BufRead * nnoremap <silent> <localleader>c :silent make unsilent echo "Done."<CR>
+	autocmd BufNewFile,BufRead * nnoremap <silent>
+				\ <localleader>c :make<CR>
+	" autocmd BufNewFile,BufRead * nnoremap <silent>
+	" 			\ <localleader>c :silent make unsilent echo "Done."<CR>
+	autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
+				\ containedin=.*Comment,vimCommentTitle
 augroup END
+
+highlight def link MyTodo vimTodo
+
 " }}}
 
 " Functions {{{

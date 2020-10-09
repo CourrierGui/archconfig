@@ -110,6 +110,8 @@ echo "LANG=fr_FR.UTF-8" >> /etc/locale.conf
 echo "hostname" >> /etc/hostname
 passwd
 useradd -m guillaume
+groupadd sudo
+usermod -a -G sudo guillaume
 passwd guillaume
 chown guillaume /home/guillaume
 chgrp guillaume /home/guillaume
@@ -153,7 +155,7 @@ echo "permit persist guillaume as root" >> /etc/doas.conf
 If vi is not installed: `ln -s /usr/bin/vi /usr/bin/nvim`
 
 ```
-visudo
+# visudo
 ```
 
 Add the following line at the end: `guillaume ALL=(ALL) ALL`
@@ -209,6 +211,8 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ### NVIDIA graphics driver
 
+For `GeForce GT 620`: install the AUR package: `nvidia-340xx-dkms`.
+
 ```
 yay -Snvidia-390xx-drm  nvidia-390xx-utils
 doas pacman -S mesa xf86-video-intel
@@ -239,6 +243,10 @@ Install libxft-bgra from aur (emoji): `yay -S libxft-bgra`
 ```
 sudo pacman -S patch man
 ```
+
+**Powerline fonts**:
+
+`yay -S powerline-fonts-git`
 
 If `makepkg` fails due to do a missing PGP key:
 `gpg --keyserver pool.sks-keyservers.net --recv-keys missing_key_id`
@@ -349,6 +357,26 @@ Section "InputClass"
     Driver "libinput"
     Option "Tapping" "on"
 EndSection
+```
+
+## Android tethering
+
+Find the vendor id of the device: `# udevadm info /sys/class/net/<interface>`
+
+Create the `udev` rule in `/etc/udev/rules.d/90-android-tethering.rules`:
+```
+# Execute pairing program when appropriate
+ACTION=="add|remove", SUBSYSTEM=="net", ATTR{<vendor id>}=="18d1" ENV{ID_USB_DRIVER}=="rndis_host", SYMLINK+="android", RUN+="/usr/bin/systemctl restart systemd-networkd.service"
+```
+
+Then create the corresponding `systemd-networkd` file `/etc/systemd/network/50-<interface>.network`:
+
+```
+[Match]
+Name=<interface>
+
+[Network]
+DHCP=ipv4
 ```
 
 ## Fingerprint reader
@@ -532,13 +560,13 @@ lpq # see print queue
 ### Standard repos
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop powerline-fonts scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
 ```
 
 ### AUR
 
 ```
-yay -S pfetch task-spooler lf brave-bin
+yay -S pfetch task-spooler lf brave-bin powerline-fonts-git
 ```
 
 ### Pip
@@ -585,3 +613,5 @@ curl -o ~/.config/post-install.sh https://raw.githubusercontent.com/CourrierGui/
 chmod u+x ~/.config/post-install.sh
 ./.config/post-install.sh
 ```
+
+Logout to update .zprofile and don't forget to install libxft-bgra

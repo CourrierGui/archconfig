@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -f "$1" ]
+then
+	bat --style=numbers,changes --color=always "$1" | head -n 200
+elif [ -d "$1" ]
+then
+	tree -C "$1" | head -200
+else
+	echo "$1"
+fi

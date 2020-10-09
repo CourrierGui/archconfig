@@ -1,8 +1,9 @@
 #!/bin/sh
 
+xrdb -merge -I$HOME ~/.config/Xresources
 dwmblocks &
 dunst &
 xcompmgr &
 remaps &
-battery_signal &
+# battery_signal &
 xwallpaper --zoom ~/.config/wall.png &
