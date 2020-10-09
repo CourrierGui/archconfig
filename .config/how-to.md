@@ -1,7 +1,13 @@
+# Linux
+
+* `nice`: change scheduling priority
+
 # Age of the installation
 
 * `# ls -actl /root`: display the change time of the files in the `/root` directory
-* `# tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition, display the date of creation of the partition (only works for `ext2` or `ext4`)
+* `# tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition,
+	display the date of creation of the partition (only works for `ext2` or
+	`ext4`)
 
 # Git
 
@@ -34,7 +40,8 @@
 
 # diff/comm
 
-* `diff -r A B`: list the files which are only in A or B ainsi que les fichiers qui sont différents;
+* `diff -r A B`: list the files which are only in A or B ainsi que les fichiers
+	qui sont différents;
 * `comm -23 file1 file2`: find lines only in file1;
 * `comm -13 file1 file2`: find lines only in file2;
 * `comm -12 file1 file2`: find lines common to both files.
@@ -42,7 +49,8 @@
 # pacman
 
 * `pacman -Qqe`: list installed packages;
-* `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`: install packages.
+* `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`:
+	install packages.
 
 # C++
 
@@ -67,3 +75,35 @@ If a very weird error occurs, check for uninitialized members.
 # Users
 
 * `awk -F '{ print $1 }' /etc/passwd`: list all users on the computer
+
+# Artix
+
+## Runit
+
+### sv
+
+* `status|s`: display the status of the service
+* `up|u`: starts the service, restarts it if it fails
+* `down|d`: kill the service (or start ./finish if it exists)
+* `once|o`: starts the service but do not reattempt if it fails
+
+**Options:**
+
+* `-v`: wait 7 sec before `up/down/term/once/cont/exit`
+* `-w sec`: wait *sec* sec before `up/down/term/once/cont/exit`
+
+**Return:**
+* `0`: ok
+* `1-99`: number of *service* from the list of *services* which failed
+
+### chpst
+
+Runs a program with a changed environment defined by the arguments (see `man chpst`)
+
+### runsv
+
+Starts and monitor service
+
+### Actions
+
+* `# unlink /run/runit/service/`
