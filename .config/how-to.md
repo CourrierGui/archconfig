@@ -128,3 +128,7 @@ This function allows to customize the behavior of Zsh using patterns.
 Usage: `zstyle context style value`
 
 * `:completion:func:completer:cmd:arg:tag`: context;
+
+# Suckless
+
+* `patch -p1 < path/to/patch/file`: apply patch

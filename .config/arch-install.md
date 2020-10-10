@@ -229,6 +229,8 @@ Add `BusID "PCI:1:0:0"` in the `Device` block in `/etc/X11/xorg.conf`.
 
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
 
+**slock:** [wiki page](https://wiki.archlinux.org/index.php/Slock)
+
 *dwm:*
 ```
 cd ~/softwares/suckless/dwm
@@ -532,6 +534,12 @@ sudo pacman -S emulator gradle
 ```
 sudo pacman -S udisks2
 udisksctl (un)mount -b /dev/sd...
+```
+
+## Virtualization
+
+```
+LC_ALL=C lscpu | grep Virtualization
 ```
 
 ## Printer
