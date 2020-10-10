@@ -1,3 +1,10 @@
+"     _   __         _    ___                               _____
+"    / | / /__  ____| |  / (_)___ ___     _________  ____  / __(_)___ _
+"   /  |/ / _ \/ __ \ | / / / __ `__ \   / ___/ __ \/ __ \/ /_/ / __ `/
+"  / /|  /  __/ /_/ / |/ / / / / / / /  / /__/ /_/ / / / / __/ / /_/ /
+" /_/ |_/\___/\____/|___/_/_/ /_/ /_/   \___/\____/_/ /_/_/ /_/\__, /
+"                                                             /____/
+
 " vim-plug {{{
 
 call plug#begin()
@@ -142,7 +149,7 @@ nnoremap <silent> <leader>.. :cd ..<cr>
 
 " Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>:echo "sourced!"<cr>
+nnoremap <leader>sv :source $MYVIMRC<bar>highlight Normal guibg=NONE ctermbg=NONE<bar>echo "sourced!"<cr>
 
 " netrw
 nnoremap <silent> <leader>ee :Explore<CR>
@@ -157,7 +164,10 @@ vnoremap K :move '<-2<cr>gv=gv
 nnoremap <A-s>n :wa<Bar>mksession ~/.config/nvim/sessions/
 " Save current session and prepare to load a new one
 nnoremap <A-s>s :wa<Bar>exe "mksession! " . v:this_session<CR>
-nnoremap <A-s>o :so ~/.config/nvim/sessions/
+nnoremap <A-s>o :!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/
+
+" Open definition in a vertical split by default
+nnoremap <c-w><c-]> <c-w>v<c-]>
 
 " Terminal Mappings
 tnoremap <esc> <c-\><c-n>
@@ -193,6 +203,8 @@ command! W :w suda://%
 
 " Options {{{
 
+syntax on
+
 " search for local config files at startup
 set exrc
 set secure
@@ -201,6 +213,7 @@ set number
 set relativenumber
 set ttimeoutlen=10
 set splitbelow splitright
+set cursorline
 
 " See substitution as you type them
 set inccommand=split
@@ -237,6 +250,7 @@ set spelllang=en,fr
 
 " vimwiki
 let g:vimwiki_list = [{'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_global_ext = 0
 let g:vimwiki_map_prefix = '<leader>v'
 let g:vimwiki_key_mappings = {
 			\   'all_maps': 1,
@@ -350,16 +364,24 @@ nmap <silent> <leader>gd <Plug>(coc-definition)
 let g:vimtex_compiler_progname = 'nvr'
 let g:tex_flavor = 'latex'
 
+" transparent background when opening vim
+autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
+
 " colorscheme zenburn
 " colorscheme dracula
 " colorscheme gotham
-
-" set t_Co=256
-" syntax on
+" colorscheme onedark
+" colorscheme nord
 " colorscheme minimalist
+" colorscheme purify
+" colorscheme abstract
+
+let g:alduin_Shout_Aura_Whisper = 1
+let g:alduin_Shout_Fire_Breath = 1
+colorscheme alduin
 
 " set background=dark
-" colorscheme PaperColor"
+" colorscheme PaperColor
 
 " let g:PaperColor_Theme_Options = {
 " 			\   'theme': {
@@ -376,11 +398,6 @@ let g:tex_flavor = 'latex'
 " 		autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
 " 	augroup END
 " endif
-
-" syntax on
-" colorscheme onedark
-
-colorscheme nord
 
 " }}}
 
@@ -414,13 +431,6 @@ augroup filetype_python
 	autocmd!
 	autocmd BufNewFile,BufRead python setlocal tabstop=4 softtabstop=4 textwidth=120 autoindent fileformat=unix foldlevel=1
 	autocmd FileType python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
-augroup end
-" }}}
-
-" Julia file settings {{{
-augroup filetype_python
-	autocmd!
-	autocmd BufNewFile,BufRead *.jl :setlocal filetype=julia
 augroup end
 " }}}
 
