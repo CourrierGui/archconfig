@@ -92,6 +92,7 @@ export LF_ICONS="di=📁:\
 	*.java=♨:\
 	"
 
-if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+# if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+if [ ! $(xset q>/dev/null 2>&1) ] && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 	exec startx
 fi
