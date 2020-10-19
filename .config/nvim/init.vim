@@ -17,6 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'pechorin/any-jump.vim'
+Plug 'voldikss/vim-floaterm'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -76,7 +77,7 @@ nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 " nnoremap <leader>m ]m
 
 " List buffers and prepare to enter new one
-nnoremap gb :ls<cr>:b<space>
+" nnoremap gb :ls<cr>:b<space>
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -199,6 +200,9 @@ cnoremap <c-w>	  <S-Right>
 " Root permission inside of neovim, why Neovim ? :-(
 command! W :w suda://%
 
+nnoremap <c-t><c-n> :FloatermNew<cr>
+nnoremap <c-t><c-t> :FloatermToggle<cr>
+
 " }}}
 
 " Options {{{
@@ -294,6 +298,7 @@ nnoremap <leader>tt :Tags<cr>
 nnoremap // :BLines<cr>
 nnoremap ?? :Rg<cr>
 nnoremap cc :Commands<cr>
+nnoremap gb :Buffers<cr>
 command! FileHistory execute ":BCommits"
 
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -371,14 +376,14 @@ autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
 " colorscheme dracula
 " colorscheme gotham
 " colorscheme onedark
-" colorscheme nord
+colorscheme nord
 " colorscheme minimalist
 " colorscheme purify
 " colorscheme abstract
 
-let g:alduin_Shout_Aura_Whisper = 1
-let g:alduin_Shout_Fire_Breath = 1
-colorscheme alduin
+" let g:alduin_Shout_Aura_Whisper = 1
+" let g:alduin_Shout_Fire_Breath = 1
+" colorscheme alduin
 
 " set background=dark
 " colorscheme PaperColor
@@ -415,7 +420,7 @@ augroup END
 augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
-	autocmd BufLeave ~/.config/nvim/init.vim :source $MYVIMRC
+	autocmd BufLeave ~/.config/nvim/init.vim :source $MYVIMRC | highlight Normal guibg=NONE ctermbg=NONE | echo "sourced!"
 augroup END
 " }}}
 

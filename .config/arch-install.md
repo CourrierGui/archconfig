@@ -211,10 +211,12 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ### NVIDIA graphics driver
 
+Get graphics informations: `lspci -k | grep -A 2 -E "(VGA|3D)"`
+
 For `GeForce GT 620`: install the AUR package: `nvidia-340xx-dkms`.
 
 ```
-yay -Snvidia-390xx-drm  nvidia-390xx-utils
+yay -S nvidia-390xx-drm  nvidia-390xx-utils
 doas pacman -S mesa xf86-video-intel
 nvidia-xconfig
 ```

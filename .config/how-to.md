@@ -21,6 +21,10 @@
 	* `git checkout <receiving-branch>`
 	* `git pull`
 	* `git merge`
+* diffs:
+	* `git diff HEAD^`: diffs between HEAD and last commit;
+	* `git diff HEAD^^`: diffs between HEAD and second to last commit;
+	* `git diff <commit-id>`: diffs between HEAD and `<commit-id>`.
 
 # tmux
 
