@@ -211,10 +211,12 @@ sudo pacman -S xf86-video-intel fakeroot
 
 ### NVIDIA graphics driver
 
+Get graphics informations: `lspci -k | grep -A 2 -E "(VGA|3D)"`
+
 For `GeForce GT 620`: install the AUR package: `nvidia-340xx-dkms`.
 
 ```
-yay -Snvidia-390xx-drm  nvidia-390xx-utils
+yay -S nvidia-390xx-drm  nvidia-390xx-utils
 doas pacman -S mesa xf86-video-intel
 nvidia-xconfig
 ```
@@ -228,6 +230,8 @@ Add `BusID "PCI:1:0:0"` in the `Device` block in `/etc/X11/xorg.conf`.
 ### Suckless
 
 `git clone https://github.com/CourrierGui/suckless ~/softwares/suckless`
+
+**slock:** [wiki page](https://wiki.archlinux.org/index.php/Slock)
 
 *dwm:*
 ```
@@ -532,6 +536,12 @@ sudo pacman -S emulator gradle
 ```
 sudo pacman -S udisks2
 udisksctl (un)mount -b /dev/sd...
+```
+
+## Virtualization
+
+```
+LC_ALL=C lscpu | grep Virtualization
 ```
 
 ## Printer

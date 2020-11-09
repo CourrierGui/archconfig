@@ -1,3 +1,10 @@
+"     _   __         _    ___                               _____
+"    / | / /__  ____| |  / (_)___ ___     _________  ____  / __(_)___ _
+"   /  |/ / _ \/ __ \ | / / / __ `__ \   / ___/ __ \/ __ \/ /_/ / __ `/
+"  / /|  /  __/ /_/ / |/ / / / / / / /  / /__/ /_/ / / / / __/ / /_/ /
+" /_/ |_/\___/\____/|___/_/_/ /_/ /_/   \___/\____/_/ /_/_/ /_/\__, /
+"                                                             /____/
+
 " vim-plug {{{
 
 call plug#begin()
@@ -10,6 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'pechorin/any-jump.vim'
+Plug 'voldikss/vim-floaterm'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -29,9 +37,11 @@ Plug 'lambdalisue/suda.vim'
 
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
+Plug 'cespare/vim-toml'
 
 Plug 'CourrierGui/vim-potion'
-Plug '~/dev/projects/vim-markdown'
+" Plug '~/dev/projects/vim-markdown'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 call plug#end()
 
@@ -57,8 +67,8 @@ nnoremap <leader>gp gwap
 nnoremap <silent> <leader>tw mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 
 " Open file containing tag in new split
@@ -69,7 +79,7 @@ nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 " nnoremap <leader>m ]m
 
 " List buffers and prepare to enter new one
-nnoremap gb :ls<cr>:b<space>
+" nnoremap gb :ls<cr>:b<space>
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -142,7 +152,7 @@ nnoremap <silent> <leader>.. :cd ..<cr>
 
 " Editing and sourcing ~/.vimrc
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>:echo "sourced!"<cr>
+nnoremap <leader>sv :source $MYVIMRC<bar>highlight Normal guibg=NONE ctermbg=NONE<bar>echo "sourced!"<cr>
 
 " netrw
 nnoremap <silent> <leader>ee :Explore<CR>
@@ -157,7 +167,10 @@ vnoremap K :move '<-2<cr>gv=gv
 nnoremap <A-s>n :wa<Bar>mksession ~/.config/nvim/sessions/
 " Save current session and prepare to load a new one
 nnoremap <A-s>s :wa<Bar>exe "mksession! " . v:this_session<CR>
-nnoremap <A-s>o :so ~/.config/nvim/sessions/
+nnoremap <A-s>o :!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/
+
+" Open definition in a vertical split by default
+nnoremap <c-w><c-]> <c-w>v<c-]>
 
 " Terminal Mappings
 tnoremap <esc> <c-\><c-n>
@@ -168,30 +181,35 @@ onoremap il( :<c-u>normal! F)vi(<cr>
 
 " Command mappings
 " start of line
-cnoremap <c-z>		<Home>
+cnoremap <c-z>    <Home>
 " back one character
-cnoremap <c-h>		<Left>
+cnoremap <c-h>    <Left>
 " delete character under cursor
-cnoremap <c-x>		<Del>
+cnoremap <c-x>    <Del>
 " end of line
-cnoremap <c-a>		<End>
+cnoremap <c-a>    <End>
 " forward one character
-cnoremap <c-l>		<Right>
+cnoremap <c-l>    <Right>
 " recall newer command-line
-cnoremap <c-j>		<Down>
+cnoremap <c-j>    <Down>
 " recall previous (older) command-line
-cnoremap <c-k>		<Up>
+cnoremap <c-k>    <Up>
 " back one word
-cnoremap <c-b>	  <S-Left>
+cnoremap <c-b>    <S-Left>
 " forward one word
-cnoremap <c-w>	  <S-Right>
+cnoremap <c-w>    <S-Right>
 
 " Root permission inside of neovim, why Neovim ? :-(
 command! W :w suda://%
 
+nnoremap <c-t><c-n> :FloatermNew<cr>
+nnoremap <c-t><c-t> :FloatermToggle<cr>
+
 " }}}
 
 " Options {{{
+
+syntax on
 
 " search for local config files at startup
 set exrc
@@ -201,6 +219,7 @@ set number
 set relativenumber
 set ttimeoutlen=10
 set splitbelow splitright
+set cursorline
 
 " See substitution as you type them
 set inccommand=split
@@ -208,6 +227,7 @@ set inccommand=split
 " Tab to spaces
 set tabstop=2
 set shiftwidth=2
+set expandtab
 
 " File fuzzy finding
 set path+=**
@@ -224,9 +244,9 @@ set cino=j1,(0,ws,Ws
 
 " Display trailing whitespace and tabs
 set list
-" set listchars=tab:\|\ ,trail:·
+set listchars=tab:\|\ ,trail:·
 " set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
-set listchars=tab:\ \ ,trail:·
+" set listchars=tab:\ \ ,trail:·
 
 " french and english spelling
 set spelllang=en,fr
@@ -237,19 +257,20 @@ set spelllang=en,fr
 
 " vimwiki
 let g:vimwiki_list = [{'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_global_ext = 0
 let g:vimwiki_map_prefix = '<leader>v'
 let g:vimwiki_key_mappings = {
-			\   'all_maps': 1,
-			\   'global': 0,
-			\   'headers': 1,
-			\   'text_objs': 1,
-			\   'table_format': 1,
-			\   'table_mappings': 1,
-			\   'lists': 1,
-			\   'links': 1,
-			\   'html': 1,
-			\   'mouse': 0,
-			\ }
+      \   'all_maps': 1,
+      \   'global': 0,
+      \   'headers': 1,
+      \   'text_objs': 1,
+      \   'table_format': 1,
+      \   'table_mappings': 1,
+      \   'lists': 1,
+      \   'links': 1,
+      \   'html': 1,
+      \   'mouse': 0,
+      \ }
 
 " Redefine the mappings because they suck...
 nmap <leader>vw  <Plug>VimwikiIndex
@@ -280,6 +301,7 @@ nnoremap <leader>tt :Tags<cr>
 nnoremap // :BLines<cr>
 nnoremap ?? :Rg<cr>
 nnoremap cc :Commands<cr>
+nnoremap gb :Buffers<cr>
 command! FileHistory execute ":BCommits"
 
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -289,13 +311,13 @@ command! FileHistory execute ":BCommits"
 
 " vim-markdown
 " set default markdown fold level
-let g:vim_markdown_folding_level = 3
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_math = 1
+" let g:vim_markdown_folding_level = 3
+" let g:vim_markdown_frontmatter = 1
+" let g:vim_markdown_math = 1
 
 " vim-airline
 if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
 
@@ -307,21 +329,21 @@ let g:airline_theme='bubblegum'
 " Coc
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <silent><expr> <Tab>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<Tab>" :
-			\ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <silent><expr> <TAB>
-" 			\ pumvisible() ? coc#_select_confirm() :
-" 			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-" 			\ <SID>check_back_space() ? "\<TAB>" :
-" 			\ coc#refresh()
+"       \ pumvisible() ? coc#_select_confirm() :
+"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -336,12 +358,13 @@ let g:coc_snippet_prev = '<c-k>'
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 let g:coc_global_extensions=[
-	\ "coc-julia",
-	\ "coc-vimtex",
-	\ "coc-clangd",
-	\ "coc-python",
-	\ "coc-snippets"
-	\ ]
+  \ "coc-julia",
+  \ "coc-vimtex",
+  \ "coc-clangd",
+  \ "coc-python",
+  \ "coc-snippets",
+  \ "coc-rls"
+  \ ]
 
 " Go to definition under cursor
 nmap <silent> <leader>gd <Plug>(coc-definition)
@@ -350,116 +373,122 @@ nmap <silent> <leader>gd <Plug>(coc-definition)
 let g:vimtex_compiler_progname = 'nvr'
 let g:tex_flavor = 'latex'
 
+" transparent background when opening vim
+autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
+
 " colorscheme zenburn
 " colorscheme dracula
 " colorscheme gotham
-
-" set t_Co=256
-" syntax on
+" colorscheme onedark
+colorscheme nord
 " colorscheme minimalist
+" colorscheme purify
+" colorscheme abstract
+
+" let g:alduin_Shout_Aura_Whisper = 1
+" let g:alduin_Shout_Fire_Breath = 1
+" colorscheme alduin
 
 " set background=dark
-" colorscheme PaperColor"
+" colorscheme PaperColor
 
 " let g:PaperColor_Theme_Options = {
-" 			\   'theme': {
-" 			\     'default': {
-" 			\       'transparent_background': 1
-" 			\     }
-" 			\   }
-" 			\ }
+"       \   'theme': {
+"       \     'default': {
+"       \       'transparent_background': 1
+"       \     }
+"       \   }
+"       \ }
 
 " if (has("autocmd") && !has("gui_running"))
-" 	augroup colorset
-" 		autocmd!
-" 		let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-" 		autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-" 	augroup END
+"   augroup colorset
+"     autocmd!
+"     let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+"     autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+"   augroup END
 " endif
-
-" syntax on
-" colorscheme onedark
-
-colorscheme nord
 
 " }}}
 
 " C++ file settings {{{
 augroup filetype_cpp
-	autocmd!
-	" Switch between header and source file
-	autocmd FileType cpp nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
-	" Display symbol inforamtion
-	autocmd FileType cpp nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
+  autocmd!
+  " Switch between header and source file
+  autocmd FileType cpp nmap <silent> <leader>a :CocCommand clangd.switchSourceHeader<cr>
+  " Display symbol inforamtion
+  autocmd FileType cpp nmap <silent> <leader>i :CocCommand clangd.symbolInfo<cr>
 augroup END
 " }}}
 
 " Vimscript file settings {{{
 augroup filetype_vim
-	autocmd!
-	autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
-	autocmd BufLeave ~/.config/nvim/init.vim :source $MYVIMRC
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker | setlocal foldlevel=0
+  autocmd BufLeave ~/.config/nvim/init.vim :source $MYVIMRC | highlight Normal guibg=NONE ctermbg=NONE | echo "sourced!"
 augroup END
 " }}}
 
 " XML file settings {{{
 augroup filetype_html
-	autocmd!
-	autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
+  autocmd!
+  autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
 augroup END
 " }}}
 
 " Python file settings {{{
 augroup filetype_python
-	autocmd!
-	autocmd BufNewFile,BufRead python setlocal tabstop=4 softtabstop=4 textwidth=120 autoindent fileformat=unix foldlevel=1
-	autocmd FileType python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
-augroup end
-" }}}
-
-" Julia file settings {{{
-augroup filetype_python
-	autocmd!
-	autocmd BufNewFile,BufRead *.jl :setlocal filetype=julia
+  autocmd!
+  autocmd BufNewFile,BufRead python setlocal tabstop=4 softtabstop=4 textwidth=120 autoindent fileformat=unix foldlevel=1
+  autocmd FileType python nnoremap <buffer> <localleader>r :CocCommand python.execInTerminal<CR>
 augroup end
 " }}}
 
 " Markdown file settings {{{
 augroup filetype_md
-	autocmd!
-	autocmd FileType markdown setlocal nocindent
-	autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
-	autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+  autocmd!
+  autocmd FileType markdown setlocal nocindent
+  autocmd FileType markdown nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+  autocmd FileType markdown nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
+augroup END
+" }}}
+
+" pandoc file settings {{{
+augroup pandoc_syntax
+  autocmd!
+  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+  autocmd FileType markdown.pandoc setlocal nocindent
+  autocmd FileType markdown.pandoc nnoremap <buffer> <localleader>s :!mupdf $(echo % \| sed 's/md$/pdf/') & disown<CR>
+  autocmd FileType markdown.pandoc nnoremap <buffer> <localleader>c :w<bar>!pandoc -so $(echo % \| sed 's/md$/pdf/') % <CR>:!pkill -HUP mupdf<CR>
 augroup END
 " }}}
 
 " Suckless auto build {{{
 augroup suckless
-	autocmd!
-	" autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
-	autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
+  autocmd!
+  " autocmd BufRead config.h nnoremap <localleader>c :termopen<cr>icd ~/softwares/suckless/dwmblocks; sudo -S make install && { killall -q dwmblocks; setsid dwmblocks& }")<cr>
+  autocmd BufRead config.h nnoremap <localleader>c :w<bar>new<bar>terminal<cr>isudo make install && { killall -q dwmblocks; setsid dwmblocks& }<cr>
 " }}}
 
 " Vimwiki {{{
 " nnoremap <localleader>now :.!date<cr>I**<esc>A**<esc>
 augroup vimwiki_file
-	autocmd!
-	autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>
-	autocmd FileType vimwiki setlocal spell spelllang=en
+  autocmd!
+  autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>
+  autocmd FileType vimwiki setlocal spell spelllang=en
 augroup END
 " }}}
 
 " More autocmd {{{
 augroup more_autocmd
-	autocmd!
-	autocmd InsertEnter * :setlocal nohlsearch
-	autocmd InsertLeave * :setlocal hlsearch
-	autocmd BufNewFile,BufRead * nnoremap <silent>
-				\ <localleader>c :make<CR>
-	" autocmd BufNewFile,BufRead * nnoremap <silent>
-	" 			\ <localleader>c :silent make unsilent echo "Done."<CR>
-	autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
-				\ containedin=.*Comment,vimCommentTitle
+  autocmd!
+  autocmd InsertEnter * :setlocal nohlsearch
+  autocmd InsertLeave * :setlocal hlsearch
+  autocmd BufNewFile,BufRead * nnoremap <silent>
+        \ <localleader>c mz:make<CR>`z
+  " autocmd BufNewFile,BufRead * nnoremap <silent>
+  "       \ <localleader>c :silent make unsilent echo "Done."<CR>
+  autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
+        \ containedin=.*Comment,vimCommentTitle
 augroup END
 
 highlight def link MyTodo vimTodo
@@ -469,25 +498,25 @@ highlight def link MyTodo vimTodo
 " Functions {{{
 
 function! EchoDone(job_id, data, event)
-	echo "Job done!"
+  echo "Job done!"
 endfunction
 
 function! SwitchHeader(cmd)
-	let filename = expand("%:t:r")
-	if expand("%:e") == "hpp"
-		let filename = filename . ".cpp"
-		execute(a:cmd . " " . filename)
-	elseif expand("%:e") == "cpp"
-		let filename = filename . ".hpp"
-		execute(a:cmd . " " . filename)
-	endif
+  let filename = expand("%:t:r")
+  if expand("%:e") == "hpp"
+    let filename = filename . ".cpp"
+    execute(a:cmd . " " . filename)
+  elseif expand("%:e") == "cpp"
+    let filename = filename . ".hpp"
+    execute(a:cmd . " " . filename)
+  endif
 endfunction
 
 function! WC()
-	let filename = expand("%")
-	let cmd = "detex " . filename . " | wc -w | tr -d [:space:]"
-	let result = system(cmd)
-	echo result . " words"
+  let filename = expand("%")
+  let cmd = "detex " . filename . " | wc -w | tr -d [:space:]"
+  let result = system(cmd)
+  echo result . " words"
 endfunction
 
 " }}}

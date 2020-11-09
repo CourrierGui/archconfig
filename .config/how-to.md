@@ -21,6 +21,10 @@
 	* `git checkout <receiving-branch>`
 	* `git pull`
 	* `git merge`
+* diffs:
+	* `git diff HEAD^`: diffs between HEAD and last commit;
+	* `git diff HEAD^^`: diffs between HEAD and second to last commit;
+	* `git diff <commit-id>`: diffs between HEAD and `<commit-id>`.
 
 # tmux
 
@@ -168,3 +172,7 @@ This function allows to customize the behavior of Zsh using patterns.
 Usage: `zstyle context style value`
 
 * `:completion:func:completer:cmd:arg:tag`: context;
+
+# Suckless
+
+* `patch -p1 < path/to/patch/file`: apply patch
