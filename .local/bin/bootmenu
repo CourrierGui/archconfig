@@ -2,9 +2,16 @@
 
 # A dmenu wrapper script for system functions.
 
+# cmds="\
+# shutdown 🖥:${shut:-doas shutdown now}
+# reboot 🔃:${reb:-doas reboot}
+# renew dwm ♻:kill -HUP $(pidof -s dwm)
+# leave dwm 🚪:kill -TERM $(pidof -s dwm)
+# lock 🔒:slock
+# hibernate 🐻:${hib:-sudo -A systemctl suspend-then-hibernate}"
 cmds="\
-shutdown 🖥:${shut:-doas shutdown now}
-reboot 🔃:${reb:-doas reboot}
+shutdown 🖥:${shut:-doas runit-init 0}
+reboot 🔃:${reb:-doas runit-init 6}
 renew dwm ♻:kill -HUP $(pidof -s dwm)
 leave dwm 🚪:kill -TERM $(pidof -s dwm)
 lock 🔒:slock
