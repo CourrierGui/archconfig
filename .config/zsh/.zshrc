@@ -7,7 +7,7 @@ source "$ZDOTDIR/aliases.zsh"       # list of aliases
 source "$ZDOTDIR/themes/simple.zsh" # minimalistic terminal prompt
 source "$ZDOTDIR/plugin/fzf.zsh"    # fzf completion
 _gen_fzf_default_opts               # color theme for fzf
-autoload -Uz cursor; cursor         # change the cursor based on the vi mode
+autoload -Uz cursor.zsh; cursor.zsh # change the cursor based on the vi mode
 
 source "$ZDOTDIR/plugin/completion.zsh" # custom completion configuration
 autoload -Uz compinit; compinit         # enable completion
