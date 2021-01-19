@@ -1,0 +1,5 @@
+#!/bin/sh
+
+search=$(dmenu)
+url_search=$(echo "$search" | sed "s/\s/+/g")
+surf "https://searx.fmac.xyz/search?q=$url_search"
