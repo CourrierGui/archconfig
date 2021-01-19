@@ -1,5 +1,11 @@
 # Aliases
 alias config='/usr/bin/git --git-dir=/home/guillaume/.cfg/ --work-tree=/home/guillaume'
+alias cstat="config status"
+alias cdiff="config diff"
+alias cpush="config push"
+alias cpull="config pull"
+alias cadd="config add"
+alias commit="config commit"
 
 alias ls='ls -hN --color=auto --group-directories-first'
 alias ll='ls -alF'
@@ -32,6 +38,7 @@ alias gd='git diff'
 alias gl='git log'
 alias gpl='git pull'
 alias gps='git push'
+alias gm='git mv'
 
 alias tree='tree -C'
 alias myip="curl ipinfo.io/ip"
