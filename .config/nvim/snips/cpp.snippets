@@ -26,22 +26,31 @@
 
 snippet ns "Namespace definition" b
 namespace $1 {
-	$2
+  $2
 } /* end of namespace $1 */
 endsnippet
 
 snippet class "Class definition"
 class $1 {
-	$2
+  $2
 };
 endsnippet
 
 snippet struct "Struct definition"
 struct $1 {
-	$2
+  $2
 };
 endsnippet
 
 snippet template "Template definition"
 template<$1>
+endsnippet
+
+snippet guard "Header guards"
+#ifndef $1_H
+#define $1_H
+
+$2
+
+#endif
 endsnippet
