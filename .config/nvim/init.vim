@@ -373,11 +373,16 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 let g:coc_global_extensions=[
   \ "coc-julia",
+  \ "coc-json",
   \ "coc-vimtex",
   \ "coc-clangd",
+  \ "coc-cmake",
   \ "coc-python",
   \ "coc-snippets",
-  \ "coc-rls"
+  \ "coc-rls",
+  \ "coc-sh",
+  \ "coc-css",
+  \ "coc-html"
   \ ]
 
 " Go to definition under cursor
