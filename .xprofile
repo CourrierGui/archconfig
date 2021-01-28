@@ -3,7 +3,8 @@
 xrdb -merge -I$HOME ~/.config/Xresources
 dwmblocks &
 dunst &
-xcompmgr &
+# xcompmgr &
+picom &
 remaps &
 battery_signal &
 
