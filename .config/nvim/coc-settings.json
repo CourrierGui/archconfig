@@ -1,5 +1,6 @@
 {
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips",
   "clangd.semanticHighlighting": true,
-  "clangd.fallbackFlags": ["-Iinclude"]
+  "clangd.enabled": true,
+  "clangd.fallbackFlags": ["-I/usr/include/freetype2 -Iinclude -std=c++17"]
 }

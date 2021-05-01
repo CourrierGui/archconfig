@@ -12,7 +12,6 @@ call plug#begin()
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'Yggdroot/indentLine'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -34,14 +33,15 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 
 Plug 'lambdalisue/suda.vim'
+Plug 'karoliskoncevicius/vim-sendtowindow'
 
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'cespare/vim-toml'
 Plug 'vim-scripts/asmx86'
+Plug 'fidian/hexmode'
 
 Plug 'CourrierGui/vim-potion'
-" Plug '~/dev/projects/vim-markdown'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'ap/vim-css-color'
@@ -77,16 +77,6 @@ nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") 
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
-
-" Open file containing tag in new split
-" set previewheight=100
-" nnoremap <c-]> :execute "vertical ptag " . expand("<cword>")<cr>
-
-" Easier move between methods
-" nnoremap <leader>m ]m
-
-" List buffers and prepare to enter new one
-" nnoremap gb :ls<cr>:b<space>
 
 " Make moving between wraped lines more intuitive
 nnoremap j gj
@@ -156,7 +146,7 @@ nnoremap <silent> <Left> :vertical resize -2<CR>
 nnoremap <silent> <Right> :vertical resize +2<CR>
 
 " Enable folding with the spacebar
-nnoremap <space> za
+nnoremap <space><space> za
 
 " Move to file directory
 nnoremap <silent> <leader>cd :cd %:p:h<cr>
@@ -185,7 +175,8 @@ nnoremap <A-s>o :!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/
 nnoremap <c-w><c-]> <c-w>v<c-]>
 
 " Terminal Mappings
-tnoremap <esc> <c-\><c-n>
+" tnoremap <esc> <c-\><c-n>
+tnoremap <c-\> <c-\><c-n>
 
 " Operator-Pending Mappings
 onoremap in( :<c-u>normal! f(vi(<cr>
@@ -215,6 +206,10 @@ cnoremap <c-w>    <S-Right>
 command! W :w suda://%
 command! Surf :execute "!surf " . expand("%:p")
 command! FindTODO :vimgrep /\<TODO\>/j ** <bar> copen
+
+" find and fix 'suckless' style function definitions
+command! ReplaceCDefs
+  \ :%s/^\s*\([a-zA-Z* _]\+\)\s*\n\([a-zA-Z0-9_]\+\)(\(\(.\|\n\)\{-\}\)\n\?{$/\1 \2(\3 {/c
 
 nnoremap <a-t>n :FloatermNew<cr>
 nnoremap <a-t>t :FloatermToggle<cr>
@@ -259,11 +254,9 @@ set cino=j1,(0,ws,Ws
 " Display trailing whitespace and tabs
 set list
 set listchars=tab:\|\ ,trail:·
-" set listchars=eol:↓,tab:\|\ \ ,trail:·,extends:…,precedes:…
-" set listchars=tab:\ \ ,trail:·
 
 " french and english spelling
-set spelllang=en,fr
+set spelllang=en
 
 " }}}
 
@@ -318,17 +311,6 @@ nnoremap cc :Commands<cr>
 nnoremap gb :Buffers<cr>
 command! FileHistory execute ":BCommits"
 
-" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-" let g:indentLine_concealcursor = 'inc'
-" let g:indentLine_conceallevel = 1
-" let g:indentLine_enabled = 1
-
-" vim-markdown
-" set default markdown fold level
-" let g:vim_markdown_folding_level = 3
-" let g:vim_markdown_frontmatter = 1
-" let g:vim_markdown_math = 1
-
 " vim-airline
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -382,6 +364,7 @@ let g:coc_global_extensions=[
   \ "coc-rls",
   \ "coc-sh",
   \ "coc-css",
+  \ "coc-tsserver",
   \ "coc-html"
   \ ]
 
@@ -395,37 +378,7 @@ let g:tex_flavor = 'latex'
 " transparent background when opening vim
 autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
 
-" colorscheme zenburn
-" colorscheme dracula
-" colorscheme gotham
-" colorscheme onedark
 colorscheme nord
-" colorscheme minimalist
-" colorscheme purify
-" colorscheme abstract
-
-" let g:alduin_Shout_Aura_Whisper = 1
-" let g:alduin_Shout_Fire_Breath = 1
-" colorscheme alduin
-
-" set background=dark
-" colorscheme PaperColor
-
-" let g:PaperColor_Theme_Options = {
-"       \   'theme': {
-"       \     'default': {
-"       \       'transparent_background': 1
-"       \     }
-"       \   }
-"       \ }
-
-" if (has("autocmd") && !has("gui_running"))
-"   augroup colorset
-"     autocmd!
-"     let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-"     autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-"   augroup END
-" endif
 
 " }}}
 
@@ -453,6 +406,13 @@ augroup filetype_html
   autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
   autocmd FileType html nnoremap <buffer> <leader>ss :Surf<cr>
 augroup END
+" }}}
+
+" Lisp file settings {{{
+augroup filetype_python
+  autocmd!
+  autocmd FileType lisp setlocal nocindent
+augroup end
 " }}}
 
 " Python file settings {{{
@@ -537,3 +497,4 @@ function! WC()
 endfunction
 
 " }}}
+

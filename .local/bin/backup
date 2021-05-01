@@ -3,51 +3,92 @@
 
 # Backup destination
 
+# Backup:
+custom_rsync() {
+  sudo rsync -aAXv --delete \
+    --exclude="/dev/*" --exclude="/proc/*" \
+    --exclude="/sys/*" --exclude="/tmp/*" \
+    --exclude="/run/*" --exclude="/mnt/*" \
+    --exclude="/opt"   --exclude="/usr" \
+    --exclude="/root"  --exclude="/media/*" \
+    --exclude="lost+found" \
+    --exclude="build" --exclude="swapfile" \
+    --exclude=".cache" --exclude="Downloads" \
+    --exclude=".cargo" --exclude=".android" \
+    --exclude=".clangd" --exclude=".conan" \
+    --exclude=".eclipse" --exclude=".yay" \
+    --exclude=".gradle" --exclude=".local/backup" \
+    --exclude="Documents/backup" \
+    --exclude="Documents/iso" \
+    --exclude=".local/lib/python3.8" \
+    --exclude=".local/lib/python3.9" \
+    --exclude=".local/share/Stream" \
+    --exclude=".local/share/com.github.babluboy.bookworm" \
+    --exclude=".npm" --exclude=".oh-my-zsh" \
+    --exclude=".rustup" \
+    --exclude="softwares/aur/android"\
+    --exclude="softwares/aur/brave-bin"\
+    --exclude="softwares/aur/qt"\
+    --exclude="softwares/aur/teams"\
+    --exclude="dev/clone" \
+    "/media/guillaume/79ba1e4d-779e-4efc-8585-9396f33a702d/" "/run/media/guillaume/639274ff-4354-4772-bb11-871b7f154dab/backups/shared-data"
+}
+
+custom_rsync
+exit 0
+
+# Restore
+# sudo rsync -aAXv --delete --exclude="lost+found" /source destination
+
+# Cron
+# 00 12 * * * rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/daily
+# 00 15 * * 5 rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/weekly
+# 00 16 1 * * rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/monthly_$(date +%Y%m%d)
+
 help_message="Usage: [-h|--help]
 
   -r|--root         root of the file tree to backup
   -d|--destination  directory where the backup will be saved
   -p|--prefix       prefix put in the name of the final backup
-  -e|--exclude      file containing files to ignore (optional)
-"
+  -e|--exclude      file containing files to ignore (optional)"
 
 # --slice 620M --first-slice 600M
 
 # compress "$root_dir" "$destination/$prefix-$date" "$exclude"
 compress() {
-	dar --execute "par2 c -r5 \"%p/%b.%n.par2\" \"%p/%b.%n.%e\"" \
-		--alter=atime --empty-dir --fs-root "$1" --noconf          \
-		--create "$2/backup" -z6 -an -Z "*.ogg" -Z "*.avi"         \
-		-Z "*.mp?" -Z "*.pk3" -Z "*.flac" -Z "*.zip" -Z "*.tgz"    \
-		-Z "*.gz" -Z "*.gzip" -Z "*.bz2" -Z "*.bzip2" -Z "*.mov"   \
-		-Z "*.r" --exclude-from-file "$3" -v -X "backup.*.dar"
+  dar --execute "par2 c -r5 \"%p/%b.%n.par2\" \"%p/%b.%n.%e\"" \
+    --alter=atime --empty-dir --fs-root "$1" --noconf          \
+    --create "$2/backup" -z6 -an -Z "*.ogg" -Z "*.avi"         \
+    -Z "*.mp?" -Z "*.pk3" -Z "*.flac" -Z "*.zip" -Z "*.tgz"    \
+    -Z "*.gz" -Z "*.gzip" -Z "*.bz2" -Z "*.bzip2" -Z "*.mov"   \
+    -Z "*.r" --exclude-from-file "$3" -v -X "backup.*.dar"
 }
 
 while [ $# -gt 0 ]
 do
-	arg="$1"
-	case $arg in
-		-r|--root)
-			shift
-			root_dir="$1"
-			shift ;;
-		-d|--destination)
-			shift
-			destination="$1"
-			shift ;;
-		-p|--prefix)
-			shift
-			prefix="$1"
-			shift ;;
-		-e|--exclude-file)
-			shift
-			exclude="$1"
-			shift ;;
-		-h|--help)
-			echo "$help_message"
-			shift
-			exit ;;
-	esac
+  arg="$1"
+  case $arg in
+    -r|--root)
+      shift
+      root_dir="$1"
+      shift ;;
+    -d|--destination)
+      shift
+      destination="$1"
+      shift ;;
+    -p|--prefix)
+      shift
+      prefix="$1"
+      shift ;;
+    -e|--exclude-file)
+      shift
+      exclude="$1"
+      shift ;;
+    -h|--help)
+      echo "$help_message"
+      shift
+      exit ;;
+  esac
 done
 
 date=$(date "+%F")
@@ -64,10 +105,10 @@ read -p "Do you want to continue ? [y/N]" continue
 
 if [ $continue = y ]
 then
-	[ -d "$destination/backups/$prefix-$date" ]\
-		|| mkdir -p "$destination/backups/$prefix-$date"
-	compress "$root_dir" "$destination/backups/$prefix-$date" "$exclude"
-else
-	echo "Aborted by user"
-	exit
+  [ -d "$destination/backups/$prefix-$date" ]\
+    || mkdir -p "$destination/backups/$prefix-$date"
+      compress "$root_dir" "$destination/backups/$prefix-$date" "$exclude"
+  else
+    echo "Aborted by user"
+    exit
 fi

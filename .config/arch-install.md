@@ -121,8 +121,17 @@ mkinitcpio -P
 Encrypted `/home/guillaume` see [this](https://wiki.archlinux.org/index.php/Dm-crypt/Mounting_at_login) wiki page.
 
 Grub:
+
+EFI partition:
+
 ```
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+mkdir /boot/efi
+mount /dev/sda1 /boot/efi
+```
+Install `os-prober`.
+
+```
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
@@ -160,6 +169,8 @@ echo "permit persist guillaume as root" >> /etc/doas.conf
 ```
 
 ### sudo
+
+`yay -S opendoas-sudo`
 
 If vi is not installed: `ln -s /usr/bin/vi /usr/bin/nvim`
 

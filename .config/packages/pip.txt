@@ -1,10 +1,12 @@
 matplotlib
 breathe
 numpy
+pandas
 pandoc-eqnos
 pipupgrade
 pipupgrade
 pylint
+scikit-learn
 sphinx
 sphinx_rtd_theme
 toml
