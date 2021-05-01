@@ -50,3 +50,10 @@ networkmanager-runit
 ## Theme
 
 `GRUB_THEME="/path/to/theme.txt"`
+
+## NTP
+
+```
+# pacman -S ntp ntp-runit
+# ntpd -qg
+```
