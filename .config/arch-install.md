@@ -135,6 +135,15 @@ cryptsetup close home-guillaume
 reboot
 ```
 
+## Intel microcode
+
+```
+# pacman -S inter-ucode
+# grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Check if successful: `dmesg | grep microcode`
+
 ### Wifi
 
 ```
@@ -555,6 +564,8 @@ systemctl enable avahi-daemon.service ?
 systemctl start avahi-daemon.service ?
 ```
 
+If not working, enable and start `cups` service.
+
 Add: `mdns_minimal [NOTFOUND=return]` to `/etc/nsswitch.conf` at line `hosts:` before `resolve`
 A reboot may be necessary.
 
@@ -587,7 +598,8 @@ pip install numpy matplotlib
 
 ### C++ libraries
 
-**pacman:** boost glfw-x11 glm freetype2 assimp
+**pacman:** boost glfw-x11 glm freetype2 assimp vsqlite++ cpptoml
+
 **AUR:** libcurlpp
 
 ### ROS
@@ -599,6 +611,7 @@ yay -S ros-melodic-ros-base ros-melodic-pcl-ros ros-melodic-pcl-conversions ros-
 ### Fonts
 
 **pacman:** ttf-ubuntu-font-family ttf-proggy-font
+
 **AUR:** gohu-ttf ttf-gaegu nerd-fonts-droid-sans-mono
 
 # Install script
@@ -625,3 +638,15 @@ chmod u+x ~/.config/post-install.sh
 ```
 
 Logout to update .zprofile and don't forget to install libxft-bgra
+
+## Backup
+
+### Pacman
+
+* list of packages: `pacman -Qqe > packages.txt`
+* `-t`: do not list dependencies
+* `-n`: ignore foreign packages (not AUR)
+* `comm -13 <(pacman -Qqdt | sort) <(pacman -Qqdtt | sort) > optdeplist.txt`:
+  list of optionnal dependencies, installed with `--asdeps`
+* `pacman -Qqem > foreignpkg.txt`: list of AUR packages and other foreign
+  packages

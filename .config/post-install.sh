@@ -3,7 +3,9 @@ aur_packages="/tmp/aur.txt"
 pip_packages="/tmp/pip.txt"
 user="guillaume"
 
-installpkg() { doas pacman --noconfirm --needed -S "$1" >/dev/null 2>&1; }
+installpkg() {
+  doas pacman --asdeps --noconfirm --needed -S "$1" >/dev/null 2>&1;
+}
 yayinstall() { yay -S --noconfirm "$1" >/dev/null 2>&1; }
 pipinstall() { yes | pip install $pkg >/dev/null 2>&1; }
 error() { printf "ERROR: %s\\n" "$1"; exit; }

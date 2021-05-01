@@ -6,4 +6,13 @@ dunst &
 xcompmgr &
 remaps &
 battery_signal &
-xwallpaper --zoom ~/.config/wall.png &
+
+if [ -f ~/.config/wall.png ];
+then
+  xwallpaper --zoom ~/.config/wall.png &
+elif [ -f ~/.config/default.png ];
+then
+  setbg ~/.config/default.png &
+else
+  notify-send --warn "No wallpaper" &
+fi

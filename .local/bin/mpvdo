@@ -8,154 +8,154 @@
 # TODO bug with dmenu if no file or directory is selected
 
 start_mpv() {
-	if [ -f "$1" ]
-	then
-		file="$1"
-		ext="${file##*.}"
-		if [ "$ext" = "txt" ]
-		then
-			setsid -f mpv --shuffle --playlist="$1"
-		else
-			setsid -f mpv --shuffle "$1"
-		fi
-	else
-		setsid -f mpv --shuffle "$1"
-	fi
-	exit
+  if [ -f "$1" ]
+  then
+    file="$1"
+    ext="${file##*.}"
+    if [ "$ext" = "txt" ]
+    then
+      setsid -f mpv --shuffle --playlist="$1"
+    else
+      setsid -f mpv --shuffle "$1"
+    fi
+  else
+    setsid -f mpv --shuffle "$1"
+  fi
+  exit
 }
 
 read_input() {
-	dir=$(echo "All Tracks\n$(ls "$1")" | dmenu -l 10)
-	[ "$dir" = "All Tracks" ] && echo "$1" && return 0
-	[ "$dir" = "" ] && exit
+  dir=$(echo "All Tracks\n$(ls "$1")" | dmenu -l 10)
+  [ "$dir" = "All Tracks" ] && echo "$1" && return 0
+  [ "$dir" = "" ] && exit
 
-	dir="$1/$dir"
+  dir="$1/$dir"
 
-	if [ -d "$dir" ]
-	then
-		read_input "$dir"
-	else
-		echo "$dir"
-	fi
+  if [ -d "$dir" ]
+  then
+    read_input "$dir"
+  else
+    echo "$dir"
+  fi
 }
 
 start() {
-	start_mpv "$(read_input "$1")"
+  start_mpv "$(read_input "$1")"
 }
 
 add() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		file=$(read_input "$1")
-		ext=${file##*.}
-		if [ $ext = "txt" ]
-		then
-			printf '{ "command": ["loadlist", "%s", "append"] }\n' "$file"\
-				| socat - "$i" >/dev/null
-		else
-			printf '{ "command": ["loadfile", "%s", "append"] }\n' "$file"\
-				| socat - "$i" >/dev/null
-		fi
-	done
+  for i in $(ls /tmp/mpvSockets/*); do
+    file=$(read_input "$1")
+    ext=${file##*.}
+    if [ $ext = "txt" ]
+    then
+      printf '{ "command": ["loadlist", "%s", "append"] }\n' "$file"\
+        | socat - "$i" >/dev/null
+            else
+              printf '{ "command": ["loadfile", "%s", "append"] }\n' "$file"\
+                | socat - "$i" >/dev/null
+    fi
+  done
 }
 
 pause() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["set_property", "pause", true] }'\
-			| socat - "$i" >/dev/null
-	done
-}
+  for i in $(ls /tmp/mpvSockets/*); do
+    echo '{ "command": ["set_property", "pause", true] }'\
+      | socat - "$i" >/dev/null
+    done
+  }
 
 play() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["set_property", "pause", false] }'\
-			| socat - "$i" >/dev/null
-	done
-}
+  for i in $(ls /tmp/mpvSockets/*); do
+    echo '{ "command": ["set_property", "pause", false] }'\
+      | socat - "$i" >/dev/null
+    done
+  }
 
 next() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["playlist-next", "force"] }'\
-			| socat - "$i" >/dev/null
-	done
-}
+  for i in $(ls /tmp/mpvSockets/*); do
+    echo '{ "command": ["playlist-next", "force"] }'\
+      | socat - "$i" >/dev/null
+    done
+  }
 
 prev() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["playlist-prev", "force"] }'\
-			| socat - "$i" >/dev/null
-	done
-}
+  for i in $(ls /tmp/mpvSockets/*); do
+    echo '{ "command": ["playlist-prev", "force"] }'\
+      | socat - "$i" >/dev/null
+    done
+  }
 
 stop() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		echo '{ "command": ["quit"] }' | socat - "$i" >/dev/null
-	done
+  for i in $(ls /tmp/mpvSockets/*); do
+    echo '{ "command": ["quit"] }' | socat - "$i" >/dev/null
+  done
 }
 
 list() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		list=$(echo '{ "command": ["get_property", "playlist"] }'\
-			| socat - "$i"\
-			| jq '.data[] | .filename | .'\
-			| xargs printf "%s\n"\
-			| awk '{ print NR,$0 }')
+  for i in $(ls /tmp/mpvSockets/*); do
+    list=$(echo '{ "command": ["get_property", "playlist"] }'\
+      | socat - "$i"\
+      | jq '.data[] | .filename | .'\
+      | xargs printf "%s\n"\
+      | awk '{ print NR,$0 }')
 
-		# if $1 is a playlist, it doesn't work!
-		file=$(echo "$list" | dmenu -l 10 | awk '{ print $1 }')
+    # if $1 is a playlist, it doesn't work!
+    file=$(echo "$list" | dmenu -l 10 | awk '{ print $1 }')
 
-		printf '{ "command": ["set_property", "playlist-pos-1", %d] }\n' "$file"\
-			| socat - "$i" >/dev/null
-	done
-}
+    printf '{ "command": ["set_property", "playlist-pos-1", %d] }\n' "$file"\
+      | socat - "$i" >/dev/null
+    done
+  }
 
 playlist() {
-	for i in $(ls /tmp/mpvSockets/*); do
-		file=$(ls "$1" | dmenu -l 10)
-		current_file=$(echo '{ "command": ["get_property", "path"] }'\
-			| socat - "$i"\
-			| jq .data)
-		echo "$current_file" | sed 's/^"//;s/"$//' >> "$1/$file"
-	done
-}
+  for i in $(ls /tmp/mpvSockets/*); do
+    file=$(ls "$1" | dmenu -l 10)
+    current_file=$(echo '{ "command": ["get_property", "path"] }'\
+      | socat - "$i"\
+      | jq .data)
+          echo "$current_file" | sed 's/^"//;s/"$//' >> "$1/$file"
+        done
+      }
 
-show() {
-	# TODO do this automaticaly when the file changes ?
-	for i in $(ls /tmp/mpvSockets/*); do
-		current_music=$(echo '{ "command": ["get_property", "filename"] }'\
-			| socat - "$i"\
-			| jq .data\
-			| sed 's/^"//;s/"$//')
+    show() {
+      # TODO do this automaticaly when the file changes ?
+      for i in $(ls /tmp/mpvSockets/*); do
+        current_music=$(echo '{ "command": ["get_property", "filename"] }'\
+          | socat - "$i"\
+          | jq .data\
+          | sed 's/^"//;s/"$//')
 
-		notify-send -u low "${current_music%.*}"
-	done
-}
+        notify-send -u low "${current_music%.*}"
+      done
+    }
 
-help() {
-	echo "mpvdo: [-h|help]"
-	echo ""
-	echo "  start      start an instance of mpv with the selected files"
-	echo "  add        add files to the current playlist"
-	echo "  playlist   add the current track to the choosen playlist"
-	echo "  pause      pause all instances of mpv"
-	echo "  play       start all instances of mpv"
-	echo "  prev       play the previous file in the playlist"
-	echo "  next       play the next file in the playlist"
-	echo "  stop       stop all instances of mpv"
-	echo "  list       display the list of files in the playlist to choose from"
-	echo "  show       display the name of the current file played"
-}
+  help() {
+    echo "mpvdo: [-h|help]"
+    echo ""
+    echo "  start      start an instance of mpv with the selected files"
+    echo "  add        add files to the current playlist"
+    echo "  playlist   add the current track to the choosen playlist"
+    echo "  pause      pause all instances of mpv"
+    echo "  play       start all instances of mpv"
+    echo "  prev       play the previous file in the playlist"
+    echo "  next       play the next file in the playlist"
+    echo "  stop       stop all instances of mpv"
+    echo "  list       display the list of files in the playlist to choose from"
+    echo "  show       display the name of the current file played"
+  }
 
 case "$1" in
-	start)    start "/home/guillaume/Music" ;;
-	add)      add "/home/guillaume/Music" ;;
-	playlist) playlist "/home/guillaume/Music/playlist";;
-	pause)    pause ;;
-	play)     play ;;
-	prev)     prev ;;
-	next)     next ;;
-	stop)     stop ;;
-	list)     list ;;
-	show)     show ;;
-	-h|help)  help ;;
-	*) echo "Unknown command" && notify-send -u normal "Unknown command for mpvdo!";;
+  start)    start "/home/guillaume/Music" ;;
+  add)      add "/home/guillaume/Music" ;;
+  playlist) playlist "/home/guillaume/Music/playlist";;
+  pause)    pause ;;
+  play)     play ;;
+  prev)     prev ;;
+  next)     next ;;
+  stop)     stop ;;
+  list)     list ;;
+  show)     show ;;
+  -h|help)  help ;;
+  *) echo "Unknown command" && notify-send -u normal "Unknown command for mpvdo!";;
 esac

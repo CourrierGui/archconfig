@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# TODO get 10 faster mirrors from searx.space
+# TODO select from 10 faster mirrors
+
+search=$(dmenu)
+url_search=$(echo "$search" | sed "s/\s/+/g")
+surf "https://searx.fmac.xyz/search?q=$url_search"

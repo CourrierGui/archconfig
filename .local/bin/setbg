@@ -1,5 +1,4 @@
 #!/bin/sh
 
 cp $1 ~/.config/wall.png
-# wal -i $1
 xwallpaper --zoom $1

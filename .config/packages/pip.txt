@@ -1,6 +1,10 @@
-pandoc-eqnos
-numpy
 matplotlib
+breathe
+numpy
+pandoc-eqnos
+pipupgrade
+pipupgrade
+pylint
 sphinx
 sphinx_rtd_theme
-pylint
+toml

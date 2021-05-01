@@ -3,7 +3,8 @@
 dir="/sys/class/power_supply/BAT0"
 capacity=$(cat "$dir"/capacity)
 status=$(cat "$dir"/status)
-threshold=25
+threshold=15
+min_threshold=7
 
 charging=false
 can_send=true
@@ -11,32 +12,32 @@ sent=false
 
 if [ $status = "Charging" ]
 then
-	charging=true
+  charging=true
 fi
 
 while :
 do
-	if [ $capacity -le $threshold -a $charging = false -a $can_send = true ]
-	then
-		notify-send -u critical -t 4000 "Low Battery!"
-		can_send=false
-		sent=true
-	fi
+  if [ $capacity -le $threshold -a $charging = false -a $can_send = true ]
+  then
+    notify-send -u critical -t 4000 "Low Battery!"
+    can_send=false
+    sent=true
+  fi
 
-	if [ $capacity -le $(($threshold-10)) -a $charging = false -a $sent = true ]
-	then
-		notify-send -u critical -t 4000 "Low Battery!!!"
-		sent=false
-	fi
+  if [ $capacity -le $(($min_threshold)) -a $charging = false -a $sent = true ]
+  then
+    notify-send -u critical -t 4000 "Move your ass!"
+    sent=false
+  fi
 
-	if [ $(cat "$dir"/status) = "Charging" ]
-	then
-		charging=true
-		can_send=true
-		sent=false
-	else
-		charging=false
-	fi
-	capacity=$(cat "$dir"/capacity)
-	sleep 5
+  if [ $(cat "$dir"/status) = "Charging" ]
+  then
+    charging=true
+    can_send=true
+    sent=false
+  else
+    charging=false
+  fi
+  capacity=$(cat "$dir"/capacity)
+  sleep 5
 done

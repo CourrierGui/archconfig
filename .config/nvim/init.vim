@@ -38,10 +38,13 @@ Plug 'lambdalisue/suda.vim'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'cespare/vim-toml'
+Plug 'vim-scripts/asmx86'
 
 Plug 'CourrierGui/vim-potion'
 " Plug '~/dev/projects/vim-markdown'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+
+Plug 'ap/vim-css-color'
 
 call plug#end()
 
@@ -56,6 +59,10 @@ nnoremap <leader>, ,
 " Copy and pasting with system clipboard
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
+
+" tab navigation causes <c-i> to be map to <tab>...
+" nnoremap <tab> gt
+" nnoremap <s-tab> gT
 
 " save some key strokes
 nnoremap <leader>w :write<cr>
@@ -127,6 +134,11 @@ nnoremap <leader>x xp
 nnoremap <leader>u g~iw
 vnoremap <leader>u ~
 inoremap <leader>u <esc>mzg~iwe`za
+
+" use backspace to go to the previous location in the jumplist
+nnoremap <backspace> <c-o>
+" use enter to go to the next location in the jumplist
+nnoremap <cr> <c-i>
 
 " Add ; to the end of the line in insert mode and puts the cursor back at the same place
 " Usefull for C/C++ programing
@@ -201,9 +213,11 @@ cnoremap <c-w>    <S-Right>
 
 " Root permission inside of neovim, why Neovim ? :-(
 command! W :w suda://%
+command! Surf :execute "!surf " . expand("%:p")
+command! FindTODO :vimgrep /\<TODO\>/j ** <bar> copen
 
-nnoremap <c-t><c-n> :FloatermNew<cr>
-nnoremap <c-t><c-t> :FloatermToggle<cr>
+nnoremap <a-t>n :FloatermNew<cr>
+nnoremap <a-t>t :FloatermToggle<cr>
 
 " }}}
 
@@ -283,7 +297,7 @@ nmap <leader>vdn <Plug>VimwikiDiaryNextDay
 " Any Jump
 let g:any_jump_disable_default_keybindings = 1
 
-" Normal mode: Jump to definition under cursore
+" Normal mode: Jump to definition under cursor
 nnoremap <A-a> :AnyJump<CR>
 " Visual mode: jump to selected text in visual mode
 xnoremap <A-v> :AnyJumpVisual<CR>
@@ -428,10 +442,11 @@ augroup filetype_vim
 augroup END
 " }}}
 
-" XML file settings {{{
+" XML/HTML file settings {{{
 augroup filetype_html
   autocmd!
   autocmd BufNewFile,BufRead *.launch,*.ui set filetype=xml
+  autocmd FileType html nnoremap <buffer> <leader>ss :Surf<cr>
 augroup END
 " }}}
 
@@ -474,7 +489,7 @@ augroup suckless
 augroup vimwiki_file
   autocmd!
   autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>
-  autocmd FileType vimwiki setlocal spell spelllang=en
+  autocmd FileType vimwiki setlocal spell spelllang=en,fr
 augroup END
 " }}}
 
@@ -489,6 +504,7 @@ augroup more_autocmd
   "       \ <localleader>c :silent make unsilent echo "Done."<CR>
   autocmd Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|DONE)/
         \ containedin=.*Comment,vimCommentTitle
+  autocmd BufNewFile,BufRead *.scan set filetype=config
 augroup END
 
 highlight def link MyTodo vimTodo
@@ -496,10 +512,6 @@ highlight def link MyTodo vimTodo
 " }}}
 
 " Functions {{{
-
-function! EchoDone(job_id, data, event)
-  echo "Job done!"
-endfunction
 
 function! SwitchHeader(cmd)
   let filename = expand("%:t:r")

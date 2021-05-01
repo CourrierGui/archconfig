@@ -6,8 +6,8 @@
 
 * `# ls -actl /root`: display the change time of the files in the `/root` directory
 * `# tune2fs -l /dev/sdx | grep created`: where `sdx` is the `/` partition,
-	display the date of creation of the partition (only works for `ext2` or
-	`ext4`)
+  display the date of creation of the partition (only works for `ext2` or
+                                                 `ext4`)
 
 # Size of files/directory
 
@@ -18,13 +18,14 @@
 * `git ls-files <directory/filename>`: display the files tracked by git in `directory`;
 * `git reset HEAD~`: undo last unpushed commit without removeing the last changes;
 * merge:
-	* `git checkout <receiving-branch>`
-	* `git pull`
-	* `git merge`
+* `git checkout <receiving-branch>`
+* `git pull`
+* `git merge`
 * diffs:
-	* `git diff HEAD^`: diffs between HEAD and last commit;
-	* `git diff HEAD^^`: diffs between HEAD and second to last commit;
-	* `git diff <commit-id>`: diffs between HEAD and `<commit-id>`.
+* `git diff HEAD^`: diffs between HEAD and last commit;
+* `git diff HEAD^^`: diffs between HEAD and second to last commit;
+* `git diff <commit-id>`: diffs between HEAD and `<commit-id>`;
+* `git status --porcelain | grep '^??' | cut -c4- >> .gitignore`: put the untracked files into .gitignore.
 
 # tmux
 
@@ -39,8 +40,8 @@
 * quit pane: `exit` or `<prefix><c-d>`
 * command prompt: `<prefix>:`
 * `set`:
-	* `-g`: global, every session, window and pane;
-	* `-w`: window specific;
+* `-g`: global, every session, window and pane;
+* `-w`: window specific;
 
 # Qt display issues
 
@@ -49,7 +50,7 @@
 # diff/comm
 
 * `diff -r A B`: list the files which are only in A or B ainsi que les fichiers
-	qui sont différents;
+  qui sont différents;
 * `comm -23 file1 file2`: find lines only in file1;
 * `comm -13 file1 file2`: find lines only in file2;
 * `comm -12 file1 file2`: find lines common to both files.
@@ -58,9 +59,11 @@
 
 * `pacman -Qqe`: list installed packages;
 * `sudo pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort packages.txt))`:
-	install packages.
+  install packages.
 
 # C++
+
+`nm -D lib___.so`: see what is defined in the library
 
 If a very weird error occurs, check for uninitialized members.
 
@@ -153,15 +156,15 @@ Starts and monitor service
 
 * [](https://scriptingosx.com/2019/07/moving-to-zsh-06-customizing-the-zsh-prompt/)
 
-`PROMPT` (equivalent to `PS1`): defines the prompt on the left?
+  `PROMPT` (equivalent to `PS1`): defines the prompt on the left?
 * `%m`: hostname;
 * `%d` ou `%/`: full path to current directory;
 * `%d`: path to current directory relative to user's home;
 * `%F{blue}text%f`: change the color (possible colors: black, red, green,
-	yellow, blue, magenta, cyan and white)
+                                        yellow, blue, magenta, cyan and white)
 * `%F{n}`: choose the `n`-th color from 256-color pallet;
 * `%(?.√.?%?)`: ternary conditional: displays the first part if successful,
-	otherwise the second part;
+  otherwise the second part;
 * `%?`: display the exit code;
 * `%(!.#.>)`: choose the character on the user privilege;
 
@@ -176,3 +179,12 @@ Usage: `zstyle context style value`
 # Suckless
 
 * `patch -p1 < path/to/patch/file`: apply patch
+
+# HTML
+
+* `tidy`: check HTML syntax, auto indent, ...
+  * `tidy -im -w 160`: auto indent, modify the file and set the maximum width to 160 characters.
+
+# PNG files
+
+* `optipng`: reduce the size of a png image;
