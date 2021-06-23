@@ -1,3 +1,4 @@
+bear
 brave-bin
 conan
 gohu-ttf
@@ -14,4 +15,3 @@ transset-df
 ttf-gaegu
 tuxguitar
 vrms-arch
-bear
