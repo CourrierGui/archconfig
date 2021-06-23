@@ -45,6 +45,7 @@ Plug 'CourrierGui/vim-potion'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'ap/vim-css-color'
+Plug '~/dev/projects/concept/vim'
 
 call plug#end()
 
@@ -234,8 +235,9 @@ set cursorline
 set inccommand=split
 
 " Tab to spaces
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 
 " File fuzzy finding
@@ -257,13 +259,17 @@ set listchars=tab:\|\ ,trail:·
 
 " french and english spelling
 set spelllang=en
+set tags+=/
 
 " }}}
 
 " Plugin options {{{
 
 " vimwiki
-let g:vimwiki_list = [{'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_list = [
+  \ { 'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki' },
+  \ { 'path': '~/Documents/wiki',   'syntax': 'markdown', 'ext': '.wiki' }
+  \]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_map_prefix = '<leader>v'
 let g:vimwiki_key_mappings = {
@@ -280,7 +286,8 @@ let g:vimwiki_key_mappings = {
       \ }
 
 " Redefine the mappings because they suck...
-nmap <leader>vw  <Plug>VimwikiIndex
+nmap <leader>vww <Plug>VimwikiIndex
+nmap <leader>vws <Plug>VimwikiUISelect
 nmap <leader>vdd <Plug>VimwikiDiaryIndex
 nmap <leader>vdu <Plug>VimwikiDiaryGenerateLinks
 nmap <leader>vde <Plug>VimwikiMakeDiaryNote
