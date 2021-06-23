@@ -25,7 +25,11 @@
 * `git diff HEAD^`: diffs between HEAD and last commit;
 * `git diff HEAD^^`: diffs between HEAD and second to last commit;
 * `git diff <commit-id>`: diffs between HEAD and `<commit-id>`;
-* `git status --porcelain | grep '^??' | cut -c4- >> .gitignore`: put the untracked files into .gitignore.
+* `git status --porcelain | grep '^??' | cut -c4- >> .gitignore`: put the
+  untracked files into .gitignore.
+* `git rev-list --count HEAD`: count the number of commits
+
+
 
 # tmux
 
