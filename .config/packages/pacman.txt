@@ -59,6 +59,7 @@ libxinerama
 make
 man
 man-db
+meson
 mlocate
 mpv
 nasm
