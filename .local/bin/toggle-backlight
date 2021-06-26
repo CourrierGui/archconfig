@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $(xbacklight -get | sed "s/\\.[0-9]\\+//") = "0" ];
+then
+    xbacklight -set 100
+else
+    xbacklight -set 0
+fi
+
+kill -45 $(pidof dwmblocks)
