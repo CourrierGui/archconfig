@@ -1,3 +1,4 @@
+picom-jonaburg-git
 bear
 brave-bin
 conan
