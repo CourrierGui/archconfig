@@ -14,12 +14,12 @@ start_mpv() {
     ext="${file##*.}"
     if [ "$ext" = "txt" ]
     then
-      setsid -f mpv --shuffle --playlist="$1"
+      setsid -f mpv --shuffle --no-video --playlist="$1"
     else
-      setsid -f mpv --shuffle "$1"
+      setsid -f mpv --shuffle --no-video "$1"
     fi
   else
-    setsid -f mpv --shuffle "$1"
+    setsid -f mpv --shuffle --no-video "$1"
   fi
   exit
 }
