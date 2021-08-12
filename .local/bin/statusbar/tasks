@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $BUTTON in
+  1)
+      tasks=$(task due:today export \
+          | jq -r '.[] .description' \
+          | sed 's/^\s*/• /')
+      notify-send -i none "📝 Today's TODO" "$tasks"
+      ;;
+  3)
+      notify-send -i none "📅 Time/date module" "• Right Click to show the task's description"
+      ;;
+  6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+tasks_count=$(task due:today count)
+
+printf "📝 %d" $tasks_count
