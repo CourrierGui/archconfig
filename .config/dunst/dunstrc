@@ -1,16 +1,17 @@
 [global]
     monitor = 0
     follow = keyboard
-    geometry = "350x5-0+24"
+    geometry = "350x5-10+34"
     indicate_hidden = yes
     shrink = yes
-    transparency = 20
+    transparency = 40
+    corner_radius = 8
     notification_height = 0
     separator_height = 2
-    padding = 0
-    horizontal_padding = 8
-    frame_width = 3
-    frame_color = "#282828"
+    padding = 10
+    horizontal_padding = 15
+    frame_width = 0
+    frame_color = "#ffffff00"
 
     # Define a color for the separator.
     # possible values are:
@@ -75,21 +76,20 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#282828"
-    foreground = "#928374"
+    background = "#c9a3c5"
+    foreground = "#503c3c"
     timeout = 5
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#458588"
-    foreground = "#ebdbb2"
+    background = "#0c0c04"
+    foreground = "#7b7892"
     timeout = 5
 
 [urgency_critical]
-    background = "#cc2421"
-    foreground = "#ebdbb2"
-    frame_color = "#fabd2f"
+    background = "#e53e23"
+    foreground = "#d2cafb"
     timeout = 0
 
 # Every section that isn't one of the above is interpreted as a rules to
