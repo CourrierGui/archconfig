@@ -2,17 +2,22 @@
 
 # Prints the current volume or 🔇 if muted.
 
+function usage()
+{
+	notify-send \
+		"📢 Volume module" \
+		"\
+\- Shows volume 🔊, 🔇 if muted.
+- Middle click to mute.
+- Scroll to change." 
+}
+
 case $BUTTON in
 	1) setsid -f "$TERMINAL" -e alsamixer & ;;
-	# 2) pamixer -t ;;
-	2) amixer sset Master toggle ;;
-	# 4) pamixer --allow-boost -d 1 ;;
-	4) amixer sset Master 5%- >/dev/null 2>/dev/null ;;
-	# 5) pamixer --allow-boost -i 1 ;;
-	5) amixer sset Master 5%+ >/dev/null 2>/dev/null ;;
-	3) notify-send "📢 Volume module" "\- Shows volume 🔊, 🔇 if muted.
-- Middle click to mute.
-- Scroll to change." ;;
+	2) sound toggle ;;
+	3) usage ;;
+	4) sound dec 5% ;;
+	5) sound inc 5% ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
@@ -30,4 +35,4 @@ else
 	icon="🔉"
 fi
 
-printf "%s %s%%" "$icon" "$vol"
+printf "%s %s" "$icon" "$vol"
