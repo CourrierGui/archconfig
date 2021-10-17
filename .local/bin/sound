@@ -1,0 +1,51 @@
+#!/bin/sh
+
+function notify_dwmblocks()
+{
+    kill -44 $(pidof dwmblocks)
+}
+
+function inc_sound()
+{
+    amixer set Master $1+ &>/dev/null
+    notify_dwmblocks
+}
+
+function dec_sound()
+{
+    amixer set Master $1- &>/dev/null
+    notify_dwmblocks
+}
+
+function toggle_sound()
+{
+    amixer set Master toggle &>/dev/null
+    notify_dwmblocks
+}
+
+function get_sound()
+{
+    amixer get Master | awk -F"[][]" '/Mono:/ { print $2 }'
+}
+
+function usage()
+{
+    echo "\
+sound <cmd> [args...]
+
+cmd:
+    inc <value>: increase sound by <value> percent
+    dec <value>: decrease sound by <value> percent
+    toggle:      toggle sound
+    get:         get the sound volume in %
+    help:        show this message"
+}
+
+case "$1" in
+    inc)    inc_sound "$2" ;;
+    dec)    dec_sound "$2" ;;
+    toggle) toggle_sound   ;;
+    help)   usage          ;;
+    get)    get_sound      ;;
+    *)      usage          ;;
+esac
