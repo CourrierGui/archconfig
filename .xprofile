@@ -3,17 +3,16 @@
 xrdb -merge -I$HOME ~/.config/Xresources
 dwmblocks &
 dunst &
-# xcompmgr &
 picom &
 remaps &
 battery_signal &
 
-if [ -f ~/.config/wall.png ];
+if [ -f ~/.config/wall.png ]
 then
-  xwallpaper --zoom ~/.config/wall.png &
-elif [ -f ~/.config/default.png ];
+    feh --bg-scale ~/.config/wall.png &
+elif [ -f ~/.config/default.png ]
 then
-  setbg ~/.config/default.png &
+    setbg ~/.config/default.png &
 else
-  notify-send --warn "No wallpaper" &
+    notify-send --warn "No wallpaper" &
 fi

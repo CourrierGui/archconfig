@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cp $1 ~/.config/wall.png
-xwallpaper --zoom $1
+feh --bg-scale $1
