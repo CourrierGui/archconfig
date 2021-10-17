@@ -54,9 +54,11 @@ add()
         ext=${file##*.}
         if [ $ext = "txt" ]
         then
-            printf '{ "command": ["loadlist", "%s", "append"] }\n' "$file" | socat - "$i" >/dev/null
+            printf '{ "command": ["loadlist", "%s", "append"] }\n' "$file" \
+                | socat - "$i" >/dev/null
         else
-            printf '{ "command": ["loadfile", "%s", "append"] }\n' "$file" | socat - "$i" >/dev/null
+            printf '{ "command": ["loadfile", "%s", "append"] }\n' "$file" \
+                | socat - "$i" >/dev/null
         fi
     done
 }
