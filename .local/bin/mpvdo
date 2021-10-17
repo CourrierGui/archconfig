@@ -118,19 +118,19 @@ playlist() {
         done
       }
 
-    show() {
-      # TODO do this automaticaly when the file changes ?
-      for i in $(ls /tmp/mpvSockets/*); do
+show() {
+    # TODO do this automaticaly when the file changes ?
+    for i in $(ls /tmp/mpvSockets/*); do
         current_music=$(echo '{ "command": ["get_property", "filename"] }'\
-          | socat - "$i"\
-          | jq .data\
-          | sed 's/^"//;s/"$//')
+            | socat - "$i"\
+            | jq .data\
+            | sed 's/^"//;s/"$//')
 
         notify-send -u low "${current_music%.*}"
-      done
-    }
+    done
+}
 
-  help() {
+help() {
     echo "mpvdo: [-h|help]"
     echo ""
     echo "  start      start an instance of mpv with the selected files"
@@ -143,7 +143,7 @@ playlist() {
     echo "  stop       stop all instances of mpv"
     echo "  list       display the list of files in the playlist to choose from"
     echo "  show       display the name of the current file played"
-  }
+}
 
 case "$1" in
   start)    start "/home/guillaume/Music" ;;
