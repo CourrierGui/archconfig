@@ -2,7 +2,11 @@
 
 function notify_dwmblocks()
 {
-    kill -44 $(pidof dwmblocks)
+    pidof_dwmblocks=$(pidof dwmblocks)
+    if [ ! -z "$pidof_dwmblocks" ]
+    then
+        kill -44 $pidof_dwmblocks
+    fi
 }
 
 function inc_sound()
@@ -28,6 +32,11 @@ function get_sound()
     amixer get Master | awk -F"[][]" '/Mono:/ { print $2 }'
 }
 
+function set_sound()
+{
+    amixer set Master $1 &>/dev/null
+}
+
 function usage()
 {
     echo "\
@@ -38,6 +47,7 @@ cmd:
     dec <value>: decrease sound by <value> percent
     toggle:      toggle sound
     get:         get the sound volume in %
+    set:         set the sound to the given value
     help:        show this message"
 }
 
@@ -47,5 +57,6 @@ case "$1" in
     toggle) toggle_sound   ;;
     help)   usage          ;;
     get)    get_sound      ;;
+    set)    set_sound "$2" ;;
     *)      usage          ;;
 esac
