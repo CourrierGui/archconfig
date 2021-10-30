@@ -19,6 +19,9 @@ export TERMINAL="st"
 export BROWSER="brave"
 export READER="zathura"
 
+# Subs
+export SUBS_FILE="$XDG_CONFIG_HOME/subs/subs.txt"
+
 # This is the list for lf icons:
 export LF_ICONS="di=📁:\
   fi=📃:\

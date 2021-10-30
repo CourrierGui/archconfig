@@ -48,3 +48,32 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 alias yt='youtube-dl --add-metadata -i'
 alias yta='yt -x -f bestaudio/best'
+
+# Taskwarrior
+alias today='$HOME/dev/clone/task_tools/tcal today'
+alias inbox='task add +inbox'
+
+tickle()
+{
+    deadline=$1
+    shift
+    inbox +tickle wait:$deadline $@
+}
+
+webpage_title()
+{
+    curl "$*" | hxnormalize -x | hxselect -s '\n' -c 'title'
+}
+
+read_and_review()
+{
+    link="$1"
+    title=$(webpage_title "$link")
+    echo "$title"
+    descr="\"Read and review: $title\""
+    echo $descr
+    id=$(task add +rnr "$descr" | sed -n 's/Created task \(.*\)./\1/p')
+    task "$id" annotate "$link"
+}
+
+alias rnr=read_and_review

@@ -1,6 +1,7 @@
 adobe-source-code-pro-fonts
 alsa-utils
 android-file-transfer
+anki
 assimp
 autoconf
 automake
@@ -56,6 +57,7 @@ krita
 libnotify
 libxcb
 libxinerama
+lynx
 make
 man
 man-db
@@ -109,6 +111,7 @@ sassc
 scrot
 slock
 socat
+stack
 sudo
 sxiv
 terminology

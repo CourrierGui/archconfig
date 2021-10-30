@@ -147,7 +147,7 @@ reboot
 ## Intel microcode
 
 ```
-# pacman -S inter-ucode
+# pacman -S intel-ucode
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
@@ -241,11 +241,11 @@ doas pacman -S mesa xf86-video-intel
 nvidia-xconfig
 ```
 
-Get the display size with `xrandr` add `DisplaySize 280 160` to `/etc/X11/xorg.conf` in the `Monitor` section and comment every other fields exept `Identifier`.
+Get the display size with `xrandr` add `DisplaySize 280 160` to
+`/etc/X11/xorg.conf` in the `Monitor` section and comment every other fields
+exept `Identifier`.
 
 Add `BusID "PCI:1:0:0"` in the `Device` block in `/etc/X11/xorg.conf`.
-
-
 
 ### Suckless
 

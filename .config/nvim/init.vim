@@ -23,6 +23,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'pboettch/vim-cmake-syntax'
 
 Plug 'vimwiki/vimwiki'
+" Plug 'tools-life/taskwiki'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ludovicchabant/vim-gutentags'
 
@@ -41,7 +42,7 @@ Plug 'cespare/vim-toml'
 Plug 'vim-scripts/asmx86'
 Plug 'fidian/hexmode'
 
-Plug 'CourrierGui/vim-potion'
+" Plug 'CourrierGui/vim-potion'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'ap/vim-css-color'
@@ -61,17 +62,13 @@ nnoremap <leader>, ,
 vnoremap <C-y> "*y :let @+=@*<CR>
 noremap <leader>p "+P`[v`]=
 
-" tab navigation causes <c-i> to be map to <tab>...
-" nnoremap <tab> gt
-" nnoremap <s-tab> gT
-
 " save some key strokes
 nnoremap <leader>w :write<cr>
 
 " Format paragraphs
 nnoremap <leader>gp gwap
 
-" Remove trailing whitespaces
+" Remove trailing white spaces
 nnoremap <silent> <leader>tw mz:%s/\v\s+$//<cr>:noh<cr>`z
 
 nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -79,7 +76,7 @@ nnoremap <leader>sg :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") 
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <leader>so :so $VIMRUNTIME/syntax/hitest.vim<cr>
 
-" Make moving between wraped lines more intuitive
+" Make moving between wrapped lines more intuitive
 nnoremap j gj
 nnoremap k gk
 nnoremap 0 g0
@@ -101,7 +98,7 @@ nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
 
-" make scolling faster
+" make scrolling faster
 nnoremap J 5j
 nnoremap K 5k
 noremap <leader>j J
@@ -126,21 +123,24 @@ nnoremap <leader>u g~iw
 vnoremap <leader>u ~
 inoremap <leader>u <esc>mzg~iwe`za
 
-" use backspace to go to the previous location in the jumplist
+" use backspace to go to the previous location in the jump list
 nnoremap <backspace> <c-o>
-" use enter to go to the next location in the jumplist
+" use enter to go to the next location in the jump list
 nnoremap <cr> <c-i>
 
 " Add ; to the end of the line in insert mode and puts the cursor back at the same place
-" Usefull for C/C++ programing
+" Useful for C/C++ programming
 inoremap <c-e> <esc>mzA;<esc>`za
+
+" Fix the last spelling mistake
+nnoremap <leader>sp mz[s1z=`z
 
 " buffer navigations
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bN :bp<CR>
 nnoremap <silent> <leader>bs :b #<CR>
 
-" make arrow keys usefull
+" make arrow keys useful
 nnoremap <silent> <Up> :resize +2<CR>
 nnoremap <silent> <Down> :resize -2<CR>
 nnoremap <silent> <Left> :vertical resize -2<CR>
@@ -268,7 +268,8 @@ set tags+=/
 " vimwiki
 let g:vimwiki_list = [
   \ { 'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki' },
-  \ { 'path': '~/Documents/wiki',   'syntax': 'markdown', 'ext': '.wiki' }
+  \ { 'path': '~/Documents/wiki',   'syntax': 'markdown', 'ext': '.wiki' },
+  \ { 'path': '~/Documents/vimwiki',   'syntax': 'markdown', 'ext': '.md' }
   \]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_map_prefix = '<leader>v'
@@ -285,6 +286,9 @@ let g:vimwiki_key_mappings = {
       \   'mouse': 0,
       \ }
 
+" Why redefine localleader ???
+let g:taskwiki_maplocalleader="\\"
+
 " Redefine the mappings because they suck...
 nmap <leader>vww <Plug>VimwikiIndex
 nmap <leader>vws <Plug>VimwikiUISelect
@@ -293,6 +297,13 @@ nmap <leader>vdu <Plug>VimwikiDiaryGenerateLinks
 nmap <leader>vde <Plug>VimwikiMakeDiaryNote
 nmap <leader>vdp <Plug>VimwikiDiaryPrevDay
 nmap <leader>vdn <Plug>VimwikiDiaryNextDay
+
+function! VimwikiFindAllIncompleteTasks()
+  VimwikiSearch /- \[ \]/
+  lopen
+endfunction
+
+nmap <leader>vwa :call VimwikiFindAllIncompleteTasks()<cr>
 
 " Any Jump
 let g:any_jump_disable_default_keybindings = 1
@@ -385,7 +396,8 @@ let g:tex_flavor = 'latex'
 " transparent background when opening vim
 autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
 
-colorscheme nord
+set termguicolors
+colorscheme gotham
 
 " }}}
 
@@ -457,7 +469,6 @@ augroup suckless
 " }}}
 
 " Vimwiki {{{
-" nnoremap <localleader>now :.!date<cr>I**<esc>A**<esc>
 augroup vimwiki_file
   autocmd!
   autocmd FileType vimwiki nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>

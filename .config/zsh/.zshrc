@@ -5,7 +5,7 @@ fpath=("$ZDOTDIR/themes" "$ZDOTDIR/plugins" $fpath) # add plugins and themes to 
 
 source "$ZDOTDIR/aliases.zsh"       # list of aliases
 source "$ZDOTDIR/themes/simple.zsh" # minimalistic terminal prompt
-source "$ZDOTDIR/plugins/fzf.zsh"    # fzf completion
+source "$ZDOTDIR/plugins/fzf.zsh"   # fzf completion
 
 # completion suggestions as yo type
 source "$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
