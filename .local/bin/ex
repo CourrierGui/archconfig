@@ -1,19 +1,25 @@
 #!/bin/sh
 
+cmd=
+
 if [ -f $1 ] ; then
     case $1 in
-        *.tar)     tar vxf $1    ;;
-        *.tar.bz2) tar vxjf $1   ;;
-        *.tbz2)    tar vxjf $1   ;;
-        *.tar.gz)  tar vxzf $1   ;;
-        *.tar.xz)  tar vxf $1    ;;
-        *.tgz)     tar vxzf $1   ;;
-        *.bz2)     bunzip2 $1    ;;
-        *.rar)     unrar x $1    ;;
-        *.gz)      gunzip $1     ;;
-        *.zip)     unzip $1      ;;
-        *.Z)       uncompress $1 ;;
-        *.7z)      7z x $1       ;;
+        *.tar)     cmd="tar vxf"     ;;
+        *.tar.bz2) cmd="tar vxjf" $1 ;;
+        *.tbz2)    cmd="tar vxjf"    ;;
+        *.tar.gz)  cmd="tar vxzf"    ;;
+        *.tar.xz)  cmd="tar vxf"     ;;
+        *.tgz)     cmd="tar vxzf"    ;;
+        *.bz2)     cmd="bunzip2"     ;;
+        *.rar)     cmd="unrar x"     ;;
+        *.gz)      cmd="gunzip"      ;;
+        *.zip)     cmd="unzip"       ;;
+        *.Z)       cmd="uncompress"  ;;
+        *.7z)      cmd="7z x"        ;;
+        *.zst)     cmd="tar --use-compress-program=unzstd -xvf" ;;
         *) echo "'$1' cannot be extracted via ex" ;;
     esac
 fi
+
+echo "$cmd $1"
+$cmd "$1"
