@@ -6,6 +6,7 @@ alias cpush="config push"
 alias cpull="config pull"
 alias cadd="config add"
 alias commit="config commit"
+alias less="less -R"
 
 alias ls='ls -hN --color=auto --group-directories-first'
 alias ll='ls -alF'
@@ -52,6 +53,15 @@ alias yta='yt -x -f bestaudio/best'
 # Taskwarrior
 alias today='$HOME/dev/clone/task_tools/tcal today'
 alias inbox='task add +inbox'
+
+update_kanban()
+{
+    cd ~/dev/projects/kanbanwarrior
+    ./kanban page > ~/.config/kanban.html
+    cd -
+}
+
+alias kanban_update='update_kanban'
 
 tickle()
 {

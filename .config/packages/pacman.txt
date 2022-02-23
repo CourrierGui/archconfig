@@ -112,6 +112,7 @@ scrot
 slock
 socat
 stack
+strace
 sudo
 sxiv
 terminology
