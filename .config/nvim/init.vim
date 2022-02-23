@@ -224,6 +224,7 @@ syntax on
 " search for local config files at startup
 set exrc
 set secure
+set colorcolumn=91
 
 set number
 set relativenumber
@@ -269,7 +270,8 @@ set tags+=/
 let g:vimwiki_list = [
   \ { 'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki' },
   \ { 'path': '~/Documents/wiki',   'syntax': 'markdown', 'ext': '.wiki' },
-  \ { 'path': '~/Documents/vimwiki',   'syntax': 'markdown', 'ext': '.md' }
+  \ { 'path': '~/Documents/vimwiki',   'syntax': 'markdown', 'ext': '.md' },
+  \ { 'path': '~/Documents/para',   'syntax': 'markdown', 'ext': '.md' }
   \]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_map_prefix = '<leader>v'
@@ -344,20 +346,22 @@ let g:airline_theme='bubblegum'
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <silent><expr> <TAB>
 "       \ pumvisible() ? coc#_select_confirm() :
 "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+" let g:coc_snippet_next = '<tab>'
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)

@@ -24,21 +24,28 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-snippet ns "Namespace definition" b
+snippet ns "Namespace definition"
 namespace $1 {
-  $2
+$2
 } /* end of namespace $1 */
+endsnippet
+
+snippet fn "Function implementation"
+${1:auto} ${2:name}(${3:args})$4
+{
+$5
+}
 endsnippet
 
 snippet class "Class definition"
 class $1 {
-  $2
+$2
 };
 endsnippet
 
 snippet struct "Struct definition"
 struct $1 {
-  $2
+$2
 };
 endsnippet
 
