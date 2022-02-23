@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Prints the current volume or 🔇 if muted.
 
@@ -21,7 +21,7 @@ case $BUTTON in
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-volstat="$(amixer get Master)" # ALSA only equivalent.
+volstat="$(amixer -c 0 -M get PCM)" # ALSA only equivalent.
 
 echo "$volstat" | grep "\[off\]" >/dev/null && printf "🔇    \\n" && exit
 

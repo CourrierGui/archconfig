@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function notify_dwmblocks()
 {
@@ -11,13 +11,13 @@ function notify_dwmblocks()
 
 function inc_sound()
 {
-    amixer set Master $1+ &>/dev/null
+    amixer -c 0 set PCM $1+ &>/dev/null
     notify_dwmblocks
 }
 
 function dec_sound()
 {
-    amixer set Master $1- &>/dev/null
+    amixer -c 0 set PCM $1- &>/dev/null
     notify_dwmblocks
 }
 
@@ -29,12 +29,12 @@ function toggle_sound()
 
 function get_sound()
 {
-    amixer get Master | awk -F"[][]" '/Mono:/ { print $2 }'
+    amixer -c 0 -M get PCM | awk -F"[][]" '/Front Left:/ { print $2 }'
 }
 
 function set_sound()
 {
-    amixer set Master $1 &>/dev/null
+    amixer -c 0 set PCM $1 &>/dev/null
 }
 
 function usage()
