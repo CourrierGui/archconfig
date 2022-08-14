@@ -144,6 +144,23 @@ cryptsetup close home-guillaume
 reboot
 ```
 
+### doas
+
+```
+su root
+echo "permit persist guillaume as root" >> /etc/doas.conf
+```
+
+### Wifi
+
+```
+# systemctl enable NetworkManager.service
+# systemctl start NetworkManager
+$ nmcli device wifi list
+# nmcli device wifi connect "ssid" -a
+# timedatectl set-ntp true
+```
+
 ## Intel microcode
 
 ```
@@ -152,21 +169,6 @@ reboot
 ```
 
 Check if successful: `dmesg | grep microcode`
-
-### Wifi
-
-```
-systemctl enable NetworkManager.service
-nmcli device wifi connect "ssid" -a
-timedatectl set-ntp true
-```
-
-### doas
-
-```
-su root
-echo "permit persist guillaume as root" >> /etc/doas.conf
-```
 
 ### sudo
 
@@ -661,3 +663,12 @@ Logout to update .zprofile and don't forget to install libxft-bgra
   list of optionnal dependencies, installed with `--asdeps`
 * `pacman -Qqem > foreignpkg.txt`: list of AUR packages and other foreign
   packages
+
+
+## Multiple monitors
+
+- `xrandr`: list available monitors
+- `xrandr --output DP1 --auto --same-as eDP1 --mode 1920x1080`:
+  both monitors will display the same output
+- `xrandr --output DP1 --auto --right-of eDP1`:
+  use two independant monitors

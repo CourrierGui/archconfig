@@ -85,6 +85,7 @@ pandoc-crossref
 par2cmdline
 patch
 pcmanfm
+pdfgrep
 pkgconf
 pkg-config
 powerline-fonts
