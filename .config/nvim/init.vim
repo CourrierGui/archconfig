@@ -41,6 +41,7 @@ Plug 'lervag/vimtex'
 Plug 'cespare/vim-toml'
 Plug 'vim-scripts/asmx86'
 Plug 'fidian/hexmode'
+Plug 'itspriddle/vim-shellcheck'
 
 " Plug 'CourrierGui/vim-potion'
 Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -172,6 +173,11 @@ nnoremap <A-s>n :wa<Bar>mksession ~/.config/nvim/sessions/
 nnoremap <A-s>s :wa<Bar>exe "mksession! " . v:this_session<CR>
 nnoremap <A-s>o :!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/
 
+" cscope mappings
+nnoremap <leader>fs :cs find s <c-r>=expand('<cword>')<cr><cr>
+nnoremap <leader>fc :cs find c <c-r>=expand('<cword>')<cr><cr>
+nnoremap <leader>fg :cs find g <c-r>=expand('<cword>')<cr><cr>
+
 " Open definition in a vertical split by default
 nnoremap <c-w><c-]> <c-w>v<c-]>
 
@@ -182,6 +188,8 @@ tnoremap <c-\> <c-\><c-n>
 " Operator-Pending Mappings
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
+onoremap in{ :<c-u>normal! f{vi{<cr>
+onoremap il} :<c-u>normal! F}vi}<cr>
 
 " Command mappings
 " start of line
@@ -269,6 +277,7 @@ set tags+=/
 " vimwiki
 let g:vimwiki_list = [
   \ { 'path': '~/.config/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki' },
+  \ { 'path': '~/Documents/notes/wiki', 'syntax': 'markdown', 'ext': '.wiki' },
   \ { 'path': '~/Documents/wiki',   'syntax': 'markdown', 'ext': '.wiki' },
   \ { 'path': '~/Documents/vimwiki',   'syntax': 'markdown', 'ext': '.md' },
   \ { 'path': '~/Documents/para',   'syntax': 'markdown', 'ext': '.md' }
@@ -349,19 +358,17 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
 inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+    \ coc#pum#visible() ? coc#pum#next(1) :
+    \ check_back_space() ?  "\<Tab>" :
+    \ coc#refresh()
 
 " let g:coc_snippet_next = '<tab>'
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+
+" use <c-space> to trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -381,7 +388,7 @@ let g:coc_global_extensions=[
   \ "coc-vimtex",
   \ "coc-clangd",
   \ "coc-cmake",
-  \ "coc-python",
+  \ "coc-pyright",
   \ "coc-snippets",
   \ "coc-rls",
   \ "coc-sh",
@@ -402,6 +409,8 @@ autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
 
 set termguicolors
 colorscheme gotham
+highlight Visual cterm=bold ctermbg=None
+highlight Visual gui=bold guibg=None
 
 " }}}
 
