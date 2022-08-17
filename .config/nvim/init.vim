@@ -177,6 +177,7 @@ nnoremap <A-s>o :!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/
 nnoremap <leader>fs :cs find s <c-r>=expand('<cword>')<cr><cr>
 nnoremap <leader>fc :cs find c <c-r>=expand('<cword>')<cr><cr>
 nnoremap <leader>fg :cs find g <c-r>=expand('<cword>')<cr><cr>
+nnoremap <leader>fm :cs find a <c-r>=expand('<cword>')<cr><cr>
 
 " Open definition in a vertical split by default
 nnoremap <c-w><c-]> <c-w>v<c-]>
@@ -228,6 +229,11 @@ nnoremap <a-t>t :FloatermToggle<cr>
 " Options {{{
 
 syntax on
+
+" cscope
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set csto=1
+set cscopetag
 
 " search for local config files at startup
 set exrc
