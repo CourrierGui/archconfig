@@ -27,6 +27,7 @@ dunst
 efibootmgr
 emacs
 fakeroot
+feh
 flameshot
 fontconfig
 fprintd
@@ -57,6 +58,7 @@ krita
 libnotify
 libxcb
 libxinerama
+lsb-release
 lynx
 make
 man
