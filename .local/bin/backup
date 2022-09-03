@@ -10,6 +10,7 @@
 # - store the md5?
 # - create an archive (tar + compression)
 # - backup exclude file per machine
+# - encryption
 
 # Backup destination
 function error()
@@ -54,7 +55,7 @@ function copy_tree()
     local in=$1
     local out="$2/backups/root"
     local include_file=$3
-    local opts="--dry-run -rAXogtUv --exclude=/"
+    local opts="--dry-run -rAXogtUuv"
 
     if [ ! -d "$in" ]
     then
