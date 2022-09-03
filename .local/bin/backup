@@ -1,59 +1,134 @@
-#!/bin/sh
+#!/bin/bash
+
 # system backup
 
-# Backup destination
+# Goals:
+# - copy every files in the source into the destination
+# - allow incremental copies: only copy modified files
+# - exclude files and directories
+# - display the diff
+# - store the md5?
+# - create an archive (tar + compression)
+# - backup exclude file per machine
 
-# Backup:
-custom_rsync() {
-  sudo rsync -aAXv \ # --delete \
-    --exclude="/dev/*" --exclude="/proc/*" \
-    --exclude="/sys/*" --exclude="/tmp/*" \
-    --exclude="/run/*" --exclude="/mnt/*" \
-    --exclude="/opt"   --exclude="/usr" \
-    --exclude="/root"  --exclude="/media/*" \
-    --exclude="lost+found" \
-    --exclude="build" --exclude="swapfile" \
-    --exclude=".cache" --exclude="Downloads" \
-    --exclude=".cargo" --exclude=".android" \
-    --exclude=".clangd" --exclude=".conan" \
-    --exclude=".eclipse" --exclude=".yay" \
-    --exclude=".gradle" --exclude=".local/backup" \
-    --exclude="Documents/backup" \
-    --exclude="Documents/iso" \
-    --exclude=".local/lib/python3.8" \
-    --exclude=".local/lib/python3.9" \
-    --exclude=".local/share/Stream" \
-    --exclude=".local/share/com.github.babluboy.bookworm" \
-    --exclude=".npm" --exclude=".oh-my-zsh" \
-    --exclude=".rustup" \
-    --exclude="softwares/aur/android"\
-    --exclude="softwares/aur/brave-bin"\
-    --exclude="softwares/aur/qt"\
-    --exclude="softwares/aur/teams"\
-    --exclude="dev/clone" \
-    "/media/guillaume/79ba1e4d-779e-4efc-8585-9396f33a702d/" "/run/media/guillaume/639274ff-4354-4772-bb11-871b7f154dab/backups/shared-data"
+# Backup destination
+function error()
+{
+    echo "$@"
+    exit 1
 }
 
-custom_rsync
+function confirm()
+{
+    read -rp "Do you want to continue ? [y/N]" continue
+
+    if [ "$continue" != "y" ]
+    then
+        exit
+    fi
+}
+
+function do_if_confirm()
+{
+    echo "$@"
+    confirm
+    "$@"
+}
+
+# rsync options:
+# - A: acls
+# - X: xattr
+# - o: owner
+# - g: group
+# - t: mtime
+# - U: atime
+# - u: update, skip newer files on destination
+# - N: ctime -> not supported ?
+# - v: verbose
+# - --exclude-from=FILE: path to file containing excluded patterns
+# - --include-from=FILE: path to file containing included patterns
+# - --dry-run
+# - --ignore-existing ?
+function copy_tree()
+{
+    local in=$1
+    local out="$2/backups/root"
+    local include_file=$3
+    local opts="--dry-run -rAXogtUv --exclude=/"
+
+    if [ ! -d "$in" ]
+    then
+        error "Directory '$in' does not exist"
+    fi
+
+    mkdir -p "$out"
+
+    if [ -n "$include_file" ]
+    then
+        opts="$opts --files-from=$include_file"
+        if [ ! -f "$include_file" ]
+        then
+            error "Include file '$include_file' not found"
+        fi
+    fi
+
+    do_if_confirm sudo rsync $opts "$in" "$out"
+}
+
+# Restore from the backup tree
+function restore_tree()
+{
+    # sudo rsync -aAXv --delete --exclude="lost+found" /source destination
+    echo "Not implemented"
+}
+
+# Restore from a specific backup file
+function restore_snapshot()
+{
+    echo "Not implemented"
+}
+
+function help()
+{
+    echo "Usage: $0 <command> <args>"
+    echo ""
+    echo "Commands:"
+    echo "  copy      copy the files from the machine to the backup"
+    echo "            --dry-run  do not copy, only display what would happen"
+    echo "            -e         path to a file containing a list of excluded paths"
+    echo ""
+    echo "  restore   restore a backup from a snapshot or the backup tree"
+    echo ""
+    echo "  snapshot  make a snapshot of the backup tree"
+    echo ""
+    echo "  help      show this message"
+}
+
+tree_path="???"
+snapshot_path="???"
+
+case "$1" in
+    copy)
+        shift
+        copy_tree "$1" "$2" "$3"
+        ;;
+    snapshot)
+        make_snapshot "$tree_path" "$snapshot_path"
+        ;;
+    restore)
+        restore_tree
+        ;;
+    help)
+        help
+        ;;
+    *)
+        echo "Unknown command"
+        ;;
+esac
+
 exit 0
 
-# Restore
-# sudo rsync -aAXv --delete --exclude="lost+found" /source destination
-
-# Cron
-# 00 12 * * * rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/daily
-# 00 15 * * 5 rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/weekly
-# 00 16 1 * * rsync -aAX --delete --exclude '*.Trash-1000' /mnt/source /mnt/destination/backups/monthly_$(date +%Y%m%d)
-
-help_message="Usage: [-h|--help]
-
-  -r|--root         root of the file tree to backup
-  -d|--destination  directory where the backup will be saved
-  -p|--prefix       prefix put in the name of the final backup
-  -e|--exclude      file containing files to ignore (optional)"
-
 # --slice 620M --first-slice 600M
-
 # compress "$root_dir" "$destination/$prefix-$date" "$exclude"
 compress() {
   dar --execute "par2 c -r5 \"%p/%b.%n.par2\" \"%p/%b.%n.%e\"" \
@@ -63,52 +138,3 @@ compress() {
     -Z "*.gz" -Z "*.gzip" -Z "*.bz2" -Z "*.bzip2" -Z "*.mov"   \
     -Z "*.r" --exclude-from-file "$3" -v -X "backup.*.dar"
 }
-
-while [ $# -gt 0 ]
-do
-  arg="$1"
-  case $arg in
-    -r|--root)
-      shift
-      root_dir="$1"
-      shift ;;
-    -d|--destination)
-      shift
-      destination="$1"
-      shift ;;
-    -p|--prefix)
-      shift
-      prefix="$1"
-      shift ;;
-    -e|--exclude-file)
-      shift
-      exclude="$1"
-      shift ;;
-    -h|--help)
-      echo "$help_message"
-      shift
-      exit ;;
-  esac
-done
-
-date=$(date "+%F")
-echo "
-System backup:
-
-File tree: $root_dir
-Destination: $destination/backups/$prefix-$date
-Exclude file: $exclude
-"
-
-
-read -p "Do you want to continue ? [y/N]" continue
-
-if [ $continue = y ]
-then
-  [ -d "$destination/backups/$prefix-$date" ]\
-    || mkdir -p "$destination/backups/$prefix-$date"
-      compress "$root_dir" "$destination/backups/$prefix-$date" "$exclude"
-  else
-    echo "Aborted by user"
-    exit
-fi
