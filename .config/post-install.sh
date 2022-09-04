@@ -34,7 +34,7 @@ start()
 update()
 {
     echo "System update..."
-    doas pacman -Syyu >/dev/null 2>&1 || error "Error while updating system."
+    sudo pacman -Syyu >/dev/null 2>&1 || error "Error while updating system."
     echo "Done."
 }
 
@@ -116,7 +116,7 @@ install_suckless()
     echo "Installing Suckless softwares..."
     git clone https://github.com/CourrierGui/suckless ~/softwares/suckless
     cd ~/softwares/suckless && meson_install
-    doas sh -c 'printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf'
+    sudo sh -c 'printf "allowed_users=anybody\\nneeds_root_rights=yes" > /etc/X11/Xwrapper.conf'
     echo "Done."
 }
 
@@ -131,8 +131,15 @@ neovim_config()
 zsh_config()
 {
     echo "Configuring zsh..."
-    doas chsh -s /usr/bin/zsh
+    sudo chsh -s /usr/bin/zsh
     chsh -s /usr/bin/zsh
+
+    cd ~/.config/zsh/plugins
+    git clone 
+    git clone https://github.com/zsh-users/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+    cd -
+
     echo "Done."
 }
 
@@ -155,8 +162,8 @@ EndSection
 setup_mirrors()
 {
     echo "Updating mirrorlist..."
-    doas cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
-    doas reflector --latest 100 --sort rate --save /etc/pacman.d/mirrorlist && rm /etc/pacman.d/mirrorlist-backup
+    sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
+    sudo reflector --latest 100 --sort rate --save /etc/pacman.d/mirrorlist && rm /etc/pacman.d/mirrorlist-backup
     echo "Done."
 }
 
