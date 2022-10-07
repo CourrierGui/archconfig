@@ -1,0 +1,121 @@
+#!/bin/sh
+
+# Dependencies:
+#
+# - ffmpeg
+# - id3v2
+# - youtube-dl
+
+# TODO
+# - Display everything at the end
+
+function download_url()
+{
+    local filename=$1
+    local url=$2
+
+    youtube-dl --add-metadata -i -x -f bestaudio/best \
+        -o "$filename.%(ext)s" "$url"
+}
+
+function download_playlist()
+{
+    local dir=$1
+    local url=$2
+
+    youtube-dl --add-metadata -i -x -f bestaudio/best \
+        -o "$dir/%(title)s.%(ext)s" "$url"
+}
+
+function to_mp3()
+{
+    local input=$1
+    local output="${input%.*}.mp3"
+
+    ffmpeg -i "$input" -vn -ar 44100 -ac 2 -b:a 192k "$output" \
+        >/tmp/mp3utils/logs 2>&1 || cat /tmp/mp3utils/logs
+}
+
+mkdir -p /tmp/mp3utils
+
+ARGS=$(getopt -o ha:A:t:y:T: --long playlist: -- "$@")
+eval set -- "$ARGS"
+
+while :
+do
+    case "$1" in
+        -a)
+            artist="$2"
+            shift
+            ;;
+        -A)
+            album="$2"
+            shift
+            ;;
+        --playlist)
+            playlist=true
+            url="$2"
+            shift
+            ;;
+        -t)
+            title="$2"
+            shift
+            ;;
+        -T)
+            track="$2"
+            shift
+            ;;
+        -y)
+            year="$2"
+            shift
+            ;;
+        -h)
+            echo "Usage: mp3utils -a <artist> -A <album> -t <title>" \
+                "-T <trackno> -y <year> <url>"
+            exit
+            ;;
+        --)
+            break
+            ;;
+        *)
+            shift
+            url="$1"
+            break
+            ;;
+    esac
+    shift
+done
+
+echo "Artist:  $artist"
+echo "Title:   $title"
+echo "Album:   $album"
+echo "Year:    $year"
+echo "Trackno: $track"
+echo "URL:     $url"
+
+if [ "$playlist" = "true" ]
+then
+    download_playlist "~/Music/$artist/$album" "$url"
+
+    for f in ~/Music/"$artist"/"$album"/*
+    do
+        echo "$f"
+        to_mp3 "$f"
+        printf "Track number: "
+        read trackno
+        id3v2 -a "$artist" -t "${f%.*}" -A "$album" -y "$year" \
+            -T "$trackno" "$f"
+        rm "$f"
+    done
+
+    exit
+fi
+
+download_url "/tmp/mp3utils/$title" "$url"
+to_mp3 /tmp/mp3utils/"$title"*
+id3v2 -a "$artist" -A "$album" -t "$title" -y "$year" -T "$track" \
+    "/tmp/mp3utils/$title.mp3"
+
+mkdir -p ~/Music/"$artist"/"$album"
+mv "/tmp/mp3utils/$title.mp3" ~/Music/"$artist"/"$album"
+rm /tmp/mp3utils/"$title"*
