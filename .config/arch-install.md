@@ -571,20 +571,26 @@ LC_ALL=C lscpu | grep Virtualization
 ```
 sudo pacman -S cups cups-pdf avahi nss-mdns python-dbus python-gobject
 
-systemctl enable org.cups.cupsd.service
-systemctl start org.cups.cupsd.service ?
+systemctl enable cups.service
+systemctl start cups.service
 systemctl enable avahi-daemon.service ?
 systemctl start avahi-daemon.service ?
 ```
 
 If not working, enable and start `cups` service.
 
-Add: `mdns_minimal [NOTFOUND=return]` to `/etc/nsswitch.conf` at line `hosts:` before `resolve`
-A reboot may be necessary.
+Add: `mdns_minimal [NOTFOUND=return]` to `/etc/nsswitch.conf` at line `hosts:` before `resolve`.
+
+### Printer setup
+
+1. `$ avahi-browse --all -t -r`: find the IP address of the Printer
+2. `lpinfo --make-and-model '<printer type>' -m`: gives the <driver> of the printer
+3. `# lpadmin -E -p <name> -v socket://<IP> -m <driver>`
+4. `# lpadmin -d <name>`: make this printer default
+5. `# cupsenable <name>`
+6. `# cupsaccept <name>`
 
 ```
-lpinfo -m
-sudo lpadmin -p QueueName -E -v <result from lpinfo> -m <result from lpinfo>
 lpr # print
 lpq # see print queue
 ```
@@ -594,7 +600,10 @@ lpq # see print queue
 ### Standard repos
 
 ```
-sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom recordmydesktop python-matplotlib gtop scrot sxiv tmux gnuplot mpv youtube-dl newsboat ttf-linux-libertine adobe-source-code-pro-fonts
+sudo pacman -S python-pip htop tree cmake thunderbird thunderbird-i18n-fr \
+    doxygen graphviz wget usbutils mupdf automake autoconf valgrind xf86-input-wacom \
+    recordmydesktop python-matplotlib gtop scrot sxiv tmux gnuplot mpv youtube-dl \
+    newsboat ttf-linux-libertine adobe-source-code-pro-fonts
 ```
 
 ### AUR
