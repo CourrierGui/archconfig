@@ -59,6 +59,7 @@ libnotify
 libxcb
 libxinerama
 lsb-release
+lua-language-server
 lynx
 make
 man

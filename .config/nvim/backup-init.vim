@@ -47,7 +47,10 @@ Plug 'itspriddle/vim-shellcheck'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'ap/vim-css-color'
-Plug '~/dev/projects/concept/vim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-neorg/neorg' | Plug 'nvim-lua/plenary.nvim'
+
 
 call plug#end()
 
@@ -417,6 +420,29 @@ set termguicolors
 colorscheme gotham
 highlight Visual cterm=bold ctermbg=None
 highlight Visual gui=bold guibg=None
+
+" Neorg
+
+lua << EOF
+require('neorg').setup {
+    load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.norg.completion"] = {
+            config = {
+                engine = "nvim-cmp",
+            }
+        },
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    notes = "~/Documents/notes",
+                }
+            }
+        }
+    }
+}
+EOF
 
 " }}}
 
