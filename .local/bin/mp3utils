@@ -36,10 +36,22 @@ function to_mp3()
         >/tmp/mp3utils/logs 2>&1 || cat /tmp/mp3utils/logs
 }
 
+function get_extension()
+{
+    local file=$1
+    local base=${file%.*}
+    local ext=${file#$base}
+    local ext=${ext#.}
+
+    echo "$ext"
+}
+
 mkdir -p /tmp/mp3utils
 
-ARGS=$(getopt -o ha:A:t:y:T: --long playlist: -- "$@")
+ARGS=$(getopt -o ha:A:t:y:T: --long playlist:,url: -- "$@")
 eval set -- "$ARGS"
+
+playlist=false
 
 while :
 do
@@ -50,6 +62,10 @@ do
             ;;
         -A)
             album="$2"
+            shift
+            ;;
+        --url)
+            url="$2"
             shift
             ;;
         --playlist)
@@ -71,51 +87,70 @@ do
             ;;
         -h)
             echo "Usage: mp3utils -a <artist> -A <album> -t <title>" \
-                "-T <trackno> -y <year> <url>"
+                "-T <trackno> -y <year> [--playlist|--url] <url>"
             exit
             ;;
         --)
             break
             ;;
         *)
-            shift
-            url="$1"
             break
             ;;
     esac
     shift
 done
 
-echo "Artist:  $artist"
-echo "Title:   $title"
-echo "Album:   $album"
-echo "Year:    $year"
-echo "Trackno: $track"
-echo "URL:     $url"
-
-if [ "$playlist" = "true" ]
-then
+function do_playlist()
+{
     download_playlist "~/Music/$artist/$album" "$url"
 
     for f in ~/Music/"$artist"/"$album"/*
     do
-        echo "$f"
+        local mp3_file="${f%.*}.mp3"
+
+        if [[ "$(get_extension "$f")" == "mp3" ]]
+        then
+            continue
+        fi
+
+        echo "File: $f"
+        echo "Converting to mp3..."
         to_mp3 "$f"
         printf "Track number: "
         read trackno
-        id3v2 -a "$artist" -t "${f%.*}" -A "$album" -y "$year" \
-            -T "$trackno" "$f"
+        printf "Title: "
+        read new_title
+        id3v2 -a "$artist" -t "$new_title" -A "$album" -y "$year" \
+            -T "$trackno" "$mp3_file"
+        mv -v "$mp3_file" "$(dirname "$mp3_file")/$new_title.mp3"
         rm "$f"
     done
+}
 
-    exit
+function do_file()
+{
+    echo "Title:   $title"
+    echo "Trackno: $track"
+
+    download_url "/tmp/mp3utils/$title" "$url"
+    to_mp3 /tmp/mp3utils/"$title"*
+    id3v2 -a "$artist" -A "$album" -t "$title" -y "$year" -T "$track" \
+        "/tmp/mp3utils/$title.mp3"
+
+    mkdir -p ~/Music/"$artist"/"$album"
+    mv "/tmp/mp3utils/$title.mp3" ~/Music/"$artist"/"$album"
+    rm /tmp/mp3utils/"$title"*
+}
+
+echo "URL:     $url"
+echo "Artist:  $artist"
+echo "Album:   $album"
+echo "Year:    $year"
+
+if [ "$playlist" = "true" ]
+then
+    do_playlist
+else
+    do_file
 fi
 
-download_url "/tmp/mp3utils/$title" "$url"
-to_mp3 /tmp/mp3utils/"$title"*
-id3v2 -a "$artist" -A "$album" -t "$title" -y "$year" -T "$track" \
-    "/tmp/mp3utils/$title.mp3"
-
-mkdir -p ~/Music/"$artist"/"$album"
-mv "/tmp/mp3utils/$title.mp3" ~/Music/"$artist"/"$album"
-rm /tmp/mp3utils/"$title"*
