@@ -1,6 +1,6 @@
-picom-jonaburg-git
 bear
 brave-bin
+buku
 conan
 gohu-ttf
 lf
@@ -8,6 +8,7 @@ libcurlpp
 libxft-bgra
 nerd-fonts-droid-sans-mono
 pfetch
+picom-jonaburg-git
 powerline-fonts-git
 simple-mtpfs
 task-spooler

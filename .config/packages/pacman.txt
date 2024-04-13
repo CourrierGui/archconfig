@@ -1,5 +1,6 @@
 adobe-source-code-pro-fonts
 alsa-utils
+amdvlk
 android-file-transfer
 anki
 assimp
@@ -9,6 +10,7 @@ avahi
 bat
 bison
 boost
+brightnessctl
 calcurse
 checkbashisms
 clang
@@ -38,6 +40,7 @@ gcr
 gdb
 gimp
 git
+glfw-wayland
 glfw-x11
 glm
 gnuplot
@@ -47,6 +50,8 @@ grub
 gtest
 gtop
 htop
+hwinfo
+id3v2
 imagemagick
 inkscape
 intel-ucode
@@ -59,6 +64,7 @@ libnotify
 libxcb
 libxinerama
 lsb-release
+lshw
 lua-language-server
 lynx
 make
@@ -86,6 +92,7 @@ pandoc
 pandoc-citeproc
 pandoc-crossref
 par2cmdline
+parallel
 patch
 pcmanfm
 pdfgrep
@@ -95,6 +102,7 @@ powerline-fonts
 pulseaudio
 pulseaudio-alsa
 pyenv
+pyright
 python-dbus
 python-gobject
 python-matplotlib
@@ -103,6 +111,7 @@ python-pip
 python-pynvim
 python-pywal
 qcustomplot
+qemu-full
 qt5-base
 qt5-tools
 recordmydesktop
@@ -113,6 +122,7 @@ rust
 rustup
 sassc
 scrot
+shaderc
 slock
 socat
 stack
@@ -152,6 +162,7 @@ usbutils
 valgrind
 vim
 vsqlite++
+vulkan-devel
 wetkit2gtk
 wget
 which
