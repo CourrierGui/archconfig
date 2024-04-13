@@ -21,7 +21,7 @@ case $BUTTON in
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-volstat="$(amixer -c 0 -M get PCM)" # ALSA only equivalent.
+volstat="$(amixer -c 1 -M get Master)" # ALSA only equivalent.
 
 echo "$volstat" | grep "\[off\]" >/dev/null && printf "🔇    \\n" && exit
 

@@ -7,8 +7,8 @@ distro=$(lsb_release -is)
 if [ "$distro" = "Arch" ];
 then
     cmds="\
-shutdown 🖥:${shut:-doas shutdown now}
-reboot 🔃:${reb:-doas reboot}
+shutdown 🖥:${shut:-sudo shutdown now}
+reboot 🔃:${reb:-sudo reboot}
 renew dwm ♻:kill -HUP $(pidof -s dwm)
 leave dwm 🚪:kill -TERM $(pidof -s dwm)
 lock 🔒:slock

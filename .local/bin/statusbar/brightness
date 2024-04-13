@@ -1,3 +1,5 @@
 #!/bin/sh
 
-printf "🔆 %3s" $(xbacklight | sed "s/.[^.]*$//")
+percent=$(echo "$(brightnessctl get) / 255 * 100" | bc -l | sed 's/\..*//')
+
+printf "🔆 %3s" $percent
