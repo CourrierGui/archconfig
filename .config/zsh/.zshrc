@@ -31,3 +31,8 @@ setopt HIST_IGNORE_SPACE # ignore commands that start with space
 setopt HIST_VERIFY       # show command with history expansion to user before running it
 
 pfetch
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/home/guillaume/.bun/_bun" ] && source "/home/guillaume/.bun/_bun"

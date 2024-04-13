@@ -120,3 +120,5 @@ if ! shopt -oq posix; then
 fi
 
 alias config='/usr/bin/git --git-dir=/home/guillaume/.cfg/ --work-tree=/home/guillaume'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

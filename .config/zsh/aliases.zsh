@@ -87,3 +87,11 @@ read_and_review()
 }
 
 alias rnr=read_and_review
+
+get_tags()
+{
+    find -type f -and \( -name "*.[ch]pp" -or -name "*.py" -or -name "*.sh" \) > cscope.files
+    ctags -R .
+}
+
+alias tags=get_tags
