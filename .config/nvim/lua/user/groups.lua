@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd('BufLeave', {
 
 -- XML/HTML file settings
 local xml = vim.api.nvim_create_augroup('filetype_xml', {clear = true})
-vim.api.nvim_create_autocmd('BufNewFile,BufRead', {
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead'}, {
     pattern = '*.launch,*.ui',
     group = xml,
     command = 'set filetype=xml'
@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- Python file settings
 local python = vim.api.nvim_create_augroup('filetype_python', {clear = true})
-vim.api.nvim_create_autocmd('BufNewFile,BufRead', {
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
     pattern = 'python',
     group = python,
     command = 'setlocal tabstop=4 softtabstop=4 textwidth=120 autoindent fileformat=unix foldlevel=1'
@@ -71,7 +71,7 @@ local function add_ft_autocmd(cmd)
     })
 end
 
-vim.api.nvim_create_autocmd('BufNewFile,BufFilePre,BufRead', {
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufFilePre', 'BufRead' }, {
     pattern = '*.md',
     group = md,
     command = 'set filetype=markdown.pandoc'
@@ -93,6 +93,19 @@ vim.api.nvim_create_autocmd('FileType', {
     command = 'nnoremap <buffer> <localleader>now :.!date<cr>I**<esc>A**<esc>'
 })
 
+-- Neorg autocmd
+local neorg = vim.api.nvim_create_augroup('neorg', {clear = true})
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    pattern = '*.norg',
+    group = neorg,
+    command = 'setlocal conceallevel=2'
+})
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'norg',
+    group = neorg,
+    command = 'setlocal spell spelllang=en,fr'
+})
+
 -- More autocmd
 local other = vim.api.nvim_create_augroup('more_autocmd', {clear = true})
 vim.api.nvim_create_autocmd('InsertEnter', {
@@ -105,12 +118,12 @@ vim.api.nvim_create_autocmd('InsertLeave', {
     group = other,
     command = 'setlocal hlsearch'
 })
-vim.api.nvim_create_autocmd('BufNewFile,BufRead', {
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
     pattern = '*',
     group = other,
     command = 'nnoremap <silent> <localleader>c mz:make<CR>`z'
 })
-vim.api.nvim_create_autocmd('BufNewFile,BufRead', {
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
     pattern = '*.scan',
     group = other,
     command = 'set filetype=config'

@@ -2,11 +2,11 @@ vim.g.mapleader = ','
 vim.keymap.set('n', '<leader>,', ',')
 
 -- Copy and pasting with system clipboard
-vim.keymap.set('v', '<C-y>', '"*y :let @+=@*<CR>')
-vim.keymap.set('', '<leader>p', '"+P`[v`]=')
+vim.keymap.set('v', '<C-y>', '"*y :let @+=@*<CR>', { silent = true })
+vim.keymap.set('', '<leader>p', '"+P`[v`]=', { silent = true })
 
 -- save some key strokes
-vim.keymap.set('n', '<leader>w', ':write<cr>')
+vim.keymap.set('n', '<leader>w', ':write<cr>', { silent = true })
 
 -- Format paragraphs
 vim.keymap.set('n', '<leader>gp', 'gwap')
@@ -34,7 +34,8 @@ vim.keymap.set('n', '*', '*zz', {silent = true})
 vim.keymap.set('n', '#', '#zz', {silent = true})
 
 -- Execute current line with your shell interpreter and paste result in buffer
-vim.keymap.set('n', 'Q', '!!$SHELL<CR>')
+vim.keymap.set('n', 'Q', '!!$SHELL<cr>', { silent = true })
+vim.keymap.set('v', 'Q', ':!$SHELL<cr>', { silent = true })
 
 -- make moving between buffers easier
 vim.keymap.set('n', 'gh', '<C-w>h')
@@ -73,7 +74,7 @@ vim.keymap.set('n', '<leader>x', 'xp')
 -- Swap upper/lower case
 vim.keymap.set('n', '<leader>u', 'g~iw')
 vim.keymap.set('v', '<leader>u', '~')
-vim.keymap.set('i', '<leader>u', '<esc>mzg~iwe`za')
+-- vim.keymap.set('i', '<leader>u', '<esc>mzlg~iwe`za')
 
 -- use backspace to go to the previous location in the jump list
 vim.keymap.set('n', '<backspace>', '<c-o>')
@@ -117,8 +118,8 @@ vim.keymap.set('n', '<leader>le',
     ':Lexplore<bar>vertical resize 30<CR>', {silent = true})
 
 -- move block of code
-vim.keymap.set('v', 'J', ':move \'>+1<cr>gv=gv')
-vim.keymap.set('v', 'K', ':move \'<-2<cr>gv=gv')
+vim.keymap.set('v', 'J', ':move \'>+1<cr>gv=gv', { silent = true })
+vim.keymap.set('v', 'K', ':move \'<-2<cr>gv=gv', { silent = true })
 
 -- Vim sessions
 -- prepare command to create a new session
@@ -127,16 +128,6 @@ vim.keymap.set('n', '<A-s>n', ':wa<Bar>mksession ~/.config/nvim/sessions/')
 vim.keymap.set('n', '<A-s>s', ':wa<Bar>exe "mksession! " . v:this_session<CR>')
 vim.keymap.set('n', '<A-s>o',
     ':!ls ~/.config/nvim/sessions<cr>:so ~/.config/nvim/sessions/')
-
--- cscope mappings
-vim.keymap.set('n', '<leader>fs',
-    ':cs find s <c-r>=expand(\'<cword>\')<cr><cr>')
-vim.keymap.set('n', '<leader>fc',
-    ':cs find c <c-r>=expand(\'<cword>\')<cr><cr>')
-vim.keymap.set('n', '<leader>fg',
-    ':cs find g <c-r>=expand(\'<cword>\')<cr><cr>')
-vim.keymap.set('n', '<leader>fm',
-    ':cs find a <c-r>=expand(\'<cword>\')<cr><cr>')
 
 -- Open definition in a vertical split by default
 vim.keymap.set('n', '<c-w><c-]>', '<c-w>v<c-]>')
@@ -170,3 +161,7 @@ vim.keymap.set('c', '<c-k>', '<Up>')
 vim.keymap.set('c', '<c-b>', '<S-Left>')
 -- forward one word
 vim.keymap.set('c', '<c-w>', '<S-Right>')
+
+vim.keymap.set('n', '<leader>fs', ":cs find s <c-r>=expand('<cword>')<cr><cr>")
+vim.keymap.set('n', '<leader>fc', ":cs find c <c-r>=expand('<cword>')<cr><cr>")
+vim.keymap.set('n', '<leader>fg', ":cs find g <c-r>=expand('<cword>')<cr><cr>")
