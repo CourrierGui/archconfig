@@ -1,4 +1,6 @@
-export PATH=$PATH:~/.local/bin:~/.local/bin/statusbar
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$PATH:$BUN_INSTALL/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/statusbar"
 export DISABLE_AUTO_TITLE='true'
 
 # XDG config
@@ -18,6 +20,8 @@ export VISUAL="nvim"
 export TERMINAL="st"
 export BROWSER="brave"
 export READER="zathura"
+
+export ANDROID_HOME=~/.cache/android/sdk
 
 # Subs
 export SUBS_FILE="$XDG_CONFIG_HOME/subs/subs.txt"

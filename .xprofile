@@ -5,7 +5,7 @@ dwmblocks &
 dunst &
 # picom &
 xcompmgr &
-remaps &
+# remaps &
 battery_signal &
 
 if [ -f ~/.config/wall.png ]
