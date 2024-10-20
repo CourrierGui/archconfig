@@ -67,7 +67,8 @@ vim.keymap.set('n', '<leader>T',
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
-vim.keymap.set('n', '<leader><space>', ':noh<cr>', {silent = true})
+vim.keymap.set('n', '<leader><space>', ':noh<cr>:Noice dismiss<cr>',
+               {silent = true})
 vim.keymap.set('n', '<a-cr>', 'o<esc>')
 vim.keymap.set('n', '<leader>x', 'xp')
 
@@ -79,7 +80,7 @@ vim.keymap.set('v', '<leader>u', '~')
 -- use backspace to go to the previous location in the jump list
 vim.keymap.set('n', '<backspace>', '<c-o>')
 -- use enter to go to the next location in the jump list
-vim.keymap.set('n', '<cr>', '<c-i>')
+-- vim.keymap.set('n', '<cr>', '<c-i>')
 
 -- Add ; to the end of the line in insert mode and puts the cursor back at the
 -- same place

@@ -116,6 +116,9 @@ cmp.setup({ ---@diagnostic disable-line: redundant-parameter
     }),
 })
 
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
@@ -191,10 +194,19 @@ require("rust-tools").setup({
     }
 })
 
-require("lspconfig")['tsserver'].setup {
+require("lspconfig")['ts_ls'].setup {
     on_attach = on_attach,
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
 }
 
-require("lspconfig")['zls'].setup {
-}
+require("lspconfig")['zls'].setup { }
+
+require("lspconfig")['gopls'].setup { }
+
+vim.filetype.add({
+    extension = {
+        templ = "templ",
+    },
+})
+require("lspconfig")['templ'].setup { }
+

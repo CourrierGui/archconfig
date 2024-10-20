@@ -1,0 +1,127 @@
+# This is your rocks.nvim plugins declaration file.
+# Here is a small yet pretty detailed example on how to use it:
+#
+# [plugins]
+# nvim-treesitter = "semver_version"  # e.g. "1.0.0"
+
+# List of non-Neovim rocks.
+# This includes things like `toml` or other lua packages.
+[rocks]
+
+# List of Neovim plugins to install alongside their versions.
+# If the plugin name contains a dot then you must add quotes to the key name!
+[plugins]
+"rocks.nvim" = "2.40.5"
+neorg = "9.1.1"
+"rocks-git.nvim" = "2.4.0"
+"feline.nvim" = "1.6.3"
+"plenary.nvim" = "scm"
+nvim-lspconfig = "1.0.0"
+"noice.nvim" = "4.5.2"
+nvim-notify = "3.14.0"
+"telescope.nvim" = "scm"
+nvim-autopairs = "scm"
+lua-utils = "1.0.0"
+nvim-nio = "1.10.0"
+"pathlib.nvim" = "2.2.3"
+"nui.nvim" = "0.3.0"
+
+[plugins."vim-tmux-navigator" ]
+git = "christoomey/vim-tmux-navigator"
+rev = "v1.0^{}"
+
+[plugins."fzf.vim"]
+git = "junegunn/fzf.vim"
+rev = "f7c7b44764a601e621432b98c85709c9a53a7be8"
+
+[plugins.kotlin-vim]
+git = "udalov/kotlin-vim"
+rev = "53fe045906df8eeb07cb77b078fc93acda6c90b8"
+
+[plugins."any-jump.vim"]
+git = "pechorin/any-jump.vim"
+rev = "v0.6"
+
+[plugins.harpoon]
+git = "theprimeagen/harpoon"
+rev = "ccae1b9bec717ae284906b0bf83d720e59d12b91"
+
+[plugins.nvim-cmp]
+git = "hrsh7th/nvim-cmp"
+rev = "v0.0.1"
+
+[plugins.cmp-nvim-lsp]
+git = "hrsh7th/cmp-nvim-lsp"
+rev = "39e2eda76828d88b773cc27a3f61d2ad782c922d"
+
+[plugins.cmp-buffer]
+git = "hrsh7th/cmp-buffer"
+rev = "3022dbc9166796b644a841a02de8dd1cc1d311fa"
+
+[plugins.cmp-path]
+git = "hrsh7th/cmp-path"
+rev = "91ff86cd9c29299a64f968ebb45846c485725f23"
+
+[plugins.cmp-cmdline]
+git = "hrsh7th/cmp-cmdline"
+rev = "d250c63aa13ead745e3a40f61fdd3470efde3923"
+
+[plugins.vim-commentary]
+git = "tpope/vim-commentary"
+rev = "v1.3^{}"
+
+[plugins.vim-surround]
+git = "tpope/vim-surround"
+rev = "v2.2^{}"
+
+[plugins.vim-abolish]
+git = "tpope/vim-abolish"
+rev = "v1.2^{}"
+
+[plugins.vim-repeat]
+git = "tpope/vim-repeat"
+rev = "v1.2^{}"
+
+[plugins.vim-fugitive]
+git = "tpope/vim-fugitive"
+rev = "v3.7^{}"
+
+[plugins.vim-caser]
+git = "arthurxavierx/vim-caser"
+rev = "6bc9f41d170711c58e0157d882a5fe8c30f34bf6"
+
+[plugins.repmo-vim]
+git = "houl/repmo-vim"
+rev = "b2721c7a7e26fb6191e6307e32c23a43a90c88a9"
+
+[plugins.vim-gutentags]
+git = "ludovicchabant/vim-gutentags"
+rev = "v1.0.0"
+
+[plugins.vim-lsp-cxx-highlight]
+git = "jackguo380/vim-lsp-cxx-highlight"
+rev = "0e7476ff41cd65e55f92fdbc7326335ec33b59b0"
+
+[plugins.vim-cmake-syntax]
+git = "pboettch/vim-cmake-syntax"
+rev = "589a68db576050ed6ab277aba856126d15c3f1a5"
+
+[plugins.nvim-lsp-notify]
+git = "mrded/nvim-lsp-notify"
+rev = "1.0.0"
+
+[plugins."rust-tools.nvim"]
+git = "simrat39/rust-tools.nvim"
+rev = "676187908a1ce35ffcd727c654ed68d851299d3e"
+
+[plugins.awesome-vim-colorschemes]
+git = "rafi/awesome-vim-colorschemes"
+rev = "ae5e02298c8de6a5aa98fe4d29a21874cfcc3619"
+
+[plugins.nvim-treesitter]
+git = "nvim-treesitter/nvim-treesitter"
+rev = "v0.9.2^{}"
+
+[plugins."cscope_maps.nvim"]
+git = "dhananjaylatkar/cscope_maps.nvim"
+rev = "79452ca6b9bac87ff51ea543bb649c33bfe9e157"

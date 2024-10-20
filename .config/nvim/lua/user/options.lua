@@ -48,3 +48,6 @@ vim.g.vimsyn_embed = 'l'
 
 vim.g.cscopetagorder = 1
 vim.g.cscopequickfix = "s-,c-,d-,i-,t-,e-,a-"
+
+vim.g.netrw_liststyle=3
+vim.g.netrw_banner=0

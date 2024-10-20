@@ -5,9 +5,10 @@
 -- /_/ |_/\___/\____/|___/_/_/ /_/ /_/   \___/\____/_/ /_/_/ /_/\__, /
 --                                                             /____/
 
+require('user.rocks')
 require('user.options')
 require('user.mappings')
-require('user.plugins')
 require('user.groups')
+require('user.plugins')
 require('user.cmp')
-require('user.neorg')
+require('user.neorg_cfg')

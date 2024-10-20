@@ -1,3 +1,11 @@
+local startup = vim.api.nvim_create_augroup('startup', {clear = true})
+vim.api.nvim_create_autocmd('VimEnter', {
+    pattern = '*',
+    group = startup,
+    -- Switch between header and source file
+    command = 'if expand("%") == "" | e . | endif'
+})
+
 -- C++ file settings
 local cpp = vim.api.nvim_create_augroup('filetype_cpp', {clear = true})
 vim.api.nvim_create_autocmd('FileType', {
