@@ -48,28 +48,23 @@ fdisk /dev/sda
 ```
 
 ```
-mkfs.vfat /dev/sda1 # /boot
-mkfs.ext4 /dev/sda2 # /
+mkfs.vfat /dev/sda1 # /boot/efi
+
+# pbkdf2 is the only supported by GRUB
+cryptsetup luksFormat --pbkdf=pbkdf2 /dev/sda2
+cryptsetup open /dev/sda4 root
+mkfs.ext4 /dev/mapper/root # /
+
 mkswap /dev/sda3    # swap
 swapon /dev/sda3
-```
-
-### Encrypted home partition
-
-```
-cryptsetup luksFormat /dev/sda4
-cryptsetup open /dev/sda4 home-guillaume
-mkfs.ext4 /dev/mapper/home-guillaume
 ```
 
 ### Mounting
 
 ```
-mount /dev/sda2 /mnt                                # /
-mkdir /mnt/boot
-mkdir -p /mnt/home/guillaume
-mount /dev/sda1 /mnt/boot                           # mount /boot
-mount /dev/mapper/home-guillaume /mnt/home/guillame # mount /home/guillaume
+mount /dev/mapper/root /mnt   # /
+mkdir /mnt/boot/efi
+mount /dev/sda1 /mnt/boot/efi # mount /boot
 ```
 
 ### Selecting the mirrors
@@ -86,14 +81,15 @@ Pacman hook:
 ### Install linux and basic packages
 
 ```
-pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr sudo opendoas go git fakeroot reflector binutils make gcc
+pacstrap /mnt base linux linux-firmware neovim networkmanager dhcpcd grub efibootmgr \
+    sudo opendoas go git fakeroot reflector binutils make gcc
 ```
 
 ### Configuraton
 
 fstab: `genfstab -U /mnt >> /mnt/etc/fstab`
 
-Become root: `arch-chroot /mnt`
+Change root: `arch-chroot /mnt`
 
 Basic setup:
 
@@ -112,33 +108,33 @@ passwd
 useradd -m guillaume
 groupadd sudo
 usermod -a -G sudo guillaume
+usermod -a -G wheel guillaume
 passwd guillaume
-chown guillaume /home/guillaume
-chgrp guillaume /home/guillaume
-mkinitcpio -P
 ```
 
-Encrypted `/home/guillaume` see [this](https://wiki.archlinux.org/index.php/Dm-crypt/Mounting_at_login) wiki page.
-Do decrypt during boot add:
+### Grub
+
+Install `os-prober`.
+
+Find the UUID of the root partition:
+```
+blkid
+```
+
+Edit `/etc/default/grub` and set:
+```
+GRUB_CMDLINE_LINUX="cryptdevice=<UUID>:root root=/dev/mapper/root"
+GRUB_DISABLE_OS_PROBER=false
+GRUB_ENABLE_CRYPTODISK=y
+GRUB_TERMINAL_INPUT="usb_keyboard"
+```
 
 ```
-GRUB_CMDLINE_LINUX="root=/dev/mapper/root cryptdevice=/dev/nvme0n1p7:root"
-```
-
-Grub:
-
-EFI partition:
-
-```
-mkdir /boot/efi
-mount /dev/sda1 /boot/efi
-```
-Install `os-prober` and edit `/etc/default/grub` to uncomment
-`GRUB_DISABLE_OS_PROBER=false` and `GRUB_ENABLE_CRYPTODISK=y.
-
-```
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Grub
+pacman -S (intel|amd)-ucode
+pacman -S nvidia-open
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Grub
 grub-mkconfig -o /boot/grub/grub.cfg
+mkinitcpio -P
 ```
 
 Exit and reboot:
@@ -146,7 +142,7 @@ Exit and reboot:
 ```
 exit
 umount -R /mnt
-cryptsetup close home-guillaume
+cryptsetup close root
 reboot
 ```
 
@@ -157,7 +153,7 @@ su root
 echo "permit persist guillaume as root" >> /etc/doas.conf
 ```
 
-### Wifi
+### Network
 
 ```
 # systemctl enable NetworkManager.service
@@ -167,26 +163,20 @@ $ nmcli device wifi list
 # timedatectl set-ntp true
 ```
 
-## Intel microcode
-
-```
-# pacman -S intel-ucode
-# grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-Check if successful: `dmesg | grep microcode`
+Check microcode: `dmesg | grep microcode`
 
 ### sudo
 
 `yay -S opendoas-sudo`
 
-If vi is not installed: `ln -s /usr/bin/vi /usr/bin/nvim`
-
 ```
-# visudo
+# EDITOR=nvim visudo
 ```
 
-Add the following line at the end: `guillaume ALL=(ALL) ALL`
+Add the following line at the end:
+```
+%wheel ALL=(ALL) ALL, NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown
+```
 
 ## Shared partition for Documents, Pictures, ...
 
