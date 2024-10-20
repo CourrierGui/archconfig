@@ -137,6 +137,11 @@ EndSection
 
 echo "Installation started!"
 
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+sudo timedatectl set-ntp true
+sudo sed -i 's|#\W\(%wheel ALL=(ALL:ALL)\WALL$\)|\1, NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown|' /etc/sudoers
+
 download_package_lists || error "Error while downloading package lists."
 install_yay || error "Error while installing yay."
 install_config || error "Error while installing config files."

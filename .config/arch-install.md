@@ -43,6 +43,36 @@ dhcpcd wlan0
 
 ### Partitions
 
+#### Replacing the EFI partition with a larger one
+
+Make sure you have a partition where you can save the old EFI System Partition. Let's say
+`/dev/sda4`. You can either create a temporary filesystem on this partition if there is no
+data on it or use the current filesystem to store the backup.
+```
+mkfs.ext /dev/sda4
+mount --mkdir /dev/sda4 /mnt/backup
+mount --mkdir /dev/sda1 /mnt/esp
+cp -a /mnt/esp/* /mnt/backup
+umount /mnt/esp
+
+# Get the UUID and PARTUUID of /dev/sda1
+blkid
+sgdisk --delete=1 /dev/sda
+sgdisk --align-end --new=0:0:+4G \ # create a 4G partition to be safe
+    --typecode=0:ef00 \ # ESP Code
+    --change-name=0:'EFI system partition' \
+    --partition-guid=0:<PARTUUID> /dev/sda
+
+# sgdisk should reuse the index 1 for the new partition
+fdisk -l /dev/sda
+# <UUID>: without '-'
+mkfs.fat -F 32 -i <UUID> /dev/sda1
+
+# Restore the partition
+mount /dev/sda1 /mnt/esp
+cp -a /mnt/backup/* /mnt/esp
+```
+
 ```
 fdisk /dev/sda
 ```
@@ -114,7 +144,7 @@ passwd guillaume
 
 ### Grub
 
-Install `os-prober`.
+Install `os-prober`. `os-prober` might require a reboot to work properly.
 
 Find the UUID of the root partition:
 ```
@@ -123,10 +153,20 @@ blkid
 
 Edit `/etc/default/grub` and set:
 ```
-GRUB_CMDLINE_LINUX="cryptdevice=<UUID>:root root=/dev/mapper/root"
+GRUB_CMDLINE_LINUX="rd.luks.name=<UUID>=root root=/dev/mapper/root"
 GRUB_DISABLE_OS_PROBER=false
 GRUB_ENABLE_CRYPTODISK=y
 GRUB_TERMINAL_INPUT="usb_keyboard"
+```
+
+FIXME:
+- change keyboard layout for decryption key
+- why is decryption so slow?
+- do not type the password twice
+
+In `/etc/mkinitcpio.conf`:
+```
+HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)
 ```
 
 ```
@@ -355,16 +395,6 @@ git clone https://aur.archlinux.org/yay.git ~/softwares/aur/yay
 cd ~/softwares/aur/yay
 makepkg -si
 ```
-
-## Neovim
-
-```
-sudo pacman -S neovim ctags nodejs npm clang xclip
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim --headless +PlugInstall +qa
-```
-
-Coc extensions will be installed when neovim starts
 
 ## Touchpad
 
