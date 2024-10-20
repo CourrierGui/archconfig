@@ -11,6 +11,7 @@ bat
 bison
 boost
 brightnessctl
+btop
 calcurse
 checkbashisms
 clang
@@ -44,6 +45,8 @@ glfw-wayland
 glfw-x11
 glm
 gnuplot
+go
+gopls
 gradle
 graphviz
 grub
@@ -66,6 +69,7 @@ libxinerama
 lsb-release
 lshw
 lua-language-server
+luarocks
 lynx
 make
 man

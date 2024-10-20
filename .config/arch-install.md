@@ -119,6 +119,11 @@ mkinitcpio -P
 ```
 
 Encrypted `/home/guillaume` see [this](https://wiki.archlinux.org/index.php/Dm-crypt/Mounting_at_login) wiki page.
+Do decrypt during boot add:
+
+```
+GRUB_CMDLINE_LINUX="root=/dev/mapper/root cryptdevice=/dev/nvme0n1p7:root"
+```
 
 Grub:
 
@@ -128,10 +133,11 @@ EFI partition:
 mkdir /boot/efi
 mount /dev/sda1 /boot/efi
 ```
-Install `os-prober`.
+Install `os-prober` and edit `/etc/default/grub` to uncomment
+`GRUB_DISABLE_OS_PROBER=false` and `GRUB_ENABLE_CRYPTODISK=y.
 
 ```
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Grub
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 

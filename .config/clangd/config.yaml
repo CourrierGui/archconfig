@@ -6,3 +6,7 @@ CompileFlags:
   Add: [ -Wno-unknown-warning-option, -stdlib=libc++, -std=c++23 ]
   Remove: -fconcepts-ts
 ---
+If:
+  PathMatch: [ .*\.c, .*\.h ]
+CompileFlags:
+  Remove: [ -m*, -f* ]

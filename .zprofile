@@ -1,5 +1,5 @@
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$PATH:$BUN_INSTALL/bin"
+export PATH="$PATH:$BUN_INSTALL/bin:$HOME/go/bin"
 export PATH="$PATH:$HOME/.local/bin:$HOME/.local/bin/statusbar"
 export DISABLE_AUTO_TITLE='true'
 
